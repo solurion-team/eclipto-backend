@@ -16,7 +16,7 @@ gradlePlugin {
     plugins {
         register("ecliptoMicroservicePlugin") {
             id = libs.plugins.eclipto.microservice.get().pluginId
-            implementationClass = "build.plugin.EcliptoMicroservicePlugin"
+            implementationClass = "project.plugin.EcliptoMicroservicePlugin"
         }
     }
 }
