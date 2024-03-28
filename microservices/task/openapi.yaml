@@ -127,10 +127,11 @@ components:
     ProjectId:
       name: projectId
       in: path
-      description: UUID of a project that contains tasks
+      description: ID of a project that contains tasks
       required: true
       schema:
         type: integer
+        example: "3746287468"
     TaskId:
       name: taskId
       in: path
