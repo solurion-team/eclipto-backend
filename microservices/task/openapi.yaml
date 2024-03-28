@@ -1,0 +1,343 @@
+openapi: 3.0.3
+info:
+  title: Task microservice
+  description: Api specification for task microservice
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080/internal/v1'
+    description: Local debug server
+paths:
+  /projects/{projectUUID}/tasks/{taskId}:
+    get:
+      description: Get full task info
+      operationId: getTask
+      tags:
+        - task
+      parameters:
+        - $ref: "#/components/parameters/ProjectUUID"
+        - $ref: "#/components/parameters/TaskId"
+      responses:
+        200:
+          description: "The task has been found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskInfoDto"
+        403:
+          description: "Task not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+  /projects/{projectUUID}/tasks:
+    post:
+      description: Create task with lite information
+      operationId: postLiteTask
+      tags:
+        - task
+      requestBody:
+        $ref: "#/components/requestBodies/CreateTaskRequest"
+      responses:
+        204:
+          description: "Task created successfully"
+        403:
+          description: "There is no status with same ID"
+          content:
+            application/json:
+              schema:
+                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+    put:
+      description: Update task information
+      operationId: updateTask
+      tags:
+        - task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskInfoDto"
+      responses:
+        204:
+          description: "Task updated successfully"
+        403:
+          description: "There is no task with same ID or status with same ID"
+          content:
+            application/json:
+              schema:
+                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+  /projects/{projectUUID}/tasks-lite:
+    get:
+      description: Get all project tasks with lite information
+      operationId: getLiteTasks
+      tags:
+        - task
+      parameters:
+        - $ref: "#/components/parameters/ProjectUUID"
+      responses:
+        200:
+          description: "Lite tasks list"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskLiteDto'
+        default:
+          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+  /projects/{projectUUID}/tasks/statuses:
+    post:
+      description: Create tasks status
+      operationId: postTaskStatus
+      tags:
+        - task
+      requestBody:
+        $ref: "#/components/requestBodies/CreateTaskStatusRequest"
+      responses:
+        204:
+          description: "Status created successfully"
+        default:
+          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+    put:
+      description: Update task status information
+      operationId: updateTaskStatus
+      tags:
+        - task
+      requestBody:
+        $ref: "#/components/requestBodies/UpdateTaskStatusRequest"
+      responses:
+        204:
+          description: "Task updated successfully"
+        403:
+          description: "There is no status with same ID"
+          content:
+            application/json:
+              schema:
+                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+
+components:
+  parameters:
+    ProjectUUID:
+      name: projectUUID
+      in: path
+      description: UUID of a project that contains tasks
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: "550e8400-e29b-41d4-a716-446655440000"
+    TaskId:
+      name: taskId
+      in: path
+      description: ID of a task
+      required: true
+      schema:
+        type: integer
+        example: "3746287468"
+
+  requestBodies:
+    CreateTaskRequest:
+      description: Request to create a task
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                description: "Task title, which identifies the task to the user"
+                type: string
+                example: "Learn Java core and Spring Boot"
+              status_id:
+                description: Id of the status
+                type: integer
+                example: 457345348
+              reporter_user_id:
+                description: "ID of the user who reported the task"
+                type: integer
+                example: 23486357348
+            required:
+              - status_id
+    CreateTaskStatusRequest:
+      description: Request to create a task status
+      content:
+        application/json:
+          schema:
+            properties:
+              name:
+                description: "Task status name"
+                type: string
+                example: "In progress"
+              tint:
+                description: "A color that is convenient for the user to identify the status"
+                type: string
+                pattern: "^#(?:[0-9a-fA-F]{3}){1,2}$"
+            required:
+              - name
+              - tint
+    UpdateTaskRequest:
+      description: Request to create a task
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                description: "ID of the task"
+                type: integer
+                example: 7438546582
+              title:
+                description: "Task title, which identifies the task to the user"
+                type: string
+                example: "Learn Java core and Spring Boot"
+              description:
+                description: "A task description that provides more detailed information about the task"
+                type: string
+                example: "Go to metanit and learn all the chapters about Java. You can learn spring in the official tutorial"
+              status_id:
+                description: Id of the status
+                type: integer
+                example: 457345348
+              priority:
+                description: "Importance of the task"
+                type: string
+                enum:
+                  - low
+                  - medium
+                  - high
+              due_date:
+                description: "Due timestamp with timezone (RFC 3339)"
+                type: string
+                format: date-time
+                example: "2024-03-28T00:07:19+03:00"
+              assigned_user_id:
+                description: "ID of the user who was assigned to the task"
+                type: integer
+                example: 23486357348
+              reporter_user_id:
+                description: "ID of the user who reported the task"
+                type: integer
+                example: 23486357348
+            required: 
+              - id
+    UpdateTaskStatusRequest:
+      description: Request to update a task status
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/TaskStatusDto"
+
+  schemas:
+    TaskLiteDto:
+      description: Minimum task information
+      type: object
+      properties:
+        id:
+          description: "ID of the task"
+          type: integer
+          example: 7438546582
+        title:
+          description: "Task title, which identifies the task to the user"
+          type: string
+          example: "Learn Java core and Spring Boot"
+        priority:
+          description: "Importance of the task"
+          type: string
+          enum:
+            - low
+            - medium
+            - high
+        assigned_user_id:
+          description: "ID of the user who was assigned to the task"
+          type: integer
+          example: 23486357348
+      required:
+        - id
+        - title
+        - priority
+        - assigned_user_id
+
+    TaskInfoDto:
+      description: Task information
+      type: object
+      properties:
+        id:
+          description: "ID of the task"
+          type: integer
+          example: 7438546582
+        title:
+          description: "Task title, which identifies the task to the user"
+          type: string
+          example: "Learn Java core and Spring Boot"
+        description:
+          description: "A task description that provides more detailed information about the task"
+          type: string
+          example: "Go to metanit and learn all the chapters about Java. You can learn spring in the official tutorial"
+        status:
+          $ref: "#/components/schemas/TaskStatusDto"
+        priority:
+          description: "Importance of the task"
+          type: string
+          enum:
+            - low
+            - medium
+            - high
+        due_date:
+          description: "Due timestamp with timezone (RFC 3339)"
+          type: string
+          format: date-time
+          example: "2024-03-28T00:07:19+03:00"
+        assigned_user_id:
+          description: "ID of the user who was assigned to the task"
+          type: integer
+          example: 23486357348
+        reporter_user_id:
+          description: "ID of the user who reported the task"
+          type: integer
+          example: 23486357348
+        created_at:
+          description: "Create timestamp with timezone (RFC 3339)"
+          type: string
+          format: date-time
+          example: '2024-03-28T00:07:19+03:00'
+        updated_at:
+          description: "Update timestamp with timezone (RFC 3339)"
+          type: string
+          format: date-time
+          example: '2024-03-28T00:07:19+03:00'
+      required:
+        - id
+        - title
+        - status
+        - priority
+        - reporter_user_id
+        - created_at
+        - updated_at
+
+    TaskStatusDto:
+      description: "Status of the task (or 'tasks column' for users)"
+      type: object
+      properties:
+        id:
+          description: "ID of the status"
+          type: integer
+          example: 7438546582
+        name:
+          description: "Task status name"
+          type: string
+          example: "In progress"
+        tint:
+          description: "A color that is convenient for the user to identify the status"
+          type: string
+          pattern: "^#(?:[0-9a-fA-F]{3}){1,2}$"
+      required:
+        - id
+        - name
+        - tint
+
