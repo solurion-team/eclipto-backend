@@ -1,0 +1,54 @@
+components:
+  parameters:
+    offset:
+      name: offset
+      in: query
+      description: Response entity list offset
+      required: false
+      schema:
+        type: integer
+    limit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+
+  responses:
+    UnexpectedErrorResponse:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorDto"
+
+  schemas:
+    ErrorDto:
+      description: Error info
+      type: object
+      properties:
+        timestamp:
+          description: Error timestamp with timezone (RFC 3339)
+          type: string
+          format: date-time
+          example: '2022-06-17T10:55:19+00:00'
+        status:
+          description: HTTP response status code
+          type: integer
+          example: 404
+        error:
+          description: HTTP status error message
+          type: string
+          example: 'Not Found'
+        message:
+          description: Error message
+          type: string
+          example: 'Entity has not been found'
+        path:
+          description: The failed request's path
+          type: string
+          example: '/notFoundPage'
+      required:
+        - timestamp
+        - status
+        - path

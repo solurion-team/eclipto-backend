@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  title: User microservice
+  description: User microservice
+  version: 1.0.0
+servers:
+  - url: 'http'
+paths:
+  /users/{id}:
+    get:
+      summary: "Get user"
+      description: "Getting user information by provided id"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        200:
+          description: "User exists"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  age:
+                    type: integer
