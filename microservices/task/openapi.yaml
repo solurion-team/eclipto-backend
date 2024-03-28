@@ -7,14 +7,14 @@ servers:
   - url: 'http://localhost:8080/internal/v1'
     description: Local debug server
 paths:
-  /projects/{projectUUID}/tasks/{taskId}:
+  /projects/{projectId}/tasks/{taskId}:
     get:
       description: Get full task info
       operationId: getTask
       tags:
         - task
       parameters:
-        - $ref: "#/components/parameters/ProjectUUID"
+        - $ref: "#/components/parameters/ProjectId"
         - $ref: "#/components/parameters/TaskId"
       responses:
         200:
@@ -31,7 +31,7 @@ paths:
                 $ref: "../api/common.yaml#/components/schemas/ErrorDto"
         default:
           $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
-  /projects/{projectUUID}/tasks:
+  /projects/{projectId}/tasks:
     post:
       description: Create task with lite information
       operationId: postLiteTask
@@ -71,14 +71,14 @@ paths:
                 $ref: "../api/common.yaml#/components/schemas/ErrorDto"
         default:
           $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
-  /projects/{projectUUID}/tasks-lite:
+  /projects/{projectId}/tasks-lite:
     get:
       description: Get all project tasks with lite information
       operationId: getLiteTasks
       tags:
         - task
       parameters:
-        - $ref: "#/components/parameters/ProjectUUID"
+        - $ref: "#/components/parameters/ProjectId"
       responses:
         200:
           description: "Lite tasks list"
@@ -90,7 +90,7 @@ paths:
                   $ref: '#/components/schemas/TaskLiteDto'
         default:
           $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
-  /projects/{projectUUID}/tasks/statuses:
+  /projects/{projectId}/tasks/statuses:
     post:
       description: Create tasks status
       operationId: postTaskStatus
@@ -124,15 +124,13 @@ paths:
 
 components:
   parameters:
-    ProjectUUID:
-      name: projectUUID
+    ProjectId:
+      name: projectId
       in: path
       description: UUID of a project that contains tasks
       required: true
       schema:
-        type: string
-        format: uuid
-        example: "550e8400-e29b-41d4-a716-446655440000"
+        type: integer
     TaskId:
       name: taskId
       in: path
