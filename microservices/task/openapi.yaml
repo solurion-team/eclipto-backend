@@ -56,10 +56,7 @@ paths:
       tags:
         - task
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/TaskInfoDto"
+        $ref: "#/components/requestBodies/UpdateTaskRequest"
       responses:
         204:
           description: "Task updated successfully"
