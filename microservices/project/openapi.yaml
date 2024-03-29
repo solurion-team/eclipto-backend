@@ -1,9 +1,206 @@
 openapi: 3.0.3
 info:
-  title: Title
-  description: Title
+  title: Task microservice
+  description: Api specification for project microservice
   version: 1.0.0
 servers:
-  - url: 'https'
+  - url: 'http://localhost:8080/internal/v1'
+    description: Local debug server
 paths:
-  
+  /workspaces/{workspaceId}/projects/{projectId}/info:
+    get:
+      description: Get full profect info
+      operationId: getProjectInfo
+      tags:
+        - project
+      parameters:
+        - $ref: "#/components/parameters/WorkspaceId"
+        - $ref: "#/components/parameters/ProjectId"
+      responses:
+        200:
+          description: "The project has been found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectInfoDto"
+        403:
+          description: "Project not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+    put:
+      description: Update project infor
+      operationId: updateProjectInfo
+      tags:
+        - project
+      requestBody:
+        $ref: "#/components/requestBodies/UpdateProjectInfoRequestBody"
+      responses:
+        204:
+          description: "Project info updated successfully"
+        403:
+          description: "There is no project with same ID"
+          content:
+            application/json:
+              schema:
+                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+  /workspaces/{workspaceId}/projects/{projectId}:
+    delete:
+      description: Permanently delete project
+      operationId: deleteProject
+      tags:
+        - project
+      parameters:
+        - $ref: "#/components/parameters/WorkspaceId"
+        - $ref: "#/components/parameters/ProjectId"
+      responses:
+        204:
+          description: "The project has been deleted"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectInfoDto"
+        403:
+          description: "Project not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+  /workspaces/{workspaceId}/projects:
+    post:
+      description: Create project with required information
+      operationId: postProject
+      tags:
+        - project
+      requestBody:
+        $ref: "#/components/requestBodies/CreateProjectRequestBody"
+      responses:
+        204:
+          description: "Project created successfully"
+        403:
+          description: "Project with same ID already exists"
+          content:
+            application/json:
+              schema:
+                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+
+components:
+  parameters:
+    ProjectId:
+      name: projectId
+      in: path
+      description: ID of a project that contains tasks
+      required: true
+      schema:
+        type: integer
+        example: "3746287468"
+    WorkspaceId:
+      name: workspaceId
+      in: path
+      description: ID of a workspace
+      required: true
+      schema:
+        type: integer
+        example: "3746287468"
+
+  requestBodies:
+    CreateProjectRequestBody:
+      description: Request to create a project
+      content:
+        application/json:
+          schema:
+            properties:
+              name:
+                description: "Project name, which identifies the project to the user"
+                type: string
+                example: "eclipto-backend"
+              lead_id:
+                description: "Project lead user id"
+                type: integer
+                example: "3757385734"
+            required:
+              - name
+              - lead_id
+    UpdateProjectInfoRequestBody:
+      description: Request to update a project
+      content:
+        application/json:
+          schema:
+            properties:
+              name:
+                description: "Project name, which identifies the project to the user"
+                type: string
+                example: "eclipto-backend"
+              description:
+                description: "A project description that provides more detailed information about the project"
+                type: string
+                example: "Project about microservice based eclipto backend project, that implement api-gateway pattern and ..."
+              lead_id:
+                description: "Project lead user id"
+                type: integer
+                example: "3757385734"
+
+  schemas:
+    ProjectInfoDto:
+      description: Project information
+      type: object
+      properties:
+        id:
+          description: "ID of the project"
+          type: integer
+          example: 7438546582
+        name:
+          description: "Project name, which identifies the project to the user"
+          type: string
+          example: "eclipto-backend"
+        description:
+          description: "A project description that provides more detailed information about the project"
+          type: string
+          example: "Project about microservice based eclipto backend project, that implement api-gateway pattern and ..."
+        lead_id:
+          description: "Project lead user id"
+          type: integer
+          example: "3757385734"
+      required:
+        - id
+        - name
+        - lead_id
+    CreateProjectRequest:
+      description: Request schema to create a project
+      properties:
+        name:
+          description: "Project name, which identifies the project to the user"
+          type: string
+          example: "eclipto-backend"
+        lead_id:
+          description: "Project lead user id"
+          type: integer
+          example: "3757385734"
+      required:
+        - name
+        - lead_id
+    UpdateProjectInfoRequest:
+      description: Request schema to update a project
+      properties:
+        name:
+          description: "Project name, which identifies the project to the user"
+          type: string
+          example: "eclipto-backend"
+        description:
+          description: "A project description that provides more detailed information about the project"
+          type: string
+          example: "Project about microservice based eclipto backend project, that implement api-gateway pattern and ..."
+        lead_id:
+          description: "Project lead user id"
+          type: integer
+          example: "3757385734"
+
