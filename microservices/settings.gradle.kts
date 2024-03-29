@@ -12,6 +12,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "microservices"
+include("common")
 include("user")
 include("task")
 include("project")
