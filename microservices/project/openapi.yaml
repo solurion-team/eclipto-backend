@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Task microservice
+  title: Project microservice
   description: Api specification for project microservice
   version: 1.0.0
 servers:
@@ -98,7 +98,7 @@ components:
     ProjectId:
       name: projectId
       in: path
-      description: ID of a project that contains tasks
+      description: ID of a project
       required: true
       schema:
         type: integer
