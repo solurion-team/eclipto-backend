@@ -9,7 +9,7 @@ servers:
 paths:
   /workspaces/{workspaceId}/projects/{projectId}/info:
     get:
-      description: Get full profect info
+      description: Get full project info
       operationId: getProjectInfo
       tags:
         - project
