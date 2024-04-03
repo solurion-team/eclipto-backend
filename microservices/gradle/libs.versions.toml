@@ -3,16 +3,20 @@
 
 [versions]
 kotlin = "1.9.22"
+openapiGenerator = "7.4.0"
 springframeworkBoot = "3.2.3"
 springDependencyManagment = "1.1.4"
+springdoc = "2.5.0"
 
 [libraries]
 apache-kafka = { group = "org.apache.kafka", name = "kafka-streams" }
 
+springdoc-openapi-starter-webmvc-ui = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
 spring-boot-starter-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator" }
 spring-boot-starter-data-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa" }
 spring-boot-starter-data-mongodb = { group = "org.springframework.boot", name = "spring-boot-starter-data-mongodb" }
 spring-boot-starter-data-redis = { group = "org.springframework.boot", name = "spring-boot-starter-data-redis" }
+spring-boot-starter-validation= { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
 spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
 spring-boot-starter-websocket = { group = "org.springframework.boot", name = "spring-boot-starter-websocket" }
 
@@ -36,9 +40,12 @@ database-postgresql = { group = "org.postgresql", name = "postgresql" }
 #testImplementation("org.springframework.kafka:spring-kafka-test")
 
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+openapi-generator-gradlePlugin = { group = "org.openapitools", name = "openapi-generator-gradle-plugin", version.ref = "openapiGenerator" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "springframeworkBoot" }
 spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "springDependencyManagment" }
+openapi-generator = { id = "org.openapi.generator", version.ref = "openapiGenerator" }
 
 eclipto-microservice = { id = "eclipto-microservice" }
+eclipto-openapi-generation = { id = "eclipto-openapi-generation" }

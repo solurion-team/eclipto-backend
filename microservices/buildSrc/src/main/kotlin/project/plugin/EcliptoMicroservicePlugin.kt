@@ -1,14 +1,15 @@
 package project.plugin
 
-import project.extensions.*
-import groovy.lang.Closure
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.*
-import org.jetbrains.kotlin.gradle.utils.extendsFrom
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.testing.Test
 import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.kotlin.dsl.assign
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.named
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.utils.extendsFrom
 import project.extensions.annotationProcessor
 import project.extensions.implementation
 import project.extensions.libs
@@ -29,6 +30,7 @@ class EcliptoMicroservicePlugin : Plugin<Project> {
             implementation(libs.spring.boot.starter.web)
             implementation(libs.spring.boot.starter.actuator)
             implementation(libs.spring.boot.starter.data.jpa)
+            implementation(libs.spring.boot.starter.validation)
             implementation(libs.spring.boot.starter.websocket)
             implementation(libs.lombok)
             annotationProcessor(libs.spring.boot.configuration.processor)
@@ -45,7 +47,5 @@ class EcliptoMicroservicePlugin : Plugin<Project> {
                 languageVersion = JavaLanguageVersion.of(21)
             }
         }
-
-        Unit
     }
 }
