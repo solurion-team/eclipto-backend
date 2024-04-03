@@ -8,8 +8,10 @@ import com.solurion.eclipto.task.mapper.TaskStatusMapper;
 import com.solurion.eclipto.task.repository.TaskRepository;
 import com.solurion.eclipto.task.repository.TaskStatusRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,8 +34,13 @@ public class TaskServiceImpl implements TaskService {
         return null;
     }
 
+    @SneakyThrows
     @Override
     public Void updateTask(Integer projectId, UpdateTaskRequest updateTaskRequest) {
+        TaskEntity task = taskRepository.findById(updateTaskRequest.getId()).orElseThrow();
+        TaskEntity up = TaskMapper.TASK_MAPPER.toTaskEntity(updateTaskRequest);
+        updateObjectFields(task, up);
+        taskRepository.save(task);
         return null;
     }
 
@@ -60,5 +67,18 @@ public class TaskServiceImpl implements TaskService {
         taskStatusEntity.setTint(taskStatusDto.getTint());
         taskStatusRepository.save(taskStatusEntity);
         return null;
+    }
+
+    public void updateObjectFields(Object obj, Object newObj) throws IllegalAccessException {
+        Class<?> objClass = obj.getClass();
+
+        for (Field field : objClass.getDeclaredFields()) {
+            field.setAccessible(true);
+            Object value = field.get(newObj);
+
+            if (value != null) {
+                field.set(obj, value);
+            }
+        }
     }
 }

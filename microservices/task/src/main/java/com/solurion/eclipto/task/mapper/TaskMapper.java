@@ -3,6 +3,7 @@ package com.solurion.eclipto.task.mapper;
 import com.solurion.eclipto.task.dto.PostLiteTaskRequest;
 import com.solurion.eclipto.task.dto.TaskInfoDto;
 import com.solurion.eclipto.task.dto.TaskLiteDto;
+import com.solurion.eclipto.task.dto.UpdateTaskRequest;
 import com.solurion.eclipto.task.entity.TaskEntity;
 import com.solurion.eclipto.task.mapper.helpers.HelperMapper;
 import com.solurion.eclipto.task.repository.TaskStatusRepository;
@@ -23,5 +24,8 @@ public abstract class TaskMapper {
     public abstract TaskLiteDto toTaskLiteDto(TaskEntity taskEntity);
     @Mapping(target = "status", expression = "java(helperMapper.getStatusDto(taskEntity.getStatus()))")
     public abstract TaskInfoDto toTaskInfoDto(TaskEntity taskEntity);
+
+    @Mapping(source = "statusId", target = "status")
+    public abstract TaskEntity toTaskEntity(UpdateTaskRequest updateTaskRequest);
 
 }
