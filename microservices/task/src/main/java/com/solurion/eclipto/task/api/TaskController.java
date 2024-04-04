@@ -26,24 +26,24 @@ public class TaskController implements TaskApi{
     @Override
     public ResponseEntity<Void> postLiteTask(Long projectId, PostLiteTaskRequest postLiteTaskRequest) {
         taskService.createTask(projectId, postLiteTaskRequest);
-        return ResponseEntity.status(204).build();
+        return ResponseEntity.noContent().build();
     }
 
     @Override
     public ResponseEntity<Void> postTaskStatus(Long projectId, PostTaskStatusRequest postTaskStatusRequest) {
         taskService.createTaskStatus(projectId, postTaskStatusRequest);
-        return ResponseEntity.status(204).build();
+        return ResponseEntity.noContent().build();
     }
 
     @Override
     public ResponseEntity<Void> updateTask(Long projectId, UpdateTaskRequest updateTaskRequest) {
         taskService.updateTask(projectId, updateTaskRequest);
-        return ResponseEntity.status(204).build();
+        return ResponseEntity.noContent().build();
     }
 
     @Override
     public ResponseEntity<Void> updateTaskStatus(Long projectId, TaskStatusDto taskStatusDto) {
         taskService.updateTaskStatus(projectId, taskStatusDto);
-        return ResponseEntity.status(204).build();
+        return ResponseEntity.noContent().build();
     }
 }

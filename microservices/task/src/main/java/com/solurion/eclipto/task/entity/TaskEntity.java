@@ -46,15 +46,12 @@ public class TaskEntity {
     private OffsetDateTime updatedAt;
 
     @Getter
+    @RequiredArgsConstructor
     public enum PriorityEnum{
         LOW("low"),
         MEDIUM("medium"),
         HIGH("high");
-        @Setter
-        private String value;
-        PriorityEnum(String value){
-            this.value = value;
-        }
+        private final String value;
     }
 
 
