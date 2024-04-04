@@ -7,78 +7,100 @@ import com.solurion.eclipto.task.mapper.TaskMapper;
 import com.solurion.eclipto.task.mapper.TaskStatusMapper;
 import com.solurion.eclipto.task.repository.TaskRepository;
 import com.solurion.eclipto.task.repository.TaskStatusRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final TaskStatusRepository taskStatusRepository;
+    private final TaskMapper taskMapper;
+    private final TaskStatusMapper taskStatusMapper;
 
     @Override
-    public TaskInfoDto getTaskInfo(Integer projectId, Integer taskId) {
-        return TaskMapper.TASK_MAPPER.toTaskInfoDto(taskRepository.findById(taskId).orElseThrow());
+    public TaskInfoDto getTaskInfo(Long projectId, Long taskId) {
+        return taskMapper.toTaskInfoDto(taskRepository.findById(taskId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Task not found")
+        ));
     }
 
     @Override
-    public Void createTask(Integer projectId, PostLiteTaskRequest postLiteTaskRequest) {
-        TaskEntity task = TaskMapper.TASK_MAPPER.toTaskEntity(postLiteTaskRequest);
+    public void createTask(Long projectId, PostLiteTaskRequest postLiteTaskRequest) {
+        if(taskStatusRepository.findById(postLiteTaskRequest.getStatusId()).isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found task status");
+        }
+        TaskEntity task = taskMapper.toTaskEntity(postLiteTaskRequest);
         task.setProjectId(projectId);
         taskRepository.save(task);
-        return null;
     }
 
-    @SneakyThrows
+    @Transactional
     @Override
-    public Void updateTask(Integer projectId, UpdateTaskRequest updateTaskRequest) {
-        TaskEntity task = taskRepository.findById(updateTaskRequest.getId()).orElseThrow();
-        TaskEntity up = TaskMapper.TASK_MAPPER.toTaskEntity(updateTaskRequest);
-        updateObjectFields(task, up);
+    public void updateTask(Long projectId, UpdateTaskRequest updateTaskRequest) {
+        TaskEntity task = taskRepository.findById(updateTaskRequest.getId())
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.FORBIDDEN, "Task not found"));
+        if(updateTaskRequest.getStatusId()!=null){
+            if(taskStatusRepository.findById(updateTaskRequest.getStatusId()).isEmpty()){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found task status");
+            }
+            task.setStatus(taskStatusRepository.findById(updateTaskRequest.getStatusId()).get());
+        if(updateTaskRequest.getAssignedUserId()!=null){
+            task.setAssignedUserId(updateTaskRequest.getAssignedUserId());
+        }
+
+        }
+        if(updateTaskRequest.getTitle()!=null){
+            task.setTitle(updateTaskRequest.getTitle());
+        }
+        if(updateTaskRequest.getDescription()!=null){
+            task.setDescription(updateTaskRequest.getDescription());
+        }
+        if(updateTaskRequest.getPriority()!=null){
+            task.setPriority(taskMapper.toEntityEnum(updateTaskRequest.getPriority()));
+        }
+        if(updateTaskRequest.getDueDate()!=null){
+            task.setDueDate(updateTaskRequest.getDueDate());
+
+        }
+        if(updateTaskRequest.getReporterUserId()!=null){
+            task.setReporterUserId(updateTaskRequest.getReporterUserId());
+        }
         taskRepository.save(task);
-        return null;
     }
 
     @Override
-    public List<TaskLiteDto> getLiteTasks(Integer projectId) {
+    public List<TaskLiteDto> getLiteTasks(Long projectId) {
         return taskRepository.findAllByProjectId(projectId)
                 .stream()
-                .map(TaskMapper.TASK_MAPPER::toTaskLiteDto)
-                .collect(Collectors.toList());
+                .map(taskMapper::toTaskLiteDto)
+                .toList();
     }
 
     @Override
-    public Void createTaskStatus(Integer projectId, PostTaskStatusRequest taskStatusRequest) {
-        TaskStatusEntity taskStatusEntity = TaskStatusMapper.TASK_STATUS_MAPPER.toEntity(taskStatusRequest);
+    public void createTaskStatus(Long projectId, PostTaskStatusRequest taskStatusRequest) {
+        TaskStatusEntity taskStatusEntity = taskStatusMapper.toEntity(taskStatusRequest);
         taskStatusEntity.setProjectId(projectId);
         taskStatusRepository.save(taskStatusEntity);
-        return null;
     }
 
     @Override
-    public Void updateTaskStatus(Integer projectId, TaskStatusDto taskStatusDto) {
-        TaskStatusEntity taskStatusEntity = taskStatusRepository.findById(taskStatusDto.getId()).orElseThrow();
-        taskStatusEntity.setName(taskStatusDto.getName());
-        taskStatusEntity.setTint(taskStatusDto.getTint());
-        taskStatusRepository.save(taskStatusEntity);
-        return null;
-    }
-
-    public void updateObjectFields(Object obj, Object newObj) throws IllegalAccessException {
-        Class<?> objClass = obj.getClass();
-
-        for (Field field : objClass.getDeclaredFields()) {
-            field.setAccessible(true);
-            Object value = field.get(newObj);
-
-            if (value != null) {
-                field.set(obj, value);
-            }
+    @Transactional
+    public void updateTaskStatus(Long projectId, TaskStatusDto taskStatusDto) {
+        TaskStatusEntity taskStatusEntity = taskStatusRepository.
+                findById(taskStatusDto.getId())
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.FORBIDDEN, "Task Status not found"));
+        if(taskStatusDto.getName()!=null){
+            taskStatusEntity.setName(taskStatusDto.getName());
         }
+        if(taskStatusDto.getTint()!=null){
+            taskStatusEntity.setTint(taskStatusDto.getTint());
+        }
+        taskStatusRepository.save(taskStatusEntity);
     }
 }

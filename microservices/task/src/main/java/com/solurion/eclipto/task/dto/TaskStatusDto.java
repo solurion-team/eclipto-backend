@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.4.0")
 public class TaskStatusDto {
 
-  private Integer id;
+  private Long id;
 
   private String name;
 
@@ -34,13 +34,13 @@ public class TaskStatusDto {
   /**
    * Constructor with only required parameters
    */
-  public TaskStatusDto(Integer id, String name, String tint) {
+  public TaskStatusDto(Long id, String name, String tint) {
     this.id = id;
     this.name = name;
     this.tint = tint;
   }
 
-  public TaskStatusDto id(Integer id) {
+  public TaskStatusDto id(Long id) {
     this.id = id;
     return this;
   }
@@ -52,11 +52,11 @@ public class TaskStatusDto {
   @NotNull 
   @Schema(name = "id", example = "7438546582", description = "ID of the status", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("id")
-  public Integer getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

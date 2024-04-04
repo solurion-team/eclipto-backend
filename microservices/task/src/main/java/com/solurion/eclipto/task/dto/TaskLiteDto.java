@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.4.0")
 public class TaskLiteDto {
 
-  private Integer id;
+  private Long id;
 
   private String title;
 
@@ -65,7 +65,7 @@ public class TaskLiteDto {
 
   private PriorityEnum priority;
 
-  private Integer assignedUserId;
+  private Long assignedUserId;
 
   public TaskLiteDto() {
     super();
@@ -74,14 +74,14 @@ public class TaskLiteDto {
   /**
    * Constructor with only required parameters
    */
-  public TaskLiteDto(Integer id, String title, PriorityEnum priority, Integer assignedUserId) {
+  public TaskLiteDto(Long id, String title, PriorityEnum priority, Long assignedUserId) {
     this.id = id;
     this.title = title;
     this.priority = priority;
     this.assignedUserId = assignedUserId;
   }
 
-  public TaskLiteDto id(Integer id) {
+  public TaskLiteDto id(Long id) {
     this.id = id;
     return this;
   }
@@ -93,11 +93,11 @@ public class TaskLiteDto {
   @NotNull 
   @Schema(name = "id", example = "7438546582", description = "ID of the task", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("id")
-  public Integer getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -141,7 +141,7 @@ public class TaskLiteDto {
     this.priority = priority;
   }
 
-  public TaskLiteDto assignedUserId(Integer assignedUserId) {
+  public TaskLiteDto assignedUserId(Long assignedUserId) {
     this.assignedUserId = assignedUserId;
     return this;
   }
@@ -153,11 +153,11 @@ public class TaskLiteDto {
   @NotNull 
   @Schema(name = "assigned_user_id", example = "23486357348", description = "ID of the user who was assigned to the task", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("assigned_user_id")
-  public Integer getAssignedUserId() {
+  public Long getAssignedUserId() {
     return assignedUserId;
   }
 
-  public void setAssignedUserId(Integer assignedUserId) {
+  public void setAssignedUserId(Long assignedUserId) {
     this.assignedUserId = assignedUserId;
   }
 

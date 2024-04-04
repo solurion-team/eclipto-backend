@@ -71,7 +71,7 @@ public interface TaskApi {
     )
     
     ResponseEntity<List<TaskLiteDto>> getLiteTasks(
-        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Integer projectId
+        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId
     );
 
 
@@ -108,8 +108,8 @@ public interface TaskApi {
     )
     
     ResponseEntity<TaskInfoDto> getTask(
-        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Integer projectId,
-        @Parameter(name = "taskId", description = "ID of a task", required = true, in = ParameterIn.PATH) @PathVariable("taskId") Integer taskId
+        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId,
+        @Parameter(name = "taskId", description = "ID of a task", required = true, in = ParameterIn.PATH) @PathVariable("taskId") Long taskId
     );
 
 
@@ -145,7 +145,7 @@ public interface TaskApi {
     )
     
     ResponseEntity<Void> postLiteTask(
-        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Integer projectId,
+        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId,
         @Parameter(name = "PostLiteTaskRequest", description = "Request to create a task") @Valid @RequestBody(required = false) PostLiteTaskRequest postLiteTaskRequest
     );
 
@@ -178,7 +178,7 @@ public interface TaskApi {
     )
     
     ResponseEntity<Void> postTaskStatus(
-        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Integer projectId,
+        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId,
         @Parameter(name = "PostTaskStatusRequest", description = "Request to create a task status") @Valid @RequestBody(required = false) PostTaskStatusRequest postTaskStatusRequest
     );
 
@@ -215,7 +215,7 @@ public interface TaskApi {
     )
     
     ResponseEntity<Void> updateTask(
-        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Integer projectId,
+        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId,
         @Parameter(name = "UpdateTaskRequest", description = "Request to create a task") @Valid @RequestBody(required = false) UpdateTaskRequest updateTaskRequest
     );
 
@@ -252,7 +252,7 @@ public interface TaskApi {
     )
     
     ResponseEntity<Void> updateTaskStatus(
-        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Integer projectId,
+        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId,
         @Parameter(name = "TaskStatusDto", description = "Request to update a task status") @Valid @RequestBody(required = false) TaskStatusDto taskStatusDto
     );
 

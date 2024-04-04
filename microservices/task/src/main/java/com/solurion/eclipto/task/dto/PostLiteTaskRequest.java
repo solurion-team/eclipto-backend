@@ -24,9 +24,9 @@ public class PostLiteTaskRequest {
 
   private String title;
 
-  private Integer statusId;
+  private Long statusId;
 
-  private Integer reporterUserId;
+  private Long reporterUserId;
 
   public PostLiteTaskRequest() {
     super();
@@ -35,7 +35,7 @@ public class PostLiteTaskRequest {
   /**
    * Constructor with only required parameters
    */
-  public PostLiteTaskRequest(Integer statusId) {
+  public PostLiteTaskRequest(Long statusId) {
     this.statusId = statusId;
   }
 
@@ -59,7 +59,7 @@ public class PostLiteTaskRequest {
     this.title = title;
   }
 
-  public PostLiteTaskRequest statusId(Integer statusId) {
+  public PostLiteTaskRequest statusId(Long statusId) {
     this.statusId = statusId;
     return this;
   }
@@ -71,15 +71,15 @@ public class PostLiteTaskRequest {
   @NotNull 
   @Schema(name = "status_id", example = "457345348", description = "Id of the status", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("status_id")
-  public Integer getStatusId() {
+  public Long getStatusId() {
     return statusId;
   }
 
-  public void setStatusId(Integer statusId) {
+  public void setStatusId(Long statusId) {
     this.statusId = statusId;
   }
 
-  public PostLiteTaskRequest reporterUserId(Integer reporterUserId) {
+  public PostLiteTaskRequest reporterUserId(Long reporterUserId) {
     this.reporterUserId = reporterUserId;
     return this;
   }
@@ -91,11 +91,11 @@ public class PostLiteTaskRequest {
   
   @Schema(name = "reporter_user_id", example = "23486357348", description = "ID of the user who reported the task", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("reporter_user_id")
-  public Integer getReporterUserId() {
+  public Long getReporterUserId() {
     return reporterUserId;
   }
 
-  public void setReporterUserId(Integer reporterUserId) {
+  public void setReporterUserId(Long reporterUserId) {
     this.reporterUserId = reporterUserId;
   }
 

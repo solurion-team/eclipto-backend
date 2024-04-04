@@ -20,17 +20,18 @@ public class TaskEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Column(name = "project_id")
-    private Integer projectId;
+    private Long projectId;
     @Column(name = "title")
     private String title;
     @Column(name = "description")
     private String description;
-    @Column(name = "status_id")
-    private Integer status;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id")
+    private TaskStatusEntity status;
     @Column(name = "priority")
-    private String priority;
+    private PriorityEnum priority;
     @Column(name = "due_date")
     private OffsetDateTime dueDate;
     @Column(name = "assigned_user_id")
@@ -43,6 +44,18 @@ public class TaskEntity {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private OffsetDateTime updatedAt;
+
+    @Getter
+    public enum PriorityEnum{
+        LOW("low"),
+        MEDIUM("medium"),
+        HIGH("high");
+        @Setter
+        private String value;
+        PriorityEnum(String value){
+            this.value = value;
+        }
+    }
 
 
 }

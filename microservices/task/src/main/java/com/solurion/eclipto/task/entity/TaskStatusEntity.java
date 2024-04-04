@@ -15,9 +15,9 @@ public class TaskStatusEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Column(name = "project_id")
-    private Integer projectId;
+    private Long projectId;
     @Column(name = "name")
     private String name;
     @Column(name = "color")

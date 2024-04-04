@@ -25,13 +25,13 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.4.0")
 public class UpdateTaskRequest {
 
-  private Integer id;
+  private Long id;
 
   private String title;
 
   private String description;
 
-  private Integer statusId;
+  private Long statusId;
 
   /**
    * Importance of the task
@@ -75,9 +75,9 @@ public class UpdateTaskRequest {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime dueDate;
 
-  private Integer assignedUserId;
+  private Long assignedUserId;
 
-  private Integer reporterUserId;
+  private Long reporterUserId;
 
   public UpdateTaskRequest() {
     super();
@@ -86,11 +86,11 @@ public class UpdateTaskRequest {
   /**
    * Constructor with only required parameters
    */
-  public UpdateTaskRequest(Integer id) {
+  public UpdateTaskRequest(Long id) {
     this.id = id;
   }
 
-  public UpdateTaskRequest id(Integer id) {
+  public UpdateTaskRequest id(Long id) {
     this.id = id;
     return this;
   }
@@ -102,11 +102,11 @@ public class UpdateTaskRequest {
   @NotNull 
   @Schema(name = "id", example = "7438546582", description = "ID of the task", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("id")
-  public Integer getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -150,7 +150,7 @@ public class UpdateTaskRequest {
     this.description = description;
   }
 
-  public UpdateTaskRequest statusId(Integer statusId) {
+  public UpdateTaskRequest statusId(Long statusId) {
     this.statusId = statusId;
     return this;
   }
@@ -162,11 +162,11 @@ public class UpdateTaskRequest {
   
   @Schema(name = "status_id", example = "457345348", description = "Id of the status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status_id")
-  public Integer getStatusId() {
+  public Long getStatusId() {
     return statusId;
   }
 
-  public void setStatusId(Integer statusId) {
+  public void setStatusId(Long statusId) {
     this.statusId = statusId;
   }
 
@@ -210,7 +210,7 @@ public class UpdateTaskRequest {
     this.dueDate = dueDate;
   }
 
-  public UpdateTaskRequest assignedUserId(Integer assignedUserId) {
+  public UpdateTaskRequest assignedUserId(Long assignedUserId) {
     this.assignedUserId = assignedUserId;
     return this;
   }
@@ -222,15 +222,15 @@ public class UpdateTaskRequest {
   
   @Schema(name = "assigned_user_id", example = "23486357348", description = "ID of the user who was assigned to the task", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("assigned_user_id")
-  public Integer getAssignedUserId() {
+  public Long getAssignedUserId() {
     return assignedUserId;
   }
 
-  public void setAssignedUserId(Integer assignedUserId) {
+  public void setAssignedUserId(Long assignedUserId) {
     this.assignedUserId = assignedUserId;
   }
 
-  public UpdateTaskRequest reporterUserId(Integer reporterUserId) {
+  public UpdateTaskRequest reporterUserId(Long reporterUserId) {
     this.reporterUserId = reporterUserId;
     return this;
   }
@@ -242,11 +242,11 @@ public class UpdateTaskRequest {
   
   @Schema(name = "reporter_user_id", example = "23486357348", description = "ID of the user who reported the task", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("reporter_user_id")
-  public Integer getReporterUserId() {
+  public Long getReporterUserId() {
     return reporterUserId;
   }
 
-  public void setReporterUserId(Integer reporterUserId) {
+  public void setReporterUserId(Long reporterUserId) {
     this.reporterUserId = reporterUserId;
   }
 
