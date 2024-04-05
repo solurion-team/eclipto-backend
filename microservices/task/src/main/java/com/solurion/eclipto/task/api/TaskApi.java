@@ -44,6 +44,74 @@ import jakarta.annotation.Generated;
 public interface TaskApi {
 
     /**
+     * DELETE /projects/{projectId}/tasks/{taskId}
+     * Permanently delete task
+     *
+     * @param projectId ID of a project that contains tasks (required)
+     * @param taskId ID of a task (required)
+     * @return The task has been deleted (status code 204)
+     *         or Task not found (status code 403)
+     *         or Unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "deleteTask",
+        description = "Permanently delete task",
+        tags = { "task" },
+        responses = {
+            @ApiResponse(responseCode = "204", description = "The task has been deleted"),
+            @ApiResponse(responseCode = "403", description = "Task not found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.DELETE,
+        value = "/projects/{projectId}/tasks/{taskId}",
+        produces = { "application/json" }
+    )
+    
+    ResponseEntity<Void> deleteTask(
+        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId,
+        @Parameter(name = "taskId", description = "ID of a task", required = true, in = ParameterIn.PATH) @PathVariable("taskId") Long taskId
+    );
+
+
+    /**
+     * GET /projects/{projectId}/tasks
+     * Get all project tasks with full information
+     *
+     * @param projectId ID of a project that contains tasks (required)
+     * @return Full tasks list (status code 200)
+     *         or Unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "getFullTasks",
+        description = "Get all project tasks with full information",
+        tags = { "task" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Full tasks list", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = TaskInfoDto.class)))
+            }),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/projects/{projectId}/tasks",
+        produces = { "application/json" }
+    )
+    
+    ResponseEntity<List<TaskInfoDto>> getFullTasks(
+        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId
+    );
+
+
+    /**
      * GET /projects/{projectId}/tasks-lite
      * Get all project tasks with lite information
      *

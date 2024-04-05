@@ -16,4 +16,8 @@ public interface TaskService {
     void createTaskStatus(Long projectId, PostTaskStatusRequest taskStatusRequest);
 
     void updateTaskStatus(Long projectId, TaskStatusDto taskRequest);
+
+    void deleteTask(Long projectId, Long taskId);
+
+    List<TaskInfoDto> getFullTasks(Long projectId);
 }

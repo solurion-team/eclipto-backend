@@ -34,6 +34,25 @@ paths:
                 $ref: "../api/common.yaml#/components/schemas/ErrorDto"
         default:
           $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+    delete:
+      description: Permanently delete task
+      operationId: deleteTask
+      tags:
+        - task
+      parameters:
+        - $ref: "#/components/parameters/ProjectId"
+        - $ref: "#/components/parameters/TaskId"
+      responses:
+        204:
+          description: "The task has been deleted"
+        403:
+          description: "Task not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
   /projects/{projectId}/tasks:
     post:
       description: Create task with lite information
@@ -73,6 +92,24 @@ paths:
             application/json:
               schema:
                 $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+    get:
+      description: Get all project tasks with full information
+      operationId: getFullTasks
+      tags:
+        - task
+      parameters:
+        - $ref: "#/components/parameters/ProjectId"
+      responses:
+        200:
+          description: "Full tasks list"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskInfoDto'
         default:
           $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
   /projects/{projectId}/tasks-lite:
@@ -239,7 +276,7 @@ components:
                 type: integer
                 format: int64
                 example: 23486357348
-            required: 
+            required:
               - id
     UpdateTaskStatusRequest:
       description: Request to update a task status

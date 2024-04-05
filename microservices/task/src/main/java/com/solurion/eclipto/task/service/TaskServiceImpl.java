@@ -33,7 +33,7 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     @Override
     public void createTask(Long projectId, PostLiteTaskRequest postLiteTaskRequest) {
-        if (taskStatusRepository.existsById(postLiteTaskRequest.getStatusId())) {
+        if (!taskStatusRepository.existsById(postLiteTaskRequest.getStatusId())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task status not found");
         }
         TaskEntity task = taskMapper.toTaskEntity(postLiteTaskRequest);
@@ -103,5 +103,22 @@ public class TaskServiceImpl implements TaskService {
             taskStatusEntity.setTint(taskStatusDto.getTint());
         }
         taskStatusRepository.save(taskStatusEntity);
+    }
+
+    @Override
+    @Transactional
+    public void deleteTask(Long projectId, Long taskId) {
+        if (!taskRepository.existsById(taskId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Task not found");
+        }
+        taskRepository.deleteById(taskId);
+    }
+
+    @Override
+    public List<TaskInfoDto> getFullTasks(Long projectId) {
+        return taskRepository.findAllByProjectId(projectId)
+                .stream()
+                .map(taskMapper::toTaskInfoDto)
+                .toList();
     }
 }
