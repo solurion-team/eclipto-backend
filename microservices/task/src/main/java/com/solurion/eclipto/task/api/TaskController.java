@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class TaskController implements TaskApi{
+public class TaskController implements TaskApi {
     private final TaskServiceImpl taskService;
 
     @Override

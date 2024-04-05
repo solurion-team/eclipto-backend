@@ -14,9 +14,13 @@ import org.mapstruct.Mapping;
 )
 public interface TaskMapper {
     TaskInfoDto toTaskInfoDto(TaskEntity taskEntity);
+
     TaskEntity toTaskEntity(TaskInfoDto taskInfoDto);
+
     TaskEntity.PriorityEnum toEntityEnum(UpdateTaskRequest.PriorityEnum priorityEnum);
+
     TaskEntity toTaskEntity(PostLiteTaskRequest postLiteTaskRequest);
+
     TaskLiteDto toTaskLiteDto(TaskEntity taskEntity);
 
 }

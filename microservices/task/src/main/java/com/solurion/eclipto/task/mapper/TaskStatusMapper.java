@@ -8,9 +8,9 @@ import org.mapstruct.Mapper;
 import static org.mapstruct.factory.Mappers.getMapper;
 
 
-
 @Mapper(componentModel = "spring")
 public interface TaskStatusMapper {
     TaskStatusEntity toEntity(PostTaskStatusRequest postTaskStatusRequest);
+
     TaskStatusDto toDto(TaskStatusEntity taskStatusEntity);
 }

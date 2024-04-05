@@ -33,7 +33,7 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     @Override
     public void createTask(Long projectId, PostLiteTaskRequest postLiteTaskRequest) {
-        if(taskStatusRepository.existsById(postLiteTaskRequest.getStatusId())){
+        if (taskStatusRepository.existsById(postLiteTaskRequest.getStatusId())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task status not found");
         }
         TaskEntity task = taskMapper.toTaskEntity(postLiteTaskRequest);
@@ -45,31 +45,31 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void updateTask(Long projectId, UpdateTaskRequest updateTaskRequest) {
         TaskEntity task = taskRepository.findById(updateTaskRequest.getId())
-                .orElseThrow( () -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Task not found"));
-        if(updateTaskRequest.getStatusId() != null){
-            if(taskStatusRepository.findById(updateTaskRequest.getStatusId()).isEmpty()){
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Task not found"));
+        if (updateTaskRequest.getStatusId() != null) {
+            if (taskStatusRepository.findById(updateTaskRequest.getStatusId()).isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found task status");
             }
             task.setStatus(taskStatusRepository.findById(updateTaskRequest.getStatusId()).get());
-        if(updateTaskRequest.getAssignedUserId() != null){
-            task.setAssignedUserId(updateTaskRequest.getAssignedUserId());
-        }
+            if (updateTaskRequest.getAssignedUserId() != null) {
+                task.setAssignedUserId(updateTaskRequest.getAssignedUserId());
+            }
 
         }
-        if(updateTaskRequest.getTitle() != null){
+        if (updateTaskRequest.getTitle() != null) {
             task.setTitle(updateTaskRequest.getTitle());
         }
-        if(updateTaskRequest.getDescription() != null){
+        if (updateTaskRequest.getDescription() != null) {
             task.setDescription(updateTaskRequest.getDescription());
         }
-        if(updateTaskRequest.getPriority() != null){
+        if (updateTaskRequest.getPriority() != null) {
             task.setPriority(taskMapper.toEntityEnum(updateTaskRequest.getPriority()));
         }
-        if(updateTaskRequest.getDueDate() != null){
+        if (updateTaskRequest.getDueDate() != null) {
             task.setDueDate(updateTaskRequest.getDueDate());
 
         }
-        if(updateTaskRequest.getReporterUserId() != null){
+        if (updateTaskRequest.getReporterUserId() != null) {
             task.setReporterUserId(updateTaskRequest.getReporterUserId());
         }
         taskRepository.save(task);
@@ -95,11 +95,11 @@ public class TaskServiceImpl implements TaskService {
     public void updateTaskStatus(Long projectId, TaskStatusDto taskStatusDto) {
         TaskStatusEntity taskStatusEntity = taskStatusRepository.
                 findById(taskStatusDto.getId())
-                .orElseThrow( () -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Task Status not found"));
-        if(taskStatusDto.getName() != null){
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Task Status not found"));
+        if (taskStatusDto.getName() != null) {
             taskStatusEntity.setName(taskStatusDto.getName());
         }
-        if(taskStatusDto.getTint() != null){
+        if (taskStatusDto.getTint() != null) {
             taskStatusEntity.setTint(taskStatusDto.getTint());
         }
         taskStatusRepository.save(taskStatusEntity);

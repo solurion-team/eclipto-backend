@@ -47,7 +47,7 @@ public class TaskEntity {
 
     @Getter
     @RequiredArgsConstructor
-    public enum PriorityEnum{
+    public enum PriorityEnum {
         LOW("low"),
         MEDIUM("medium"),
         HIGH("high");
