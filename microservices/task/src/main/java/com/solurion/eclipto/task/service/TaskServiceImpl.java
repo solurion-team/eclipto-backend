@@ -33,7 +33,7 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     @Override
     public void createTask(Long projectId, PostLiteTaskRequest postLiteTaskRequest) {
-        if(taskStatusRepository.findById(postLiteTaskRequest.getStatusId()).isEmpty()){
+        if(taskStatusRepository.existsById(postLiteTaskRequest.getStatusId())){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task status not found");
         }
         TaskEntity task = taskMapper.toTaskEntity(postLiteTaskRequest);
