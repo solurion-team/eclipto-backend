@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
     List<TaskEntity> findAllByProjectId(Long projectId);
+
+    void deleteAllByProjectId(Long projectId);
 }

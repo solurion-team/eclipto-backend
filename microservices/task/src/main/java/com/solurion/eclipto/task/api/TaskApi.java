@@ -44,6 +44,36 @@ import jakarta.annotation.Generated;
 public interface TaskApi {
 
     /**
+     * DELETE /projects/{projectId}/tasks
+     * Delete all tasks
+     *
+     * @param projectId ID of a project that contains tasks (required)
+     * @return Tasks delete successfully (status code 204)
+     *         or Unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "deleteAllTasks",
+        description = "Delete all tasks",
+        tags = { "task" },
+        responses = {
+            @ApiResponse(responseCode = "204", description = "Tasks delete successfully"),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.DELETE,
+        value = "/projects/{projectId}/tasks",
+        produces = { "application/json" }
+    )
+    
+    ResponseEntity<Void> deleteAllTasks(
+        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId
+    );
+
+
+    /**
      * DELETE /projects/{projectId}/tasks/{taskId}
      * Permanently delete task
      *

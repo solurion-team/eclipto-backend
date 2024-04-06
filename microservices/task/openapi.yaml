@@ -54,6 +54,18 @@ paths:
         default:
           $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
   /projects/{projectId}/tasks:
+    delete:
+      description: Delete all tasks
+      operationId: deleteAllTasks
+      tags:
+        - task
+      parameters:
+        - $ref: "#/components/parameters/ProjectId"
+      responses:
+        204:
+          description: "Tasks delete successfully"
+        default:
+          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
     post:
       description: Create task with lite information
       operationId: postLiteTask

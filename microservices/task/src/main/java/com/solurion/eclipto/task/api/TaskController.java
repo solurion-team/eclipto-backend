@@ -14,6 +14,12 @@ public class TaskController implements TaskApi {
     private final TaskServiceImpl taskService;
 
     @Override
+    public ResponseEntity<Void> deleteAllTasks(Long projectId) {
+        taskService.deleteAllTask(projectId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
     public ResponseEntity<Void> deleteTask(Long projectId, Long taskId) {
         taskService.deleteTask(projectId, taskId);
         return ResponseEntity.noContent().build();

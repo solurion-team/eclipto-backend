@@ -115,6 +115,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public void deleteAllTask(Long projectId) {
+        taskRepository.deleteAllByProjectId(projectId);
+    }
+
+    @Override
     public List<TaskInfoDto> getFullTasks(Long projectId) {
         return taskRepository.findAllByProjectId(projectId)
                 .stream()
