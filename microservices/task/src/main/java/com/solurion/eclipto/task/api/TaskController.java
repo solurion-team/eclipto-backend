@@ -4,6 +4,10 @@ import com.solurion.eclipto.task.dto.*;
 import com.solurion.eclipto.task.service.TaskServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -12,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskController implements TaskApi {
     private final TaskServiceImpl taskService;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @Override
     public ResponseEntity<Void> deleteAllTasks(Long projectId) {
@@ -62,5 +67,11 @@ public class TaskController implements TaskApi {
     public ResponseEntity<Void> updateTaskStatus(Long projectId, TaskStatusDto taskStatusDto) {
         taskService.updateTaskStatus(projectId, taskStatusDto);
         return ResponseEntity.noContent().build();
+    }
+    @MessageMapping("/projects/{projectId}/tasks")
+    public void processTask(@DestinationVariable Long projectId,
+                            @Payload PostLiteTaskRequest postLiteTaskRequest){
+        messagingTemplate.convertAndSend("topic/tasks/",taskService.getFullTasks(projectId));
+
     }
 }
