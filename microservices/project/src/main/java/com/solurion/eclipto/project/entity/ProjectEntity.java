@@ -1,9 +1,7 @@
 package com.solurion.eclipto.project.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.repository.cdi.Eager;
 
 @Entity
 @Table(name = "projects")
@@ -12,7 +10,7 @@ import org.springframework.data.repository.cdi.Eager;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectInfoEntity {
+public class ProjectEntity {
     @Id
     @SequenceGenerator(name = "sequence_generator", sequenceName = "sequence_generator", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
@@ -25,8 +23,8 @@ public class ProjectInfoEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "lead_id", unique = true)
-    private Long lead_id;
+    @Column(name = "leadId", unique = true)
+    private Long leadId;
 
 
 }

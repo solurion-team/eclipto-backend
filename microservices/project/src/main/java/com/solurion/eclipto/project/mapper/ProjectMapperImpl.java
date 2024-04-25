@@ -3,35 +3,35 @@ package com.solurion.eclipto.project.mapper;
 
 import com.solurion.eclipto.project.dto.CreateProjectRequest;
 import com.solurion.eclipto.project.dto.ProjectInfoDto;
-import com.solurion.eclipto.project.entity.ProjectInfoEntity;
+import com.solurion.eclipto.project.entity.ProjectEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProjectInfoMapper {
-    public ProjectInfoDto toDto(ProjectInfoEntity entity){
+public class ProjectMapperImpl implements ProjectMapper{
+    public ProjectInfoDto toDto(ProjectEntity entity){
         return ProjectInfoDto.builder()
                 .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
-                .lead_id(entity.getLead_id())
+                .leadId(entity.getLeadId())
                 .build();
     }
 
-    public ProjectInfoEntity toEntity(ProjectInfoDto dto){
-        return ProjectInfoEntity.builder()
+    public ProjectEntity toEntity(ProjectInfoDto dto){
+        return ProjectEntity.builder()
                 .id(dto.getId())
                 .name(dto.getName())
                 .description(dto.getDescription())
-                .lead_id(dto.getLead_id())
+                .leadId(dto.getLeadId())
                 .build();
     }
 
-    public ProjectInfoEntity CreateProjectRequestToProjectInfoEntity(CreateProjectRequest createProjectRequest){
-        return ProjectInfoEntity.builder()
+    public ProjectEntity CreateProjectRequestToProjectInfoEntity(CreateProjectRequest createProjectRequest){
+        return ProjectEntity.builder()
                 .id(null)
                 .name(createProjectRequest.getName())
                 .description(null)
-                .lead_id(createProjectRequest.getLead_id())
+                .leadId(createProjectRequest.getLeadId())
                 .build();
     }
 }

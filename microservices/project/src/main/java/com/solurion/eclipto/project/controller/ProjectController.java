@@ -3,48 +3,41 @@ package com.solurion.eclipto.project.controller;
 import com.solurion.eclipto.project.dto.CreateProjectRequest;
 import com.solurion.eclipto.project.dto.ProjectInfoDto;
 import com.solurion.eclipto.project.dto.UpdateProjectInfoRequest;
-import com.solurion.eclipto.project.service.ProjectService;
+import com.solurion.eclipto.project.service.ProjectServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ProjectController {
-    private final ProjectService projectService;
+    private final ProjectServiceImpl projectServiceImpl;
 
-    public ProjectController(ProjectService projectService) {
-        this.projectService = projectService;
+    public ProjectController(ProjectServiceImpl projectServiceImpl) {
+        this.projectServiceImpl = projectServiceImpl;
     }
 
     @GetMapping("/workspaces/{workspaceId}/projects/{projectId}/info")
-    ResponseEntity<ProjectInfoDto> getProjectInfo(@PathVariable String projectId, @PathVariable String workspaceId){
-        Long id = Long.parseLong(projectId);
-        return ResponseEntity.ok(projectService.getProject(id));
+    ResponseEntity<ProjectInfoDto> getProjectInfo(@PathVariable Long projectId, @PathVariable String workspaceId){
+        return ResponseEntity.ok(projectServiceImpl.getProject(projectId));
     }
 
     @PutMapping("/workspaces/{workspaceId}/projects/{projectId}/info")
-    ResponseEntity<ProjectInfoDto> updateProjectInfo(@PathVariable String projectId,
+    ResponseEntity<ProjectInfoDto> updateProjectInfo(@PathVariable Long projectId,
                                                      @PathVariable String workspaceId,
                                                      @RequestBody UpdateProjectInfoRequest updateProjectInfoRequest){
-        Long id = Long.parseLong(projectId);
-        projectService.updateProjectInfo(updateProjectInfoRequest, id);
-        return ResponseEntity.noContent().header(
-                "X-Description",
-                "Project info updated successfully").build();
+        projectServiceImpl.updateProjectInfo(updateProjectInfoRequest, projectId);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/workspaces/{workspaceId}/projects/{projectId}")
-    ResponseEntity<ProjectInfoDto> deleteProject(@PathVariable String projectId, @PathVariable String workspaceId){
-        Long id = Long.parseLong(projectId);
-        projectService.deleteProject(id);
-        return ResponseEntity.noContent().header(
-                "X-Description",
-                "The project has been deleted").build();
+    ResponseEntity<ProjectInfoDto> deleteProject(@PathVariable Long projectId, @PathVariable String workspaceId){
+        projectServiceImpl.deleteProject(projectId);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/workspaces/{workspaceId}/projects")
     ResponseEntity<ProjectInfoDto> createProject(@PathVariable String workspaceId,
                                                  @RequestBody CreateProjectRequest createProjectRequest){
-        projectService.createProject(createProjectRequest);
+        projectServiceImpl.createProject(createProjectRequest);
         return ResponseEntity.noContent().build();
     }
 
