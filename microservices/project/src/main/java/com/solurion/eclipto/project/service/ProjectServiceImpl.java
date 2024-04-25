@@ -17,10 +17,10 @@ import org.springframework.web.server.ResponseStatusException;
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
-    private final ProjectMapper projectMapperImpl;
+    private final ProjectMapper projectMapper;
 
     public ProjectInfoDto getProject(Long id) {
-        return projectMapperImpl.toDto(projectRepository.findById(id).orElseThrow(
+        return projectMapper.toDto(projectRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"))
         );
     }
@@ -40,9 +40,6 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public void deleteProject(Long id) {
-//        ProjectEntity currentProject = projectRepository.findById(id).orElseThrow(
-//                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"));
-//        projectRepository.delete(currentProject);
         if (projectRepository.existsById(id)) {
             projectRepository.deleteById(id);
         } else {
@@ -51,6 +48,6 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public void createProject(CreateProjectRequest createProjectRequest) {
-        projectRepository.save(projectMapperImpl.toEntity(createProjectRequest));
+        projectRepository.save(projectMapper.toEntity(createProjectRequest));
     }
 }
