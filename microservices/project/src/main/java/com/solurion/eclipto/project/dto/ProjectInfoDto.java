@@ -17,7 +17,7 @@ public class ProjectInfoDto {
     @JsonProperty("description")
     private String description;
 
-    @JsonProperty("leadId")
+    @JsonProperty("lead_id")
     private Long leadId;
 
     public ProjectInfoDto(Long id, String name, String description, Long leadId) {

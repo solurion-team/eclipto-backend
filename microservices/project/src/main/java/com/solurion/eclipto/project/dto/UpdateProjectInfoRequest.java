@@ -17,6 +17,6 @@ public class UpdateProjectInfoRequest {
     @JsonProperty("description")
     private String description;
 
-    @JsonProperty("leadId")
+    @JsonProperty("lead_id")
     private Long leadId;
 }

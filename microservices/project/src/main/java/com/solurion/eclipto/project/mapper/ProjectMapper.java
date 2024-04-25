@@ -9,5 +9,5 @@ public interface ProjectMapper {
 
     ProjectEntity toEntity(ProjectInfoDto dto);
 
-    ProjectEntity CreateProjectRequestToProjectInfoEntity(CreateProjectRequest createProjectRequest);
+    ProjectEntity toEntity(CreateProjectRequest createProjectRequest);
 }

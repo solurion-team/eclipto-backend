@@ -7,8 +7,8 @@ import com.solurion.eclipto.project.entity.ProjectEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProjectMapperImpl implements ProjectMapper{
-    public ProjectInfoDto toDto(ProjectEntity entity){
+public class ProjectMapperImpl implements ProjectMapper {
+    public ProjectInfoDto toDto(ProjectEntity entity) {
         return ProjectInfoDto.builder()
                 .id(entity.getId())
                 .name(entity.getName())
@@ -17,7 +17,7 @@ public class ProjectMapperImpl implements ProjectMapper{
                 .build();
     }
 
-    public ProjectEntity toEntity(ProjectInfoDto dto){
+    public ProjectEntity toEntity(ProjectInfoDto dto) {
         return ProjectEntity.builder()
                 .id(dto.getId())
                 .name(dto.getName())
@@ -26,7 +26,7 @@ public class ProjectMapperImpl implements ProjectMapper{
                 .build();
     }
 
-    public ProjectEntity CreateProjectRequestToProjectInfoEntity(CreateProjectRequest createProjectRequest){
+    public ProjectEntity toEntity(CreateProjectRequest createProjectRequest) {
         return ProjectEntity.builder()
                 .id(null)
                 .name(createProjectRequest.getName())

@@ -4,6 +4,7 @@ import com.solurion.eclipto.project.dto.CreateProjectRequest;
 import com.solurion.eclipto.project.dto.ProjectInfoDto;
 import com.solurion.eclipto.project.dto.UpdateProjectInfoRequest;
 import com.solurion.eclipto.project.entity.ProjectEntity;
+import com.solurion.eclipto.project.mapper.ProjectMapper;
 import com.solurion.eclipto.project.mapper.ProjectMapperImpl;
 import com.solurion.eclipto.project.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +17,9 @@ import org.springframework.web.server.ResponseStatusException;
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
-    private final ProjectMapperImpl projectMapperImpl;
+    private final ProjectMapper projectMapperImpl;
 
-    public ProjectInfoDto getProject(Long id){
+    public ProjectInfoDto getProject(Long id) {
         return projectMapperImpl.toDto(projectRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"))
         );
@@ -27,13 +28,13 @@ public class ProjectServiceImpl implements ProjectService {
     public void updateProjectInfo(UpdateProjectInfoRequest updateProjectInfoRequest, Long id) {
         ProjectEntity currentProjectInfo = projectRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no project with same ID"));
-        if (updateProjectInfoRequest.getDescription() != null){
+        if (updateProjectInfoRequest.getDescription() != null) {
             currentProjectInfo.setDescription(updateProjectInfoRequest.getDescription());
         }
-        if (updateProjectInfoRequest.getName() != null){
+        if (updateProjectInfoRequest.getName() != null) {
             currentProjectInfo.setName(updateProjectInfoRequest.getName());
         }
-        if (updateProjectInfoRequest.getLeadId() != null){
+        if (updateProjectInfoRequest.getLeadId() != null) {
             currentProjectInfo.setLeadId(updateProjectInfoRequest.getLeadId());
         }
     }
@@ -42,14 +43,14 @@ public class ProjectServiceImpl implements ProjectService {
 //        ProjectEntity currentProject = projectRepository.findById(id).orElseThrow(
 //                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"));
 //        projectRepository.delete(currentProject);
-        if (projectRepository.existsById(id)){
+        if (projectRepository.existsById(id)) {
             projectRepository.deleteById(id);
-        }else {
+        } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found");
         }
     }
 
     public void createProject(CreateProjectRequest createProjectRequest) {
-        projectRepository.save(projectMapperImpl.CreateProjectRequestToProjectInfoEntity(createProjectRequest));
+        projectRepository.save(projectMapperImpl.toEntity(createProjectRequest));
     }
 }

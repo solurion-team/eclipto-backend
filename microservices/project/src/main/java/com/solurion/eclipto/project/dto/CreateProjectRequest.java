@@ -13,6 +13,6 @@ public class CreateProjectRequest {
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("leadId")
+    @JsonProperty("lead_id")
     private Long leadId;
 }

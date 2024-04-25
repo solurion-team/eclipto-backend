@@ -23,7 +23,7 @@ public class ProjectEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "leadId", unique = true)
+    @Column(name = "lead_id", unique = true)
     private Long leadId;
 
 
