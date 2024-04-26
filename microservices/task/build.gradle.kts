@@ -4,6 +4,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":common"))
     implementation(libs.database.postgresql)
     implementation(libs.database.h2)
     implementation("org.mapstruct:mapstruct:1.5.5.Final")

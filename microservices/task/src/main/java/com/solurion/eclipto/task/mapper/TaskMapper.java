@@ -7,11 +7,14 @@ import com.solurion.eclipto.task.dto.UpdateTaskRequest;
 import com.solurion.eclipto.task.entity.TaskEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValueCheckStrategy;
 
 @Mapper(
         uses = TaskStatusMapper.class,
         componentModel = "spring"
 )
+
 public interface TaskMapper {
     TaskInfoDto toTaskInfoDto(TaskEntity taskEntity);
 
@@ -22,5 +25,4 @@ public interface TaskMapper {
     TaskEntity toTaskEntity(PostLiteTaskRequest postLiteTaskRequest);
 
     TaskLiteDto toTaskLiteDto(TaskEntity taskEntity);
-
 }

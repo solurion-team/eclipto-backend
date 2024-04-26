@@ -18,3 +18,18 @@ spring:
       path: /h2-console
       settings:
         web-allow-others: true
+
+auth:
+  jwks-kid: 5bd61546-a85a-4d6a-8113-9e6c6f4425dd
+  jwt:
+    issuer: http://localhost:8080
+    period:
+      days: 7
+      hours: 10
+
+logging:
+  level:
+    org:
+      springframework:
+        security:
+          oauth2: DEBUG

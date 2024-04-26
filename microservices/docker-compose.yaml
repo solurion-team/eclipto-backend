@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  user:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: user
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+    environment:
+      - JWK_KID
+      - JWKS_URL
+      - FRONTEND_ORIGIN
+
+#  postgres:
+#    image: postgres:16.2
+#    environment:
+#      POSTGRES_DB: mydatabase
+#      POSTGRES_USER: user
+#      POSTGRES_PASSWORD: password
+#    ports:
+#      - "5432:5432"
+#    networks:
+#      - backend
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
+
+networks:
+  backend:
+
+volumes:
+  pgdata:

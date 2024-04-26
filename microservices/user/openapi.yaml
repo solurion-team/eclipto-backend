@@ -4,28 +4,240 @@ info:
   description: User microservice
   version: 1.0.0
 servers:
-  - url: 'http'
+  - url: 'http://localhost:8080'
+    description: Local debug server
 paths:
-  /users/{id}:
-    get:
-      summary: "Get user"
-      description: "Getting user information by provided id"
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            minimum: 1
+  /v1/auth/register:
+    post:
+      summary: "Register a user"
+      description: "Register a new user in the system"
+      operationId: register
+      tags:
+        - auth
+      requestBody:
+        required: true
+        description: "User registration info"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
       responses:
         200:
-          description: "User exists"
+          description: "User successfully registered"
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  name:
-                    type: string
-                  age:
-                    type: integer
+                $ref: "#/components/schemas/JwtAuthenticationResponse"
+        400:
+          description: "User with same email already exists"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+  /v1/auth/login:
+    post:
+      summary: "Login"
+      description: "Login using the provided credentials"
+      operationId: login
+      tags:
+        - auth
+      requestBody:
+        required: true
+        description: "User login info"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        200:
+          description: "User successfully authenticated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JwtAuthenticationResponse"
+        403:
+          description: "Wrong password or email"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+  /v1/auth/jwks:
+    get:
+      description: Get jwks to verify the jwt signature
+      operationId: getJwks
+      tags:
+        - auth
+      responses:
+        200:
+          description: "The user has been found"
+          content:
+            application/json:
+              schema:
+                type: string
+                example: {'keys': [...]}
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+
+  /v1/users/{userId}:
+    get:
+      description: Get user info
+      operationId: getUser
+      tags:
+        - user
+      security:
+        - bearerHttpAuthentication: []
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        200:
+          description: "The user has been found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserInfoDto"
+        403:
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+    put:
+      description: Update user info
+      operationId: updateUser
+      tags:
+        - user
+      security:
+        - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      requestBody:
+        description: Request to update a user
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserRequest"
+      responses:
+        200:
+          description: "The user has been updated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserInfoDto"
+        403:
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+
+components:
+  securitySchemes:
+    bearerHttpAuthentication:
+      description: Bearer token using a JWT
+      type: http
+      scheme: Bearer
+      bearerFormat: JWT
+
+  parameters:
+    UserId:
+      name: userId
+      in: path
+      description: ID of a user
+      required: true
+      schema:
+        type: integer
+        format: int64
+        example: "3746287468"
+
+  schemas:
+    UserInfoDto:
+      description: User information
+      type: object
+      properties:
+        id:
+          description: "ID of the user"
+          type: integer
+          format: int64
+          example: 7438546582
+        first_name:
+          description: "User first name"
+          type: string
+          example: "John"
+        last_name:
+          description: "User last name"
+          type: string
+          example: "Lastname"
+        email:
+          description: "User email"
+          type: string
+          example: "myemail@mail.com"
+      required:
+        - id
+        - first_name
+        - email
+    UpdateUserRequest:
+      description: Update user information request
+      type: object
+      properties:
+        first_name:
+          description: "User first name"
+          type: string
+          example: "John"
+        last_name:
+          description: "User last name"
+          type: string
+          example: "Lastname"
+    RegisterRequest:
+      description: Request schema to register user
+      properties:
+        first_name:
+          description: "User first name"
+          type: string
+          example: "John"
+        last_name:
+          description: "User last name"
+          type: string
+          example: "Lastname"
+        email:
+          description: "User email"
+          type: string
+          example: "myemail@mail.com"
+        password:
+          description: "The password that the user will use for further authentication"
+          type: string
+          example: "3757385734"
+      required:
+        - first_name
+        - email
+        - password
+    LoginRequest:
+      description: Request schema to login user
+      properties:
+        email:
+          description: "User email"
+          type: string
+          example: "myemail@mail.com"
+        password:
+          description: "The password that the user will use for further authentication"
+          type: string
+          example: "3757385734"
+      required:
+        - email
+        - password
+    JwtAuthenticationResponse:
+      description: Success authentication response
+      properties:
+        access_token:
+          description: "Signed jwt token"
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      required:
+        - access_token
