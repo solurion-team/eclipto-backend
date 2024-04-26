@@ -3,9 +3,9 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":common"))
     implementation(libs.database.postgresql)
     implementation(libs.database.h2)
-    implementation(project(":common"))
 }
 
 group = "com.solurion.eclipto.workspace"

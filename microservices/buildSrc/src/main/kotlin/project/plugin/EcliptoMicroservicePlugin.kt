@@ -33,8 +33,11 @@ class EcliptoMicroservicePlugin : Plugin<Project> {
             implementation(libs.spring.boot.starter.validation)
             implementation(libs.spring.boot.starter.websocket)
             implementation(libs.lombok)
-            annotationProcessor(libs.spring.boot.configuration.processor)
+            implementation(libs.mapstruct)
+            implementation(libs.mapstruct.processor)
             annotationProcessor(libs.lombok)
+            annotationProcessor(libs.mapstruct.processor)
+            annotationProcessor(libs.spring.boot.configuration.processor)
             testImplementation(libs.spring.boot.starter.test)
         }
 
