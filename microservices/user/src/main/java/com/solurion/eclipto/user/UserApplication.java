@@ -3,10 +3,31 @@
  */
 package com.solurion.eclipto.user;
 
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.jwk.Curve;
+import com.nimbusds.jose.jwk.KeyUse;
+import com.nimbusds.jose.jwk.OctetKeyPair;
+import com.nimbusds.jose.jwk.gen.OctetKeyPairGenerator;
+import com.nimbusds.jose.util.Base64URL;
+import com.nimbusds.jose.util.IOUtils;
+import com.solurion.eclipto.common.annotation.EcliptoResourceServer;
+import com.solurion.eclipto.common.exception.GlobalControllerExceptionHandler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyFactory;
+import java.security.PublicKey;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
+import java.util.Date;
+import java.util.UUID;
 
 @SpringBootApplication
+@EcliptoResourceServer
 public class UserApplication {
     public static void main(String[] args) {
         SpringApplication.run(UserApplication.class);

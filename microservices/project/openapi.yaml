@@ -13,6 +13,8 @@ paths:
       operationId: getProjectInfo
       tags:
         - project
+      security:
+        - bearerHttpAuthentication: [ ]
       parameters:
         - $ref: "#/components/parameters/WorkspaceId"
         - $ref: "#/components/parameters/ProjectId"
@@ -28,14 +30,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
-          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
     put:
       description: Update project infor
       operationId: updateProjectInfo
       tags:
         - project
+      security:
+        - bearerHttpAuthentication: [ ]
       requestBody:
         $ref: "#/components/requestBodies/UpdateProjectInfoRequestBody"
       responses:
@@ -46,15 +50,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
-          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
   /workspaces/{workspaceId}/projects/{projectId}:
     delete:
       description: Permanently delete project
       operationId: deleteProject
       tags:
         - project
+      security:
+        - bearerHttpAuthentication: [ ]
       parameters:
         - $ref: "#/components/parameters/WorkspaceId"
         - $ref: "#/components/parameters/ProjectId"
@@ -70,15 +76,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
-          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
   /workspaces/{workspaceId}/projects:
     post:
       description: Create project with required information
       operationId: postProject
       tags:
         - project
+      security:
+        - bearerHttpAuthentication: [ ]
       requestBody:
         $ref: "#/components/requestBodies/CreateProjectRequestBody"
       responses:
@@ -89,9 +97,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
-          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
 
 components:
   parameters:

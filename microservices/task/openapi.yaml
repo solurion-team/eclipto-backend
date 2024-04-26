@@ -16,6 +16,8 @@ paths:
       operationId: getTask
       tags:
         - task
+      security:
+        - bearerHttpAuthentication: [ ]
       parameters:
         - $ref: "#/components/parameters/ProjectId"
         - $ref: "#/components/parameters/TaskId"
@@ -31,14 +33,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
-          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
     delete:
       description: Permanently delete task
       operationId: deleteTask
       tags:
         - task
+      security:
+        - bearerHttpAuthentication: [ ]
       parameters:
         - $ref: "#/components/parameters/ProjectId"
         - $ref: "#/components/parameters/TaskId"
@@ -50,27 +54,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
-          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
   /projects/{projectId}/tasks:
     delete:
       description: Delete all tasks
       operationId: deleteAllTasks
       tags:
         - task
+      security:
+        - bearerHttpAuthentication: [ ]
       parameters:
         - $ref: "#/components/parameters/ProjectId"
       responses:
         204:
           description: "Tasks delete successfully"
         default:
-          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
     post:
       description: Create task with lite information
       operationId: postLiteTask
       tags:
         - task
+      security:
+        - bearerHttpAuthentication: [ ]
       parameters:
         - $ref: "#/components/parameters/ProjectId"
       requestBody:
@@ -83,14 +91,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
-          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
     put:
       description: Update task information
       operationId: updateTask
       tags:
         - task
+      security:
+        - bearerHttpAuthentication: [ ]
       parameters:
         - $ref: "#/components/parameters/ProjectId"
       requestBody:
@@ -103,14 +113,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
-          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
     get:
       description: Get all project tasks with full information
       operationId: getFullTasks
       tags:
         - task
+      security:
+        - bearerHttpAuthentication: [ ]
       parameters:
         - $ref: "#/components/parameters/ProjectId"
       responses:
@@ -123,13 +135,15 @@ paths:
                 items:
                   $ref: '#/components/schemas/TaskInfoDto'
         default:
-          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
   /projects/{projectId}/tasks-lite:
     get:
       description: Get all project tasks with lite information
       operationId: getLiteTasks
       tags:
         - task
+      security:
+        - bearerHttpAuthentication: [ ]
       parameters:
         - $ref: "#/components/parameters/ProjectId"
       responses:
@@ -142,13 +156,15 @@ paths:
                 items:
                   $ref: '#/components/schemas/TaskLiteDto'
         default:
-          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
   /projects/{projectId}/tasks/statuses:
     post:
       description: Create tasks status
       operationId: postTaskStatus
       tags:
         - task
+      security:
+        - bearerHttpAuthentication: [ ]
       parameters:
         - $ref: "#/components/parameters/ProjectId"
       requestBody:
@@ -157,12 +173,14 @@ paths:
         204:
           description: "Status created successfully"
         default:
-          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
     put:
       description: Update task status information
       operationId: updateTaskStatus
       tags:
         - task
+      security:
+        - bearerHttpAuthentication: [ ]
       parameters:
         - $ref: "#/components/parameters/ProjectId"
       requestBody:
@@ -175,11 +193,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../api/common.yaml#/components/schemas/ErrorDto"
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
-          $ref: "../api/common.yaml#/components/responses/UnexpectedErrorResponse"
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
 
 components:
+  securitySchemes:
+    bearerHttpAuthentication:
+      description: Bearer token using a JWT
+      type: http
+      scheme: Bearer
+      bearerFormat: JWT
+      
   parameters:
     ProjectId:
       name: projectId

@@ -56,6 +56,7 @@ public class TaskServiceImpl implements TaskService {
             }
 
         }
+
         if (updateTaskRequest.getTitle() != null) {
             task.setTitle(updateTaskRequest.getTitle());
         }
