@@ -10,7 +10,7 @@ servers:
   - url: 'http://localhost:8080/internal/v1'
     description: Local debug server
 paths:
-  /projects/{projectId}/tasks/{taskId}:
+  /v1/tasks/{taskId}:
     get:
       description: Get full task info
       operationId: getTask
@@ -19,7 +19,6 @@ paths:
       security:
         - bearerHttpAuthentication: [ ]
       parameters:
-        - $ref: "#/components/parameters/ProjectId"
         - $ref: "#/components/parameters/TaskId"
       responses:
         200:
@@ -44,7 +43,6 @@ paths:
       security:
         - bearerHttpAuthentication: [ ]
       parameters:
-        - $ref: "#/components/parameters/ProjectId"
         - $ref: "#/components/parameters/TaskId"
       responses:
         204:
@@ -57,21 +55,7 @@ paths:
                 $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
-  /projects/{projectId}/tasks:
-    delete:
-      description: Delete all tasks
-      operationId: deleteAllTasks
-      tags:
-        - task
-      security:
-        - bearerHttpAuthentication: [ ]
-      parameters:
-        - $ref: "#/components/parameters/ProjectId"
-      responses:
-        204:
-          description: "Tasks delete successfully"
-        default:
-          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+  /v1/projects/{projectId}/tasks:
     post:
       description: Create task with lite information
       operationId: postLiteTask
@@ -118,7 +102,7 @@ paths:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
     get:
       description: Get all project tasks with full information
-      operationId: getFullTasks
+      operationId: getAllTasks
       tags:
         - task
       security:
@@ -136,7 +120,7 @@ paths:
                   $ref: '#/components/schemas/TaskInfoDto'
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
-  /projects/{projectId}/tasks-lite:
+  /v1/projects/{projectId}/tasks/lite:
     get:
       description: Get all project tasks with lite information
       operationId: getLiteTasks
@@ -157,7 +141,7 @@ paths:
                   $ref: '#/components/schemas/TaskLiteDto'
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
-  /projects/{projectId}/tasks/statuses:
+  /v1/projects/{projectId}/tasks/statuses:
     post:
       description: Create tasks status
       operationId: postTaskStatus

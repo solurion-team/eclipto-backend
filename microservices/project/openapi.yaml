@@ -4,10 +4,10 @@ info:
   description: Api specification for project microservice
   version: 1.0.0
 servers:
-  - url: 'http://localhost:8080/internal/v1'
+  - url: 'http://localhost:8080/api'
     description: Local debug server
 paths:
-  /workspaces/{workspaceId}/projects/{projectId}/info:
+  /v1/projects/{projectId}:
     get:
       description: Get full project info
       operationId: getProjectInfo
@@ -16,7 +16,6 @@ paths:
       security:
         - bearerHttpAuthentication: [ ]
       parameters:
-        - $ref: "#/components/parameters/WorkspaceId"
         - $ref: "#/components/parameters/ProjectId"
       responses:
         200:
@@ -45,6 +44,10 @@ paths:
       responses:
         204:
           description: "Project info updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectInfoDto"
         403:
           description: "There is no project with same ID"
           content:
@@ -53,7 +56,6 @@ paths:
                 $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
-  /workspaces/{workspaceId}/projects/{projectId}:
     delete:
       description: Permanently delete project
       operationId: deleteProject
@@ -62,7 +64,6 @@ paths:
       security:
         - bearerHttpAuthentication: [ ]
       parameters:
-        - $ref: "#/components/parameters/WorkspaceId"
         - $ref: "#/components/parameters/ProjectId"
       responses:
         204:
@@ -79,7 +80,7 @@ paths:
                 $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
-  /workspaces/{workspaceId}/projects:
+  /v1/workspaces/{workspaceId}/projects:
     post:
       description: Create project with required information
       operationId: postProject
@@ -90,14 +91,12 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/CreateProjectRequestBody"
       responses:
-        204:
+        200:
           description: "Project created successfully"
-        403:
-          description: "Project with same ID already exists"
           content:
             application/json:
               schema:
-                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ProjectInfoDto"
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
 
