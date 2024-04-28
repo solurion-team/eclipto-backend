@@ -4,9 +4,11 @@ package com.solurion.eclipto.project.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
+import lombok.extern.jackson.Jacksonized;
 
 @Data
 @Builder(toBuilder = true)
+@Jacksonized
 public class ProjectInfoDto {
     @JsonProperty("id")
     private final Long id;
