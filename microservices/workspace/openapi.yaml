@@ -7,3 +7,170 @@ servers:
   - url: 'http://localhost:8080'
     description: Local debug server
 paths:
+  /v1/workspaces/{workspaceId}:
+    get:
+      description: Get full workspace info
+      operationId: getWorkspaceInfo
+      tags:
+        - workspace
+      security:
+        - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/WorkspaceId"
+      responses:
+        200:
+          description: "The workspace has been found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkspaceInfoDto"
+        403:
+          description: "Workspace not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+    put:
+      description: Update workspace infor
+      operationId: updateWorkspaceInfo
+      tags:
+        - workspace
+      security:
+        - bearerHttpAuthentication: [ ]
+      requestBody:
+        $ref: "#/components/requestBodies/UpdateWorkspaceInfoRequestBody"
+      responses:
+        204:
+          description: "Workspace info updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkspaceInfoDto"
+        403:
+          description: "There is no workspace with same ID"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+    delete:
+      description: Permanently delete workspace
+      operationId: deleteWorkspace
+      tags:
+        - workspace
+      security:
+        - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/WorkspaceId"
+      responses:
+        204:
+          description: "The workspace has been deleted"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkspaceInfoDto"
+        403:
+          description: "Workspace not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+  /v1/workspaces:
+    post:
+      description: Create workspace with required information
+      operationId: postWorkspace
+      tags:
+        - workspace
+      security:
+        - bearerHttpAuthentication: [ ]
+      requestBody:
+        $ref: "#/components/requestBodies/CreateWorkspaceRequestBody"
+      responses:
+        200:
+          description: "Workspace created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkspaceInfoDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+
+components:
+  parameters:
+    WorkspaceId:
+      name: workspaceId
+      in: path
+      description: ID of a workspace
+      required: true
+      schema:
+        type: integer
+        example: "3746287468"
+
+  requestBodies:
+    CreateWorkspaceRequestBody:
+      description: Request to create a workspace
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CreateWorkspaceRequest"
+    UpdateWorkspaceInfoRequestBody:
+      description: Request to update a workspace
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UpdateWorkspaceRequest"
+
+  schemas:
+    WorkspaceInfoDto:
+      description: Workspace information
+      type: object
+      properties:
+        id:
+          description: "ID of the workspace"
+          type: integer
+          example: 7438546582
+        name:
+          description: "Workspace name, which identifies the workspace to the user"
+          type: string
+          example: "eclipto-backend"
+        description:
+          description: "A workspace description that provides more detailed information about the workspace"
+          type: string
+          example: "Workspace of solurion company"
+        owner_id:
+          description: "Workspace owner user id"
+          type: integer
+          example: "3757385734"
+      required:
+        - id
+        - name
+        - owner_id
+    CreateWorkspaceRequest:
+      description: Request schema to create a workspace
+      properties:
+        name:
+          description: "Workspace name, which identifies the workspace to the user"
+          type: string
+          example: "eclipto-backend"
+        description:
+          description: "A workspace description that provides more detailed information about the workspace"
+          type: string
+          example: "Workspace of solurion company"
+      required:
+        - name
+    UpdateWorkspaceRequest:
+      description: Request schema to update a workspace
+      properties:
+        name:
+          description: "Workspace name, which identifies the workspace to the user"
+          type: string
+          example: "eclipto-backend"
+        description:
+          description: "A workspace description that provides more detailed information about the workspace"
+          type: string
+          example: "Workspace about microservice based eclipto backend workspace, that implement api-gateway pattern and ..."

@@ -125,36 +125,13 @@ components:
       content:
         application/json:
           schema:
-            properties:
-              name:
-                description: "Project name, which identifies the project to the user"
-                type: string
-                example: "eclipto-backend"
-              lead_id:
-                description: "Project lead user id"
-                type: integer
-                example: "3757385734"
-            required:
-              - name
-              - lead_id
+            $ref: "#/components/schemas/CreateProjectRequest"
     UpdateProjectInfoRequestBody:
       description: Request to update a project
       content:
         application/json:
           schema:
-            properties:
-              name:
-                description: "Project name, which identifies the project to the user"
-                type: string
-                example: "eclipto-backend"
-              description:
-                description: "A project description that provides more detailed information about the project"
-                type: string
-                example: "Project about microservice based eclipto backend project, that implement api-gateway pattern and ..."
-              lead_id:
-                description: "Project lead user id"
-                type: integer
-                example: "3757385734"
+            $ref: "#/components/schemas/UpdateProjectRequest"
 
   schemas:
     ProjectInfoDto:
@@ -188,6 +165,10 @@ components:
           description: "Project name, which identifies the project to the user"
           type: string
           example: "eclipto-backend"
+        description:
+          description: "A project description that provides more detailed information about the project"
+          type: string
+          example: "Project about microservice based eclipto backend project, that implement api-gateway pattern and ..."
         lead_id:
           description: "Project lead user id"
           type: integer
@@ -195,7 +176,7 @@ components:
       required:
         - name
         - lead_id
-    UpdateProjectInfoRequest:
+    UpdateProjectRequest:
       description: Request schema to update a project
       properties:
         name:
