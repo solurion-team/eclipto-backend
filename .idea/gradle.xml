@@ -25,6 +25,7 @@
             <option value="$PROJECT_DIR$/microservices/project" />
             <option value="$PROJECT_DIR$/microservices/task" />
             <option value="$PROJECT_DIR$/microservices/user" />
+            <option value="$PROJECT_DIR$/microservices/workspace" />
           </set>
         </option>
       </GradleProjectSettings>

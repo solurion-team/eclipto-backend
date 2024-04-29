@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: org.openapitools:openapi-generator-core:7.4.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.openapitools" artifactId="openapi-generator-core" version="7.4.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openapitools/openapi-generator-core/7.4.0/f05f26014b3b70ec9ab6f1e07ef6e15c5bbb11ff/openapi-generator-core-7.4.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

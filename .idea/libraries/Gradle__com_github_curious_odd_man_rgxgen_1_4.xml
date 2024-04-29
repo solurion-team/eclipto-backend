@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.curious-odd-man:rgxgen:1.4" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="com.github.curious-odd-man" artifactId="rgxgen" version="1.4" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.curious-odd-man/rgxgen/1.4/8d5947bd00bd8e12313c56b5e6f5f9f2f0e34433/rgxgen-1.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

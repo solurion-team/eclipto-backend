@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.swagger.parser.v3:swagger-parser-v2-converter:2.1.18" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.swagger.parser.v3" artifactId="swagger-parser-v2-converter" version="2.1.18" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.swagger.parser.v3/swagger-parser-v2-converter/2.1.18/77bdc46ed4dfe4045e4c37ad793fa1ba78b2cb8f/swagger-parser-v2-converter-2.1.18.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
