@@ -9,5 +9,5 @@ public interface ProjectMapper {
 
     ProjectEntity toEntity(ProjectInfoDto dto);
 
-    ProjectEntity toEntity(CreateProjectRequest createProjectRequest);
+    ProjectEntity toEntity(CreateProjectRequest createProjectRequest, Long workspaceId);
 }

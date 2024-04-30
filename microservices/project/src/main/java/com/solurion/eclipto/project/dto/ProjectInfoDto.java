@@ -2,6 +2,7 @@ package com.solurion.eclipto.project.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
@@ -10,15 +11,18 @@ import lombok.extern.jackson.Jacksonized;
 @Builder(toBuilder = true)
 @Jacksonized
 public class ProjectInfoDto {
+    @NotNull
     @JsonProperty("id")
     private final Long id;
 
+    @NotNull
     @JsonProperty("name")
     private String name;
 
     @JsonProperty("description")
     private String description;
 
+    @NotNull
     @JsonProperty("lead_id")
     private Long leadId;
 

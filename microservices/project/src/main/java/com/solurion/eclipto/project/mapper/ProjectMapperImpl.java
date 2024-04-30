@@ -26,12 +26,23 @@ public class ProjectMapperImpl implements ProjectMapper {
                 .build();
     }
 
-    public ProjectEntity toEntity(CreateProjectRequest createProjectRequest) {
+    @Override
+    public ProjectEntity toEntity(CreateProjectRequest createProjectRequest, Long workspaceId) {
         return ProjectEntity.builder()
                 .id(null)
                 .name(createProjectRequest.getName())
-                .description(null)
+                .description(createProjectRequest.getDescription())
                 .leadId(createProjectRequest.getLeadId())
+                .workspaceId(workspaceId)
                 .build();
     }
+
+//    public ProjectEntity toEntity(CreateProjectRequest createProjectRequest) {
+//        return ProjectEntity.builder()
+//                .id(null)
+//                .name(createProjectRequest.getName())
+//                .description(null)
+//                .leadId(createProjectRequest.getLeadId())
+//                .build();
+//    }
 }

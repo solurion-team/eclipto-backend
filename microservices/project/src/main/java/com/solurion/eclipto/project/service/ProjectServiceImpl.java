@@ -2,11 +2,12 @@ package com.solurion.eclipto.project.service;
 
 import com.solurion.eclipto.project.dto.CreateProjectRequest;
 import com.solurion.eclipto.project.dto.ProjectInfoDto;
-import com.solurion.eclipto.project.dto.UpdateProjectInfoRequest;
+import com.solurion.eclipto.project.dto.UpdateProjectRequest;
 import com.solurion.eclipto.project.entity.ProjectEntity;
 import com.solurion.eclipto.project.mapper.ProjectMapper;
 import com.solurion.eclipto.project.mapper.ProjectMapperImpl;
 import com.solurion.eclipto.project.repository.ProjectRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -25,17 +26,18 @@ public class ProjectServiceImpl implements ProjectService {
         );
     }
 
-    public void updateProjectInfo(UpdateProjectInfoRequest updateProjectInfoRequest, Long id) {
+    @Transactional
+    public void updateProjectInfo(UpdateProjectRequest updateProjectRequest, Long id) {
         ProjectEntity currentProjectInfo = projectRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no project with same ID"));
-        if (updateProjectInfoRequest.getDescription() != null) {
-            currentProjectInfo.setDescription(updateProjectInfoRequest.getDescription());
+        if (updateProjectRequest.getDescription() != null) {
+            currentProjectInfo.setDescription(updateProjectRequest.getDescription());
         }
-        if (updateProjectInfoRequest.getName() != null) {
-            currentProjectInfo.setName(updateProjectInfoRequest.getName());
+        if (updateProjectRequest.getName() != null) {
+            currentProjectInfo.setName(updateProjectRequest.getName());
         }
-        if (updateProjectInfoRequest.getLeadId() != null) {
-            currentProjectInfo.setLeadId(updateProjectInfoRequest.getLeadId());
+        if (updateProjectRequest.getLeadId() != null) {
+            currentProjectInfo.setLeadId(updateProjectRequest.getLeadId());
         }
     }
 
@@ -47,7 +49,10 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
-    public void createProject(CreateProjectRequest createProjectRequest) {
-        projectRepository.save(projectMapper.toEntity(createProjectRequest));
+    @Override
+    public void createProject(CreateProjectRequest createProjectRequest, Long workspaceId) {
+        projectRepository.save(projectMapper.toEntity(createProjectRequest, workspaceId));
     }
+
+
 }
