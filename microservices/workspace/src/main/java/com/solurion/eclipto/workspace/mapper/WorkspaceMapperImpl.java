@@ -1,5 +1,6 @@
 package com.solurion.eclipto.workspace.mapper;
 
+import com.solurion.eclipto.workspace.dto.CreateWorkspaceRequest;
 import com.solurion.eclipto.workspace.dto.WorkspaceInfoDto;
 import com.solurion.eclipto.workspace.entity.WorkspaceEntity;
 import org.springframework.stereotype.Component;
@@ -23,5 +24,14 @@ public class WorkspaceMapperImpl implements WorkspaceMapper {
                 .name(entity.getName())
                 .description(entity.getDescription())
                 .ownerId(entity.getOwnerId()).build();
+    }
+
+    @Override
+    public WorkspaceEntity toEntity(CreateWorkspaceRequest request){
+        return WorkspaceEntity.builder()
+                .id(null)
+                .name(request.getName())
+                .description(request.getDescription())
+                .ownerId(null).build();
     }
 }

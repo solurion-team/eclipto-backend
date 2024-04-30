@@ -1,5 +1,6 @@
 package com.solurion.eclipto.workspace.dto;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -9,21 +10,11 @@ import lombok.extern.jackson.Jacksonized;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Data
-
-public class WorkspaceInfoDto {
-    @NotNull
-    @JsonProperty("id")
-    private Long id;
-
+public class CreateWorkspaceRequest {
     @NotNull
     @JsonProperty("name")
-    private String name;
+    String name;
 
     @JsonProperty("description")
-    private String description;
-
-    @NotNull
-    @JsonProperty("owner_id")
-    private Long ownerId;
-
+    String description;
 }
