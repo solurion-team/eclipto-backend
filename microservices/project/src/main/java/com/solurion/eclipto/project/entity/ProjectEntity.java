@@ -26,5 +26,6 @@ public class ProjectEntity {
     @Column(name = "lead_id", unique = true)
     private Long leadId;
 
-
+    @Column(name = "workspace_id", unique = true)
+    private Long workspaceId;
 }

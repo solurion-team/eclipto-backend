@@ -11,7 +11,7 @@ import lombok.extern.jackson.Jacksonized;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @Jacksonized
-public class UpdateProjectInfoRequest {
+public class UpdateProjectRequest {
 
     @JsonProperty("name")
     private String name;
