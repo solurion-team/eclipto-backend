@@ -4,7 +4,7 @@ info:
   description: Workspace microservice
   version: 1.0.0
 servers:
-  - url: 'http://localhost:8080'
+  - url: 'http://localhost:8083'
     description: Local debug server
 paths:
   /v1/workspaces/{workspaceId}:
@@ -33,10 +33,12 @@ paths:
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
     put:
-      description: Update workspace infor
+      description: Update workspace info
       operationId: updateWorkspaceInfo
       tags:
         - workspace
+      parameters:
+        - $ref: "#/components/parameters/WorkspaceId"
       security:
         - bearerHttpAuthentication: [ ]
       requestBody:
