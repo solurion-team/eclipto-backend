@@ -8,6 +8,7 @@ import com.solurion.eclipto.user.entity.UserRole;
 import com.solurion.eclipto.user.dto.RegisterRequest;
 import com.solurion.eclipto.user.dto.UserInfoDto;
 import com.solurion.eclipto.user.mapper.UserMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,6 +48,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         );
     }
 
+    @Transactional
     @Override
     public UserInfoDto updateUser(Long id, UpdateUserRequest updateUserRequest) {
         UserEntity entity = userRepository.findById(id)
