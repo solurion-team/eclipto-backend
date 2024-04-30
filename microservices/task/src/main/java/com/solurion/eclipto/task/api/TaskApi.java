@@ -44,40 +44,9 @@ import jakarta.annotation.Generated;
 public interface TaskApi {
 
     /**
-     * DELETE /projects/{projectId}/tasks
-     * Delete all tasks
-     *
-     * @param projectId ID of a project that contains tasks (required)
-     * @return Tasks delete successfully (status code 204)
-     *         or Unexpected error (status code 200)
-     */
-    @Operation(
-        operationId = "deleteAllTasks",
-        description = "Delete all tasks",
-        tags = { "task" },
-        responses = {
-            @ApiResponse(responseCode = "204", description = "Tasks delete successfully"),
-            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.DELETE,
-        value = "/projects/{projectId}/tasks",
-        produces = { "application/json" }
-    )
-    
-    ResponseEntity<Void> deleteAllTasks(
-        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId
-    );
-
-
-    /**
-     * DELETE /projects/{projectId}/tasks/{taskId}
+     * DELETE /v1/tasks/{taskId}
      * Permanently delete task
      *
-     * @param projectId ID of a project that contains tasks (required)
      * @param taskId ID of a task (required)
      * @return The task has been deleted (status code 204)
      *         or Task not found (status code 403)
@@ -95,22 +64,24 @@ public interface TaskApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/projects/{projectId}/tasks/{taskId}",
+        value = "/v1/tasks/{taskId}",
         produces = { "application/json" }
     )
     
     ResponseEntity<Void> deleteTask(
-        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId,
         @Parameter(name = "taskId", description = "ID of a task", required = true, in = ParameterIn.PATH) @PathVariable("taskId") Long taskId
     );
 
 
     /**
-     * GET /projects/{projectId}/tasks
+     * GET /v1/projects/{projectId}/tasks
      * Get all project tasks with full information
      *
      * @param projectId ID of a project that contains tasks (required)
@@ -118,7 +89,7 @@ public interface TaskApi {
      *         or Unexpected error (status code 200)
      */
     @Operation(
-        operationId = "getFullTasks",
+        operationId = "getAllTasks",
         description = "Get all project tasks with full information",
         tags = { "task" },
         responses = {
@@ -128,21 +99,24 @@ public interface TaskApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/projects/{projectId}/tasks",
+        value = "/v1/projects/{projectId}/tasks",
         produces = { "application/json" }
     )
     
-    ResponseEntity<List<TaskInfoDto>> getFullTasks(
+    ResponseEntity<List<TaskInfoDto>> getAllTasks(
         @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId
     );
 
 
     /**
-     * GET /projects/{projectId}/tasks-lite
+     * GET /v1/projects/{projectId}/tasks/lite
      * Get all project tasks with lite information
      *
      * @param projectId ID of a project that contains tasks (required)
@@ -160,11 +134,14 @@ public interface TaskApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/projects/{projectId}/tasks-lite",
+        value = "/v1/projects/{projectId}/tasks/lite",
         produces = { "application/json" }
     )
     
@@ -174,10 +151,9 @@ public interface TaskApi {
 
 
     /**
-     * GET /projects/{projectId}/tasks/{taskId}
+     * GET /v1/tasks/{taskId}
      * Get full task info
      *
-     * @param projectId ID of a project that contains tasks (required)
      * @param taskId ID of a task (required)
      * @return The task has been found (status code 200)
      *         or Task not found (status code 403)
@@ -197,22 +173,24 @@ public interface TaskApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/projects/{projectId}/tasks/{taskId}",
+        value = "/v1/tasks/{taskId}",
         produces = { "application/json" }
     )
     
     ResponseEntity<TaskInfoDto> getTask(
-        @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId,
         @Parameter(name = "taskId", description = "ID of a task", required = true, in = ParameterIn.PATH) @PathVariable("taskId") Long taskId
     );
 
 
     /**
-     * POST /projects/{projectId}/tasks
+     * POST /v1/projects/{projectId}/tasks
      * Create task with lite information
      *
      * @param projectId ID of a project that contains tasks (required)
@@ -233,11 +211,14 @@ public interface TaskApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/projects/{projectId}/tasks",
+        value = "/v1/projects/{projectId}/tasks",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
@@ -249,7 +230,7 @@ public interface TaskApi {
 
 
     /**
-     * POST /projects/{projectId}/tasks/statuses
+     * POST /v1/projects/{projectId}/tasks/statuses
      * Create tasks status
      *
      * @param projectId ID of a project that contains tasks (required)
@@ -266,11 +247,14 @@ public interface TaskApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/projects/{projectId}/tasks/statuses",
+        value = "/v1/projects/{projectId}/tasks/statuses",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
@@ -282,7 +266,7 @@ public interface TaskApi {
 
 
     /**
-     * PUT /projects/{projectId}/tasks
+     * PUT /v1/projects/{projectId}/tasks
      * Update task information
      *
      * @param projectId ID of a project that contains tasks (required)
@@ -303,11 +287,14 @@ public interface TaskApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/projects/{projectId}/tasks",
+        value = "/v1/projects/{projectId}/tasks",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
@@ -319,7 +306,7 @@ public interface TaskApi {
 
 
     /**
-     * PUT /projects/{projectId}/tasks/statuses
+     * PUT /v1/projects/{projectId}/tasks/statuses
      * Update task status information
      *
      * @param projectId ID of a project that contains tasks (required)
@@ -340,11 +327,14 @@ public interface TaskApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/projects/{projectId}/tasks/statuses",
+        value = "/v1/projects/{projectId}/tasks/statuses",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
