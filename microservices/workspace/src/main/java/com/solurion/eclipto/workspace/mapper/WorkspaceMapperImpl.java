@@ -19,11 +19,11 @@ public class WorkspaceMapperImpl implements WorkspaceMapper {
 
     @Override
     public WorkspaceInfoDto toDto(WorkspaceEntity entity) {
-        return WorkspaceInfoDto.builder()
+        return new WorkspaceInfoDto()
                 .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
-                .ownerId(entity.getOwnerId()).build();
+                .ownerId(entity.getOwnerId());
     }
 
     @Override

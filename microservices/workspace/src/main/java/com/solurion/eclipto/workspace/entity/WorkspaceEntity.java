@@ -1,6 +1,5 @@
 package com.solurion.eclipto.workspace.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +14,7 @@ public class WorkspaceEntity {
     @Id
     @SequenceGenerator(name = "sequence_generator", sequenceName = "sequence_generator", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "sequence_generator")
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "name")
@@ -24,6 +23,6 @@ public class WorkspaceEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "ownerId")
+    @Column(name = "ownerId", nullable = false)
     private Long ownerId;
 }
