@@ -117,7 +117,7 @@ public interface WorkspaceApi {
      * Create workspace with required information
      *
      * @param createWorkspaceRequest Request to create a workspace (optional)
-     * @return Workspace created successfully (status code 200)
+     * @return Workspace created successfully (status code 201)
      *         or Unexpected error (status code 200)
      */
     @Operation(
@@ -125,7 +125,7 @@ public interface WorkspaceApi {
         description = "Create workspace with required information",
         tags = { "workspace" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Workspace created successfully", content = {
+            @ApiResponse(responseCode = "201", description = "Workspace created successfully", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = WorkspaceInfoDto.class))
             }),
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
