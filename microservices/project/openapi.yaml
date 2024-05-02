@@ -4,7 +4,7 @@ info:
   description: Api specification for project microservice
   version: 1.0.0
 servers:
-  - url: 'http://localhost:8080/api'
+  - url: 'http://localhost:8080'
     description: Local debug server
 paths:
   /v1/projects/{projectId}:
@@ -91,7 +91,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/CreateProjectRequestBody"
       responses:
-        200:
+        201:
           description: "Project created successfully"
           content:
             application/json:
