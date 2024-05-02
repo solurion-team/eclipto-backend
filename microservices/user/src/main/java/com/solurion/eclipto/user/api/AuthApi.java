@@ -114,7 +114,7 @@ public interface AuthApi {
      * Register a new user in the system
      *
      * @param registerRequest User registration info (required)
-     * @return User successfully registered (status code 200)
+     * @return User successfully registered (status code 201)
      *         or User with same email already exists (status code 400)
      *         or Unexpected error (status code 200)
      */
@@ -124,7 +124,7 @@ public interface AuthApi {
         description = "Register a new user in the system",
         tags = { "auth" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "User successfully registered", content = {
+            @ApiResponse(responseCode = "201", description = "User successfully registered", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = JwtAuthenticationResponse.class))
             }),
             @ApiResponse(responseCode = "400", description = "User with same email already exists", content = {

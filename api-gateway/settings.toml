@@ -1,0 +1,7 @@
+[development]
+port = 8000
+frontend_url = "http://localhost:4200"
+user_service_url = "http://localhost:8080"
+task_service_url = "http://localhost:8081"
+project_service_url = "http://localhost:8082"
+workspace_service_url = "http://localhost:8083"
