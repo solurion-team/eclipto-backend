@@ -1,5 +1,6 @@
 plugins {
     `eclipto-microservice`
+    `eclipto-openapi-generation`
 }
 
 dependencies {

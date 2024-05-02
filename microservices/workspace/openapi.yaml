@@ -39,6 +39,8 @@ paths:
         - workspace
       security:
         - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/WorkspaceId"
       requestBody:
         $ref: "#/components/requestBodies/UpdateWorkspaceInfoRequestBody"
       responses:
@@ -109,6 +111,7 @@ components:
       required: true
       schema:
         type: integer
+        format: int64
         example: "3746287468"
 
   requestBodies:
@@ -133,6 +136,7 @@ components:
         id:
           description: "ID of the workspace"
           type: integer
+          format: int64
           example: 7438546582
         name:
           description: "Workspace name, which identifies the workspace to the user"
@@ -145,6 +149,7 @@ components:
         owner_id:
           description: "Workspace owner user id"
           type: integer
+          format: int64
           example: "3757385734"
       required:
         - id
