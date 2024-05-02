@@ -1,5 +1,0 @@
-src/main/java/com/solurion/eclipto/workspace/api/WorkspaceApi.java
-src/main/java/com/solurion/eclipto/workspace/dto/CreateWorkspaceRequest.java
-src/main/java/com/solurion/eclipto/workspace/dto/ErrorDto.java
-src/main/java/com/solurion/eclipto/workspace/dto/UpdateWorkspaceRequest.java
-src/main/java/com/solurion/eclipto/workspace/dto/WorkspaceInfoDto.java

@@ -4,3 +4,6 @@
 # Ignore Gradle build output directory
 build
 *.iml
+
+# Ignore openapi-generator
+.openapi-generator
