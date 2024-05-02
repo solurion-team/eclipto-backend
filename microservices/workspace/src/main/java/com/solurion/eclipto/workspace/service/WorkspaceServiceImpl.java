@@ -22,7 +22,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     @Override
     public WorkspaceInfoDto getWorkspace(Long id) {
         return workspaceMapper.toDto(workspaceRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                () -> new ResponseStatusException(HttpStatus.FORBIDDEN,
                         "There is no workspace with same ID"))
         );
     }
@@ -31,7 +31,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     @Transactional
     public void updateWorkspaceInfo(UpdateWorkspaceRequest request, Long workspaceId) {
         WorkspaceEntity currentRepositoryInfo = workspaceRepository.findById(workspaceId).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no workspace with same ID")
+                () -> new ResponseStatusException(HttpStatus.FORBIDDEN, "There is no workspace with same ID")
         );
         if (request.getName() != null) {
             currentRepositoryInfo.setName(request.getName());
@@ -46,13 +46,13 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         if (workspaceRepository.existsById(workspaceId)) {
             workspaceRepository.deleteById(workspaceId);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Workspace not found");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Workspace not found");
         }
     }
 
     @Override
-    public void createWorkspace(CreateWorkspaceRequest request) {
-        workspaceRepository.save(workspaceMapper.toEntity(request));
+    public WorkspaceInfoDto createWorkspace(CreateWorkspaceRequest request) {
+        return workspaceMapper.toDto(workspaceRepository.save(workspaceMapper.toEntity(request)));
     }
 
 

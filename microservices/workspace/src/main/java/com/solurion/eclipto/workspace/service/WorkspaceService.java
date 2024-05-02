@@ -11,5 +11,5 @@ public interface WorkspaceService {
 
     void deleteWorkspace(Long workspaceId);
 
-    void createWorkspace(CreateWorkspaceRequest request);
+    WorkspaceInfoDto createWorkspace(CreateWorkspaceRequest request);
 }

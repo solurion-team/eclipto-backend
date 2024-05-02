@@ -13,7 +13,7 @@ import lombok.*;
 public class WorkspaceEntity {
     @Id
     @SequenceGenerator(name = "sequence_generator", sequenceName = "sequence_generator", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sequence_generator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
     @Column(name = "id", nullable = false)
     private Long id;
 
