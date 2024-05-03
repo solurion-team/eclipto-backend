@@ -42,6 +42,8 @@ paths:
         - task
       security:
         - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/TaskId"
       requestBody:
         $ref: "#/components/requestBodies/UpdateTaskRequestBody"
       responses:
