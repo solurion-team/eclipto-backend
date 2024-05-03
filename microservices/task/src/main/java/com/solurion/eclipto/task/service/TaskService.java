@@ -5,21 +5,21 @@ import com.solurion.eclipto.task.dto.*;
 import java.util.List;
 
 public interface TaskService {
-    TaskInfoDto getTaskInfo(Long projectId, Long taskId);
+    void deleteTask(Long taskId);
 
-    void createTask(Long projectId, PostLiteTaskRequest postLiteTaskRequest);
-
-    void updateTask(Long projectId, UpdateTaskRequest updateTaskRequest);
+    List<TaskInfoDto> getAllTasks(Long projectId);
 
     List<TaskLiteDto> getLiteTasks(Long projectId);
 
-    void createTaskStatus(Long projectId, PostTaskStatusRequest taskStatusRequest);
+    TaskStatusDto getProjectTaskStatuses(Long projectId, Boolean includeTasks);
 
-    void updateTaskStatus(Long projectId, TaskStatusDto taskRequest);
+    TaskInfoDto getTask(Long taskId);
 
-    void deleteTask(Long projectId, Long taskId);
+    TaskLiteDto postLiteTask(CreateTaskRequest createTaskRequest);
 
-    void deleteAllTask(Long projectId);
+    TaskStatusDto postTaskStatus(CreateTaskStatusRequest createTaskStatusRequest);
 
-    List<TaskInfoDto> getFullTasks(Long projectId);
+    TaskInfoDto updateTask(Long taskId, UpdateTaskRequest updateTaskRequest);
+
+    TaskStatusDto updateTaskStatus(Long statusId, TaskStatusDto taskStatusDto);
 }

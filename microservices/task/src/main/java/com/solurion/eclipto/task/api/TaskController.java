@@ -1,7 +1,7 @@
 package com.solurion.eclipto.task.api;
 
 import com.solurion.eclipto.task.dto.*;
-import com.solurion.eclipto.task.service.TaskServiceImpl;
+import com.solurion.eclipto.task.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,23 +11,17 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class TaskController implements TaskApi {
-    private final TaskServiceImpl taskService;
+    private final TaskService taskService;
 
     @Override
-    public ResponseEntity<Void> deleteAllTasks(Long projectId) {
-        taskService.deleteAllTask(projectId);
+    public ResponseEntity<Void> deleteTask(Long taskId) {
+        taskService.deleteTask(taskId);
         return ResponseEntity.noContent().build();
     }
 
     @Override
-    public ResponseEntity<Void> deleteTask(Long projectId, Long taskId) {
-        taskService.deleteTask(projectId, taskId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @Override
-    public ResponseEntity<List<TaskInfoDto>> getFullTasks(Long projectId) {
-        return ResponseEntity.ok(taskService.getFullTasks(projectId));
+    public ResponseEntity<List<TaskInfoDto>> getAllTasks(Long projectId) {
+        return ResponseEntity.ok(taskService.getAllTasks(projectId));
     }
 
     @Override
@@ -36,31 +30,32 @@ public class TaskController implements TaskApi {
     }
 
     @Override
-    public ResponseEntity<TaskInfoDto> getTask(Long projectId, Long taskId) {
-        return ResponseEntity.ok(taskService.getTaskInfo(projectId, taskId));
+    public ResponseEntity<TaskStatusDto> getProjectTaskStatuses(Long projectId, Boolean includeTasks) {
+        return ResponseEntity.ok(taskService.getProjectTaskStatuses(projectId, includeTasks));
     }
 
     @Override
-    public ResponseEntity<Void> postLiteTask(Long projectId, PostLiteTaskRequest postLiteTaskRequest) {
-        taskService.createTask(projectId, postLiteTaskRequest);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<TaskInfoDto> getTask(Long taskId) {
+        return ResponseEntity.ok(taskService.getTask(taskId));
     }
 
     @Override
-    public ResponseEntity<Void> postTaskStatus(Long projectId, PostTaskStatusRequest postTaskStatusRequest) {
-        taskService.createTaskStatus(projectId, postTaskStatusRequest);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<TaskLiteDto> postLiteTask(CreateTaskRequest createTaskRequest) {
+        return ResponseEntity.ok(taskService.postLiteTask(createTaskRequest));
     }
 
     @Override
-    public ResponseEntity<Void> updateTask(Long projectId, UpdateTaskRequest updateTaskRequest) {
-        taskService.updateTask(projectId, updateTaskRequest);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<TaskStatusDto> postTaskStatus(CreateTaskStatusRequest createTaskStatusRequest) {
+        return ResponseEntity.ok(taskService.postTaskStatus(createTaskStatusRequest));
     }
 
     @Override
-    public ResponseEntity<Void> updateTaskStatus(Long projectId, TaskStatusDto taskStatusDto) {
-        taskService.updateTaskStatus(projectId, taskStatusDto);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<TaskInfoDto> updateTask(Long taskId, UpdateTaskRequest updateTaskRequest) {
+        return ResponseEntity.ok(taskService.updateTask(taskId, updateTaskRequest));
+    }
+
+    @Override
+    public ResponseEntity<TaskStatusDto> updateTaskStatus(Long statusId, TaskStatusDto taskStatusDto) {
+        return ResponseEntity.ok(taskService.updateTaskStatus(statusId, taskStatusDto));
     }
 }
