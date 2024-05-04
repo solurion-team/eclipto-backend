@@ -9,12 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProjectMapperImpl implements ProjectMapper {
     public ProjectInfoDto toDto(ProjectEntity entity) {
-        return ProjectInfoDto.builder()
+        return new ProjectInfoDto()
                 .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
-                .leadId(entity.getLeadId())
-                .build();
+                .leadId(entity.getLeadId());
     }
 
     public ProjectEntity toEntity(ProjectInfoDto dto) {
@@ -27,13 +26,13 @@ public class ProjectMapperImpl implements ProjectMapper {
     }
 
     @Override
-    public ProjectEntity toEntity(CreateProjectRequest createProjectRequest, Long workspaceId) {
+    public ProjectEntity toEntity(CreateProjectRequest createProjectRequest) {
         return ProjectEntity.builder()
                 .id(null)
                 .name(createProjectRequest.getName())
                 .description(createProjectRequest.getDescription())
                 .leadId(createProjectRequest.getLeadId())
-                .workspaceId(workspaceId)
+                .workspaceId(createProjectRequest.getWorkspaceId())
                 .build();
     }
 
