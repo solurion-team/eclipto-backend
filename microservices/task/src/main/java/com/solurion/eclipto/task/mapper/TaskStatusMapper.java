@@ -11,4 +11,6 @@ public interface TaskStatusMapper {
     TaskStatusEntity toEntity(CreateTaskStatusRequest createTaskStatusRequest);
 
     TaskStatusDto toDto(TaskStatusEntity taskStatusEntity);
+
+    TaskStatusEntity toEntity(TaskStatusDto taskStatusDto);
 }

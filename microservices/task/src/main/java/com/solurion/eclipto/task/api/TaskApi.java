@@ -166,7 +166,7 @@ public interface TaskApi {
         tags = { "task" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Tasks successfully fetched", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = TaskStatusDto.class))
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = TaskStatusDto.class)))
             }),
             @ApiResponse(responseCode = "403", description = "There is no status with same ID", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
@@ -185,7 +185,7 @@ public interface TaskApi {
         produces = { "application/json" }
     )
     
-    ResponseEntity<TaskStatusDto> getProjectTaskStatuses(
+    ResponseEntity<List<TaskStatusDto>> getProjectTaskStatuses(
         @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId,
         @Parameter(name = "includeTasks", description = "Should include tasks", in = ParameterIn.QUERY) @Valid @RequestParam(value = "includeTasks", required = false) Boolean includeTasks
     );

@@ -11,7 +11,7 @@ public interface TaskService {
 
     List<TaskLiteDto> getLiteTasks(Long projectId);
 
-    TaskStatusDto getProjectTaskStatuses(Long projectId, Boolean includeTasks);
+    List<TaskStatusDto> getProjectTaskStatuses(Long projectId, Boolean includeTasks);
 
     TaskInfoDto getTask(Long taskId);
 

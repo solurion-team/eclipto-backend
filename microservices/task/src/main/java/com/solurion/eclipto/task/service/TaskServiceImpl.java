@@ -56,18 +56,21 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public TaskStatusDto getProjectTaskStatuses(Long projectId, Boolean includeTasks) {
-        TaskStatusEntity entity = taskStatusRepository.findByProjectId(projectId);
-        TaskStatusDto statusDto = taskStatusMapper.toDto(entity);
+    public List<TaskStatusDto> getProjectTaskStatuses(Long projectId, Boolean includeTasks) {
+        List<TaskStatusEntity> entities = taskStatusRepository.findAllByProjectId(projectId);
+        List<TaskStatusDto> statusDtoList = entities.stream().map(taskStatusMapper::toDto).toList();
         if(includeTasks){
-            statusDto.setTasks(
-                    taskRepository.findAllByStatus(entity)
-                            .stream()
-                            .map(taskMapper::toTaskLite)
-                            .collect(Collectors.toList())
-            );
+            statusDtoList
+                    .stream()
+                    .forEach(obj -> obj.setTasks(
+                            taskRepository
+                                    .findAllByStatus(taskStatusMapper.toEntity(obj))
+                                    .stream()
+                                    .map(taskMapper::toTaskLite)
+                                    .toList()
+                    ));
         }
-        return statusDto;
+        return statusDtoList;
     }
 
     @Override

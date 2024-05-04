@@ -30,7 +30,7 @@ public class TaskController implements TaskApi {
     }
 
     @Override
-    public ResponseEntity<TaskStatusDto> getProjectTaskStatuses(Long projectId, Boolean includeTasks) {
+    public ResponseEntity<List<TaskStatusDto>> getProjectTaskStatuses(Long projectId, Boolean includeTasks) {
         return ResponseEntity.ok(taskService.getProjectTaskStatuses(projectId, includeTasks));
     }
 
