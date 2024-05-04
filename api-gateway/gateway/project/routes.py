@@ -1,7 +1,8 @@
 from http import HTTPMethod, HTTPStatus
 from typing import Annotated
+from typing import List
 
-from fastapi import APIRouter, Body, Path, Depends
+from fastapi import APIRouter, Body, Path, Depends, Query
 from starlette.requests import Request
 from starlette.responses import Response
 
@@ -34,7 +35,7 @@ SERVICE_URL = settings.project_service_url
     tags=["project"],
     summary="Get full project",
     description="Get full project info",
-    operation_id="getProject",
+    operation_id="getProjectInfo",
 )
 @gate_to(
     method=HTTPMethod.GET,
@@ -66,11 +67,11 @@ async def get_project(
             "model": ErrorDto,
         }
     },
-    status_code=HTTPStatus.NO_CONTENT,
+    status_code=HTTPStatus.OK,
     tags=["project"],
     summary="Update project",
     description="Update project info",
-    operation_id="updateProject",
+    operation_id="updateProjectInfo",
 )
 @gate_to(
     method=HTTPMethod.PUT,
@@ -103,7 +104,7 @@ async def update_project(
     tags=["project"],
     summary="Create project",
     description="Create project",
-    operation_id="createProject",
+    operation_id="postProject",
 )
 @gate_to(
     method=HTTPMethod.POST,
@@ -155,4 +156,41 @@ async def delete_project(
             int, Path(description="ID of a project", gt=0, example=123)
         ]
 ) -> ProjectInfoDto:
+    pass
+
+
+# noinspection PyUnusedLocal
+@router.get(
+    "/v1/projects",
+    response_model=List[ProjectInfoDto],
+    responses={
+        403: {
+            "description": "Project not found",
+            "model": ErrorDto,
+        },
+        "default": {
+            "description": "Unexpected error",
+            "model": ErrorDto,
+        }
+    },
+    status_code=HTTPStatus.OK,
+    tags=["project"],
+    summary="Get all projects of user",
+    description="Get all user project (or all workspace`s project)",
+    operation_id="getProjects",
+)
+@gate_to(
+    method=HTTPMethod.GET,
+    service_url=SERVICE_URL,
+    gateway_path="/v1/projects"
+)
+async def get_projects(
+        request: Request,
+        response: Response,
+        # token: Annotated[str, Depends(bearer_auth_scheme)],
+        workspace_id: int = Query(
+            title="Workspace ID",
+            description="The ID of the workspace to filter projects by", example=123
+        ),
+) -> List[ProjectInfoDto]:
     pass
