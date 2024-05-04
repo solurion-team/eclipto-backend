@@ -23,9 +23,6 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.4.0")
 public class ErrorDto {
 
-  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime timestamp;
-
   private Integer status;
 
   private String error;
@@ -34,6 +31,9 @@ public class ErrorDto {
 
   private String path;
 
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  private OffsetDateTime timestamp;
+
   public ErrorDto() {
     super();
   }
@@ -41,29 +41,9 @@ public class ErrorDto {
   /**
    * Constructor with only required parameters
    */
-  public ErrorDto(OffsetDateTime timestamp, Integer status, String path) {
-    this.timestamp = timestamp;
+  public ErrorDto(Integer status, String path, OffsetDateTime timestamp) {
     this.status = status;
     this.path = path;
-  }
-
-  public ErrorDto timestamp(OffsetDateTime timestamp) {
-    this.timestamp = timestamp;
-    return this;
-  }
-
-  /**
-   * Error timestamp with timezone (RFC 3339)
-   * @return timestamp
-  */
-  @NotNull @Valid 
-  @Schema(name = "timestamp", example = "2022-06-17T10:55:19Z", description = "Error timestamp with timezone (RFC 3339)", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("timestamp")
-  public OffsetDateTime getTimestamp() {
-    return timestamp;
-  }
-
-  public void setTimestamp(OffsetDateTime timestamp) {
     this.timestamp = timestamp;
   }
 
@@ -147,6 +127,26 @@ public class ErrorDto {
     this.path = path;
   }
 
+  public ErrorDto timestamp(OffsetDateTime timestamp) {
+    this.timestamp = timestamp;
+    return this;
+  }
+
+  /**
+   * Error timestamp with timezone (RFC 3339)
+   * @return timestamp
+  */
+  @NotNull @Valid 
+  @Schema(name = "timestamp", example = "2022-06-17T10:55:19Z", description = "Error timestamp with timezone (RFC 3339)", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("timestamp")
+  public OffsetDateTime getTimestamp() {
+    return timestamp;
+  }
+
+  public void setTimestamp(OffsetDateTime timestamp) {
+    this.timestamp = timestamp;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -156,27 +156,27 @@ public class ErrorDto {
       return false;
     }
     ErrorDto errorDto = (ErrorDto) o;
-    return Objects.equals(this.timestamp, errorDto.timestamp) &&
-        Objects.equals(this.status, errorDto.status) &&
+    return Objects.equals(this.status, errorDto.status) &&
         Objects.equals(this.error, errorDto.error) &&
         Objects.equals(this.message, errorDto.message) &&
-        Objects.equals(this.path, errorDto.path);
+        Objects.equals(this.path, errorDto.path) &&
+        Objects.equals(this.timestamp, errorDto.timestamp);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(timestamp, status, error, message, path);
+    return Objects.hash(status, error, message, path, timestamp);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ErrorDto {\n");
-    sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    error: ").append(toIndentedString(error)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("    path: ").append(toIndentedString(path)).append("\n");
+    sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
     sb.append("}");
     return sb.toString();
   }

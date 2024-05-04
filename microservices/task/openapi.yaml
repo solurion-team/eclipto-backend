@@ -40,6 +40,8 @@ paths:
       operationId: updateTask
       tags:
         - task
+      parameters:
+        - $ref: "#/components/parameters/TaskId"
       security:
         - bearerHttpAuthentication: [ ]
       requestBody:
@@ -208,7 +210,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TaskStatusDto"
+                type: array
+                items:
+                  $ref: "#/components/schemas/TaskStatusDto"
         403:
           description: "There is no status with same ID"
           content:

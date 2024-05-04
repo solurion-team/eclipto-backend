@@ -1,14 +1,11 @@
 package com.solurion.eclipto.task.mapper;
 
-import com.solurion.eclipto.task.dto.PostLiteTaskRequest;
+import com.solurion.eclipto.task.dto.CreateTaskRequest;
 import com.solurion.eclipto.task.dto.TaskInfoDto;
 import com.solurion.eclipto.task.dto.TaskLiteDto;
 import com.solurion.eclipto.task.dto.UpdateTaskRequest;
 import com.solurion.eclipto.task.entity.TaskEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValueCheckStrategy;
 
 @Mapper(
         uses = TaskStatusMapper.class,
@@ -16,13 +13,16 @@ import org.mapstruct.NullValueCheckStrategy;
 )
 
 public interface TaskMapper {
-    TaskInfoDto toTaskInfoDto(TaskEntity taskEntity);
+    TaskEntity toEntity(CreateTaskRequest createTaskRequest);
 
-    TaskEntity toTaskEntity(TaskInfoDto taskInfoDto);
+    TaskEntity toEntity(TaskInfoDto taskInfoDto);
 
-    TaskEntity.PriorityEnum toEntityEnum(UpdateTaskRequest.PriorityEnum priorityEnum);
+    TaskEntity toEntity(UpdateTaskRequest updateTaskRequest);
 
-    TaskEntity toTaskEntity(PostLiteTaskRequest postLiteTaskRequest);
+    TaskEntity toEntity(TaskLiteDto taskLiteDto);
 
-    TaskLiteDto toTaskLiteDto(TaskEntity taskEntity);
+    TaskInfoDto toTaskInfo(TaskEntity taskEntity);
+
+    TaskLiteDto toTaskLite(TaskEntity taskEntity);
+
 }
