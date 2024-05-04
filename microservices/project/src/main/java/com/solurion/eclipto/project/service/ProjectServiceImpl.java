@@ -50,8 +50,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void createProject(CreateProjectRequest createProjectRequest, Long workspaceId) {
-        projectRepository.save(projectMapper.toEntity(createProjectRequest, workspaceId));
+    public ProjectInfoDto createProject(CreateProjectRequest createProjectRequest, Long workspaceId) {
+        return projectMapper.toDto(projectRepository.save(projectMapper.toEntity(createProjectRequest, workspaceId)));
     }
 
 

@@ -11,6 +11,6 @@ public interface ProjectService {
 
     void deleteProject(Long id);
 
-    void createProject(CreateProjectRequest createProjectRequest, Long workspaceId);
+    ProjectInfoDto createProject(CreateProjectRequest createProjectRequest, Long workspaceId);
 
 }

@@ -38,8 +38,7 @@ public class ProjectController {
     @PostMapping("/v1/workspaces/{workspaceId}/projects")
     ResponseEntity<ProjectInfoDto> createProject(@PathVariable Long workspaceId,
                                                  @Validated @RequestBody CreateProjectRequest createProjectRequest) {
-        projectService.createProject(createProjectRequest, workspaceId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(projectService.createProject(createProjectRequest, workspaceId));
     }
 
 }
