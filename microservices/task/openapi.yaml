@@ -210,7 +210,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TaskStatusDto"
+                type: array
+                items:
+                  $ref: "#/components/schemas/TaskStatusDto"
         403:
           description: "There is no status with same ID"
           content:
