@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,11 +20,8 @@ import jakarta.annotation.Generated;
  * UpdateTaskRequest
  */
 
-@JsonTypeName("updateTask_request")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.4.0")
 public class UpdateTaskRequest {
-
-  private Long id;
 
   private String title;
 
@@ -78,37 +74,6 @@ public class UpdateTaskRequest {
   private Long assignedUserId;
 
   private Long reporterUserId;
-
-  public UpdateTaskRequest() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public UpdateTaskRequest(Long id) {
-    this.id = id;
-  }
-
-  public UpdateTaskRequest id(Long id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * ID of the task
-   * @return id
-  */
-  @NotNull 
-  @Schema(name = "id", example = "7438546582", description = "ID of the task", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("id")
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
 
   public UpdateTaskRequest title(String title) {
     this.title = title;
@@ -259,8 +224,7 @@ public class UpdateTaskRequest {
       return false;
     }
     UpdateTaskRequest updateTaskRequest = (UpdateTaskRequest) o;
-    return Objects.equals(this.id, updateTaskRequest.id) &&
-        Objects.equals(this.title, updateTaskRequest.title) &&
+    return Objects.equals(this.title, updateTaskRequest.title) &&
         Objects.equals(this.description, updateTaskRequest.description) &&
         Objects.equals(this.statusId, updateTaskRequest.statusId) &&
         Objects.equals(this.priority, updateTaskRequest.priority) &&
@@ -271,14 +235,13 @@ public class UpdateTaskRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, statusId, priority, dueDate, assignedUserId, reporterUserId);
+    return Objects.hash(title, description, statusId, priority, dueDate, assignedUserId, reporterUserId);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class UpdateTaskRequest {\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    statusId: ").append(toIndentedString(statusId)).append("\n");

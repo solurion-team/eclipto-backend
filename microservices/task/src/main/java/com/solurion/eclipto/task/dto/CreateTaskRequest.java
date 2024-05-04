@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -15,12 +14,11 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * PostLiteTaskRequest
+ * CreateTaskRequest
  */
 
-@JsonTypeName("postLiteTask_request")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.4.0")
-public class PostLiteTaskRequest {
+public class CreateTaskRequest {
 
   private String title;
 
@@ -28,18 +26,21 @@ public class PostLiteTaskRequest {
 
   private Long reporterUserId;
 
-  public PostLiteTaskRequest() {
+  private Long projectId;
+
+  public CreateTaskRequest() {
     super();
   }
 
   /**
    * Constructor with only required parameters
    */
-  public PostLiteTaskRequest(Long statusId) {
+  public CreateTaskRequest(Long statusId, Long projectId) {
     this.statusId = statusId;
+    this.projectId = projectId;
   }
 
-  public PostLiteTaskRequest title(String title) {
+  public CreateTaskRequest title(String title) {
     this.title = title;
     return this;
   }
@@ -59,7 +60,7 @@ public class PostLiteTaskRequest {
     this.title = title;
   }
 
-  public PostLiteTaskRequest statusId(Long statusId) {
+  public CreateTaskRequest statusId(Long statusId) {
     this.statusId = statusId;
     return this;
   }
@@ -79,7 +80,7 @@ public class PostLiteTaskRequest {
     this.statusId = statusId;
   }
 
-  public PostLiteTaskRequest reporterUserId(Long reporterUserId) {
+  public CreateTaskRequest reporterUserId(Long reporterUserId) {
     this.reporterUserId = reporterUserId;
     return this;
   }
@@ -99,6 +100,26 @@ public class PostLiteTaskRequest {
     this.reporterUserId = reporterUserId;
   }
 
+  public CreateTaskRequest projectId(Long projectId) {
+    this.projectId = projectId;
+    return this;
+  }
+
+  /**
+   * ID of the project
+   * @return projectId
+  */
+  @NotNull 
+  @Schema(name = "project_id", example = "23486357348", description = "ID of the project", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("project_id")
+  public Long getProjectId() {
+    return projectId;
+  }
+
+  public void setProjectId(Long projectId) {
+    this.projectId = projectId;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -107,24 +128,26 @@ public class PostLiteTaskRequest {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PostLiteTaskRequest postLiteTaskRequest = (PostLiteTaskRequest) o;
-    return Objects.equals(this.title, postLiteTaskRequest.title) &&
-        Objects.equals(this.statusId, postLiteTaskRequest.statusId) &&
-        Objects.equals(this.reporterUserId, postLiteTaskRequest.reporterUserId);
+    CreateTaskRequest createTaskRequest = (CreateTaskRequest) o;
+    return Objects.equals(this.title, createTaskRequest.title) &&
+        Objects.equals(this.statusId, createTaskRequest.statusId) &&
+        Objects.equals(this.reporterUserId, createTaskRequest.reporterUserId) &&
+        Objects.equals(this.projectId, createTaskRequest.projectId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(title, statusId, reporterUserId);
+    return Objects.hash(title, statusId, reporterUserId, projectId);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PostLiteTaskRequest {\n");
+    sb.append("class CreateTaskRequest {\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    statusId: ").append(toIndentedString(statusId)).append("\n");
     sb.append("    reporterUserId: ").append(toIndentedString(reporterUserId)).append("\n");
+    sb.append("    projectId: ").append(toIndentedString(projectId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

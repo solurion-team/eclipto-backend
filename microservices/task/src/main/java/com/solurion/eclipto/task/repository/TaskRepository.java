@@ -1,6 +1,7 @@
 package com.solurion.eclipto.task.repository;
 
 import com.solurion.eclipto.task.entity.TaskEntity;
+import com.solurion.eclipto.task.entity.TaskStatusEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +12,6 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
     List<TaskEntity> findAllByProjectId(Long projectId);
 
     void deleteAllByProjectId(Long projectId);
+
+    List<TaskEntity> findAllByStatus(TaskStatusEntity taskStatusEntity);
 }

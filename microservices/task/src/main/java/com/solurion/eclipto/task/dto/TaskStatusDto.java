@@ -4,6 +4,10 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.solurion.eclipto.task.dto.TaskLiteDto;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -26,6 +30,9 @@ public class TaskStatusDto {
   private String name;
 
   private String tint;
+
+  @Valid
+  private List<@Valid TaskLiteDto> tasks;
 
   public TaskStatusDto() {
     super();
@@ -100,6 +107,34 @@ public class TaskStatusDto {
     this.tint = tint;
   }
 
+  public TaskStatusDto tasks(List<@Valid TaskLiteDto> tasks) {
+    this.tasks = tasks;
+    return this;
+  }
+
+  public TaskStatusDto addTasksItem(TaskLiteDto tasksItem) {
+    if (this.tasks == null) {
+      this.tasks = new ArrayList<>();
+    }
+    this.tasks.add(tasksItem);
+    return this;
+  }
+
+  /**
+   * Tasks that attached to status
+   * @return tasks
+  */
+  @Valid 
+  @Schema(name = "tasks", description = "Tasks that attached to status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("tasks")
+  public List<@Valid TaskLiteDto> getTasks() {
+    return tasks;
+  }
+
+  public void setTasks(List<@Valid TaskLiteDto> tasks) {
+    this.tasks = tasks;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -111,12 +146,13 @@ public class TaskStatusDto {
     TaskStatusDto taskStatusDto = (TaskStatusDto) o;
     return Objects.equals(this.id, taskStatusDto.id) &&
         Objects.equals(this.name, taskStatusDto.name) &&
-        Objects.equals(this.tint, taskStatusDto.tint);
+        Objects.equals(this.tint, taskStatusDto.tint) &&
+        Objects.equals(this.tasks, taskStatusDto.tasks);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, tint);
+    return Objects.hash(id, name, tint, tasks);
   }
 
   @Override
@@ -126,6 +162,7 @@ public class TaskStatusDto {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    tint: ").append(toIndentedString(tint)).append("\n");
+    sb.append("    tasks: ").append(toIndentedString(tasks)).append("\n");
     sb.append("}");
     return sb.toString();
   }
