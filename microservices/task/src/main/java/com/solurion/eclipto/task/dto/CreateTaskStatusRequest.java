@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -15,30 +14,32 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * PostTaskStatusRequest
+ * CreateTaskStatusRequest
  */
 
-@JsonTypeName("postTaskStatus_request")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.4.0")
-public class PostTaskStatusRequest {
+public class CreateTaskStatusRequest {
 
   private String name;
 
   private String tint;
 
-  public PostTaskStatusRequest() {
+  private Long projectId;
+
+  public CreateTaskStatusRequest() {
     super();
   }
 
   /**
    * Constructor with only required parameters
    */
-  public PostTaskStatusRequest(String name, String tint) {
+  public CreateTaskStatusRequest(String name, String tint, Long projectId) {
     this.name = name;
     this.tint = tint;
+    this.projectId = projectId;
   }
 
-  public PostTaskStatusRequest name(String name) {
+  public CreateTaskStatusRequest name(String name) {
     this.name = name;
     return this;
   }
@@ -58,7 +59,7 @@ public class PostTaskStatusRequest {
     this.name = name;
   }
 
-  public PostTaskStatusRequest tint(String tint) {
+  public CreateTaskStatusRequest tint(String tint) {
     this.tint = tint;
     return this;
   }
@@ -78,6 +79,26 @@ public class PostTaskStatusRequest {
     this.tint = tint;
   }
 
+  public CreateTaskStatusRequest projectId(Long projectId) {
+    this.projectId = projectId;
+    return this;
+  }
+
+  /**
+   * ID of the project
+   * @return projectId
+  */
+  @NotNull 
+  @Schema(name = "project_id", example = "23486357348", description = "ID of the project", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("project_id")
+  public Long getProjectId() {
+    return projectId;
+  }
+
+  public void setProjectId(Long projectId) {
+    this.projectId = projectId;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -86,22 +107,24 @@ public class PostTaskStatusRequest {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PostTaskStatusRequest postTaskStatusRequest = (PostTaskStatusRequest) o;
-    return Objects.equals(this.name, postTaskStatusRequest.name) &&
-        Objects.equals(this.tint, postTaskStatusRequest.tint);
+    CreateTaskStatusRequest createTaskStatusRequest = (CreateTaskStatusRequest) o;
+    return Objects.equals(this.name, createTaskStatusRequest.name) &&
+        Objects.equals(this.tint, createTaskStatusRequest.tint) &&
+        Objects.equals(this.projectId, createTaskStatusRequest.projectId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, tint);
+    return Objects.hash(name, tint, projectId);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PostTaskStatusRequest {\n");
+    sb.append("class CreateTaskStatusRequest {\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    tint: ").append(toIndentedString(tint)).append("\n");
+    sb.append("    projectId: ").append(toIndentedString(projectId)).append("\n");
     sb.append("}");
     return sb.toString();
   }
