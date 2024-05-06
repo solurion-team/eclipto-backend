@@ -117,7 +117,7 @@ public interface WorkspaceApi {
      * Create workspace with required information
      *
      * @param createWorkspaceRequest Request to create a workspace (optional)
-     * @return Workspace created successfully (status code 201)
+     * @return Workspace created successfully (status code 200)
      *         or Unexpected error (status code 200)
      */
     @Operation(
@@ -125,7 +125,7 @@ public interface WorkspaceApi {
         description = "Create workspace with required information",
         tags = { "workspace" },
         responses = {
-            @ApiResponse(responseCode = "201", description = "Workspace created successfully", content = {
+            @ApiResponse(responseCode = "200", description = "Workspace created successfully", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = WorkspaceInfoDto.class))
             }),
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
@@ -151,7 +151,7 @@ public interface WorkspaceApi {
      *
      * @param workspaceId ID of a workspace (required)
      * @param updateWorkspaceRequest Request to update a workspace (optional)
-     * @return Workspace info updated successfully (status code 204)
+     * @return Workspace info updated successfully (status code 200)
      *         or There is no workspace with same ID (status code 403)
      *         or Unexpected error (status code 200)
      */
@@ -160,7 +160,7 @@ public interface WorkspaceApi {
         description = "Update workspace infor",
         tags = { "workspace" },
         responses = {
-            @ApiResponse(responseCode = "204", description = "Workspace info updated successfully", content = {
+            @ApiResponse(responseCode = "200", description = "Workspace info updated successfully", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = WorkspaceInfoDto.class))
             }),
             @ApiResponse(responseCode = "403", description = "There is no workspace with same ID", content = {

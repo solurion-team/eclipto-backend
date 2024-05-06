@@ -13,7 +13,7 @@ from .models import UpdateWorkspaceRequest, CreateWorkspaceRequest, WorkspaceInf
 
 router = APIRouter()
 
-SERVICE_URL = settings.project_service_url
+SERVICE_URL = settings.workspace_service_url
 
 
 # noinspection PyUnusedLocal
@@ -54,7 +54,7 @@ async def get_workspace(
 
 # noinspection PyUnusedLocal
 @router.put(
-    "/v1/projects/{project_id}",
+    "/v1/workspaces/{workspace_id}",
     response_model=WorkspaceInfoDto,
     responses={
         403: {
@@ -66,7 +66,7 @@ async def get_workspace(
             "model": ErrorDto,
         }
     },
-    status_code=HTTPStatus.NO_CONTENT,
+    status_code=HTTPStatus.OK,
     tags=["workspace"],
     summary="Update workspace",
     description="Update workspace info",
@@ -75,7 +75,7 @@ async def get_workspace(
 @gate_to(
     method=HTTPMethod.PUT,
     service_url=SERVICE_URL,
-    gateway_path="/v1/users/{workspace_id}"
+    gateway_path="/v1/workspaces/{workspace_id}"
 )
 async def update_workspace(
         request: Request,
@@ -114,7 +114,7 @@ async def create_workspace(
         request: Request,
         response: Response,
         # token: Annotated[str, Depends(bearer_auth_scheme)],
-        create_project_request_body: Annotated[CreateWorkspaceRequest, Body()]
+        create_workspace_request_body: Annotated[CreateWorkspaceRequest, Body()]
 ) -> WorkspaceInfoDto:
     pass
 
@@ -122,7 +122,7 @@ async def create_workspace(
 # noinspection PyUnusedLocal
 @router.delete(
     "/v1/workspaces/{workspace_id}",
-    response_model=WorkspaceInfoDto,
+    # response_model=WorkspaceInfoDto,
     responses={
         403: {
             "description": "Workspace not found",
@@ -151,5 +151,6 @@ async def delete_workspace(
         workspace_id: Annotated[
             int, Path(description="ID of a workspace", gt=0, example=123)
         ]
-) -> WorkspaceInfoDto:
+# ) -> WorkspaceInfoDto:
+) -> None:
     pass

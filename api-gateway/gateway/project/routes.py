@@ -76,7 +76,7 @@ async def get_project(
 @gate_to(
     method=HTTPMethod.PUT,
     service_url=SERVICE_URL,
-    gateway_path="/v1/users/{project_id}"
+    gateway_path="/v1/projects/{project_id}"
 )
 async def update_project(
         request: Request,
@@ -92,7 +92,7 @@ async def update_project(
 
 # noinspection PyUnusedLocal
 @router.post(
-    "/v1/workspaces/{workspace_id}/projects",
+    "/v1/projects",
     response_model=ProjectInfoDto,
     responses={
         "default": {
@@ -103,21 +103,18 @@ async def update_project(
     status_code=HTTPStatus.OK,
     tags=["project"],
     summary="Create project",
-    description="Create project",
+    description="Create project with required information",
     operation_id="postProject",
 )
 @gate_to(
     method=HTTPMethod.POST,
     service_url=SERVICE_URL,
-    gateway_path="/v1/workspaces/{workspace_id}/projects"
+    gateway_path="/v1/projects"
 )
 async def create_project(
         request: Request,
         response: Response,
         # token: Annotated[str, Depends(bearer_auth_scheme)],
-        workspace_id: Annotated[
-            int, Path(description="ID of a workspace", gt=0, example=123)
-        ],
         create_project_request_body: Annotated[CreateProjectRequest, Body()]
 ) -> ProjectInfoDto:
     pass
@@ -126,7 +123,7 @@ async def create_project(
 # noinspection PyUnusedLocal
 @router.delete(
     "/v1/projects/{project_id}",
-    response_model=ProjectInfoDto,
+    # response_model=ProjectInfoDto,
     responses={
         403: {
             "description": "Project not found",
@@ -155,7 +152,8 @@ async def delete_project(
         project_id: Annotated[
             int, Path(description="ID of a project", gt=0, example=123)
         ]
-) -> ProjectInfoDto:
+# ) -> ProjectInfoDto:
+) -> None:
     pass
 
 
@@ -175,7 +173,7 @@ async def delete_project(
     },
     status_code=HTTPStatus.OK,
     tags=["project"],
-    summary="Get all projects of user",
+    summary="Get all projects",
     description="Get all user project (or all workspace`s project)",
     operation_id="getProjects",
 )

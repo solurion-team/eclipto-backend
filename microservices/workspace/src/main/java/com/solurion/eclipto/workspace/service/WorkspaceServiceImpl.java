@@ -29,7 +29,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
     @Override
     @Transactional
-    public void updateWorkspaceInfo(UpdateWorkspaceRequest request, Long workspaceId) {
+    public WorkspaceInfoDto updateWorkspaceInfo(UpdateWorkspaceRequest request, Long workspaceId) {
         WorkspaceEntity currentRepositoryInfo = workspaceRepository.findById(workspaceId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.FORBIDDEN, "There is no workspace with same ID")
         );
@@ -39,6 +39,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         if (request.getDescription() != null) {
             currentRepositoryInfo.setDescription(request.getDescription());
         }
+        return workspaceMapper.toDto(currentRepositoryInfo);
     }
 
     @Override

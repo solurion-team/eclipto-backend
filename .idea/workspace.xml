@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="732d3116-6dae-47bd-bea4-60dd29d791f8" name="Changes" comment="init project microservice">
+      <change beforePath="$PROJECT_DIR$/api-gateway/api-gateway.iml" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/api-gateway.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/gateway/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/gateway/__main__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/gateway/project/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/gateway/project/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/gateway/project/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/gateway/project/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/gateway/workspace/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/gateway/workspace/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/project/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/project/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/workspace/openapi.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/workspace/openapi.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/workspace/src/main/java/com/solurion/eclipto/workspace/api/WorkspaceApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/workspace/src/main/java/com/solurion/eclipto/workspace/api/WorkspaceApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/workspace/src/main/java/com/solurion/eclipto/workspace/api/WorkspaceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/workspace/src/main/java/com/solurion/eclipto/workspace/api/WorkspaceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/workspace/src/main/java/com/solurion/eclipto/workspace/service/WorkspaceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/workspace/src/main/java/com/solurion/eclipto/workspace/service/WorkspaceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/workspace/src/main/java/com/solurion/eclipto/workspace/service/WorkspaceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/workspace/src/main/java/com/solurion/eclipto/workspace/service/WorkspaceServiceImpl.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/microservices">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/microservices/project">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/microservices/task">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/microservices">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/microservices/workspace">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="microservices" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="microservices" type="f1a62948:ProjectNode" />
+                <item name="project" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="microservices" type="f1a62948:ProjectNode" />
+                <item name="project" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="microservices" type="f1a62948:ProjectNode" />
+                <item name="task" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="microservices" type="f1a62948:ProjectNode" />
+                <item name="task" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="microservices" type="f1a62948:ProjectNode" />
+                <item name="workspace" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="microservices" type="f1a62948:ProjectNode" />
+                <item name="workspace" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="microservices" type="f1a62948:ProjectNode" />
+                <item name="workspace" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="openapi tools" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_PLUGINS_DIR$/python/helpers/typeshed/stdlib/http/__init__.pyi" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2ddDq5Zxjq6TBjs72mpK4qnER7S" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Gradle.Build microservices.executor": "Run",
+    "Gradle.Download Sources.executor": "Run",
+    "Gradle.microservices [workspace:openApiGenerate].executor": "Run",
+    "Gradle.microservices:workspace [openApiGenerate].executor": "Run",
+    "Python.__main__.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.ProjectApplication.executor": "Run",
+    "Spring Boot.UserApplication.executor": "Run",
+    "Spring Boot.WorkspaceApplication.executor": "Run",
+    "git-widget-placeholder": "feature/API-GATEWAY-2",
+    "jdk.selected.JAVA_MODULE": "openjdk-21",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Валентин/Projects/eclipto-backend/api-gateway/gateway/workspace",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "preferences.editor",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "azure"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Валентин\Projects\eclipto-backend\api-gateway\gateway\workspace" />
+      <recent name="C:\Users\Валентин\Projects\eclipto-backend\api-gateway\gateway\project" />
+      <recent name="C:\Users\Валентин\Projects\eclipto-backend\microservices\project\src\main\java" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Валентин\Projects\eclipto-backend\microservices\project\src\main\java\com\solurion\eclipto\project" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="gradle workspace:openApiGenerate" />
+    </option>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.__main__">
+    <configuration name="microservices [workspace:openApiGenerate]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/microservices" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="workspace:openApiGenerate" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="microservices:workspace [openApiGenerate]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/microservices/workspace" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="openApiGenerate" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="__main__" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="api-gateway" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/api-gateway/gateway" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/api-gateway/gateway/__main__.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="ProjectApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="microservices.project.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.solurion.eclipto.project.ProjectApplication" />
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="true" />
+        <option name="IS_SUBST" value="true" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+          <ENTRY IS_ENABLED="true" PARSER="env" IS_EXECUTABLE="false" PATH="microservices/.env" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TaskApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="microservices.task.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.solurion.eclipto.task.TaskApplication" />
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="true" />
+        <option name="IS_SUBST" value="true" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+          <ENTRY IS_ENABLED="true" PARSER="env" IS_EXECUTABLE="false" PATH="microservices/.env" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="microservices.user.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.solurion.eclipto.user.UserApplication" />
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="true" />
+        <option name="IS_SUBST" value="true" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+          <ENTRY IS_ENABLED="true" PARSER="env" IS_EXECUTABLE="false" PATH="microservices/.env" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WorkspaceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="microservices.workspace.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.solurion.eclipto.workspace.WorkspaceApplication" />
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="true" />
+        <option name="IS_SUBST" value="true" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+          <ENTRY IS_ENABLED="true" PARSER="env" IS_EXECUTABLE="false" PATH="microservices/.env" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Gradle.microservices:workspace [openApiGenerate]" />
+      <item itemvalue="Gradle.microservices [workspace:openApiGenerate]" />
+      <item itemvalue="Python.__main__" />
+      <item itemvalue="Spring Boot.ProjectApplication" />
+      <item itemvalue="Spring Boot.TaskApplication" />
+      <item itemvalue="Spring Boot.UserApplication" />
+      <item itemvalue="Spring Boot.WorkspaceApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.__main__" />
+        <item itemvalue="Gradle.microservices [workspace:openApiGenerate]" />
+        <item itemvalue="Gradle.microservices:workspace [openApiGenerate]" />
+        <item itemvalue="Gradle.microservices [workspace:openApiGenerate]" />
+        <item itemvalue="Gradle.microservices:workspace [openApiGenerate]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="732d3116-6dae-47bd-bea4-60dd29d791f8" name="Changes" comment="" />
+      <created>1710329250103</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1710329250103</updated>
+      <workItem from="1710329251738" duration="809000" />
+      <workItem from="1710330087889" duration="1066000" />
+      <workItem from="1711744104918" duration="2079000" />
+      <workItem from="1713395286262" duration="3413000" />
+      <workItem from="1713479066793" duration="636000" />
+      <workItem from="1713565687130" duration="243000" />
+      <workItem from="1713616431010" duration="1309000" />
+      <workItem from="1713713236748" duration="165000" />
+      <workItem from="1713894040051" duration="2956000" />
+      <workItem from="1713903856415" duration="12765000" />
+      <workItem from="1713978862494" duration="1149000" />
+      <workItem from="1713980028011" duration="596000" />
+      <workItem from="1713980634030" duration="7487000" />
+      <workItem from="1714000581054" duration="110000" />
+      <workItem from="1714000700492" duration="5318000" />
+      <workItem from="1714032272254" duration="147000" />
+      <workItem from="1714032506736" duration="72000" />
+      <workItem from="1714032602934" duration="24000" />
+      <workItem from="1714032645863" duration="28000" />
+      <workItem from="1714032733168" duration="5609000" />
+      <workItem from="1714065465096" duration="17000" />
+      <workItem from="1714138742842" duration="464000" />
+      <workItem from="1714139220452" duration="6788000" />
+      <workItem from="1714413106007" duration="1092000" />
+      <workItem from="1714414788774" duration="14326000" />
+      <workItem from="1714464795573" duration="5557000" />
+      <workItem from="1714479483550" duration="2451000" />
+      <workItem from="1714481959037" duration="215000" />
+      <workItem from="1714482183908" duration="8327000" />
+      <workItem from="1714492577273" duration="19593000" />
+      <workItem from="1714683873779" duration="152000" />
+      <workItem from="1714684036270" duration="35193000" />
+    </task>
+    <task id="LOCAL-00001" summary="init project microservice">
+      <option name="closed" value="true" />
+      <created>1713984656927</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1713984656927</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="init project microservice" />
+    <option name="LAST_COMMIT_MESSAGE" value="init project microservice" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/eclipto_backend$__main__.coverage" NAME="__main__ Coverage Results" MODIFIED="1715001524554" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/api-gateway/gateway" />
+  </component>
+</project>

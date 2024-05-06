@@ -44,7 +44,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/UpdateWorkspaceInfoRequestBody"
       responses:
-        204:
+        200:
           description: "Workspace info updated successfully"
           content:
             application/json:
