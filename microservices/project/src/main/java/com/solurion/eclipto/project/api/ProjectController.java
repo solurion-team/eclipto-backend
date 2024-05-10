@@ -29,7 +29,7 @@ public class ProjectController implements ProjectApi {
 
     @Override
     public ResponseEntity<List<ProjectInfoDto>> getProjects(Long workspaceId) {
-        return null;
+        return ResponseEntity.ok(projectService.getProjects(workspaceId));
     }
 
     @Override

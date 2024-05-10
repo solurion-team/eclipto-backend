@@ -10,14 +10,16 @@ def gate_to(
         method: HTTPMethod,
         service_url: str,
         gateway_path: str,
-        override_headers: bool = False,
+        ignore_default_headers: bool = False,
         timeout: int = 60
 ):
     def wrapper(f):
         hints = get_type_hints(f, include_extras=True)
-        query_keys = [k for k, v in hints.items() if is_query_meta(v)]
-        body_keys = [k for k, v in hints.items() if is_body_meta(v)]
-        path_keys = [k for k, v in hints.items() if is_path_meta(v)]
+        query_keys = {k for k, v in hints.items() if is_query_meta(v)}
+        body_key = next((k for k, v in hints.items() if is_body_meta(v)), None)
+        path_keys = {k for k, v in hints.items() if is_path_meta(v)}
+        header_keys = {k for k, v in hints.items() if is_header_meta(v)}
+        default_header_keys = ["authorization", "cookies"]
         base_url = f"{service_url}{gateway_path}"
 
         @functools.wraps(f)
@@ -28,19 +30,20 @@ def gate_to(
                     url = url.replace(f"{{{key}}}", str(kwargs[key]))
 
             query_params = {k: kwargs[k] for k in query_keys if k in kwargs}
+            header_params = {k: kwargs[k] for k in header_keys if k in kwargs}
+
+            if not ignore_default_headers:
+                header_params.update({k: request.headers[k] for k in default_header_keys if k in request.headers})
 
             body = None
-            if body_keys:
-                key = body_keys[0]
-                if key in kwargs:
-                    body = kwargs[key].dict()
+            if body_key and body_key in kwargs:
+                body = kwargs[body_key].dict()
 
             async with httpx.AsyncClient() as client:
-                headers = request.headers if not override_headers else {}
                 resp = await client.request(
                     method=method.upper(),
                     url=url,
-                    headers=headers,
+                    headers=header_params,
                     params=query_params,
                     json=body,
                     timeout=timeout
@@ -69,3 +72,8 @@ def is_body_meta(value: any):
 def is_path_meta(value: any):
     annotations = get_args(value)
     return any(isinstance(arg, params.Path) for arg in annotations)
+
+
+def is_header_meta(value: any):
+    annotations = get_args(value)
+    return any(isinstance(arg, params.Header) for arg in annotations)
