@@ -21,5 +21,5 @@ public interface TaskService {
 
     TaskInfoDto updateTask(Long taskId, UpdateTaskRequest updateTaskRequest);
 
-    TaskStatusDto updateTaskStatus(Long statusId, TaskStatusDto taskStatusDto);
+    TaskStatusDto updateTaskStatus(Long statusId, UpdateTaskStatusRequest taskStatusDto);
 }

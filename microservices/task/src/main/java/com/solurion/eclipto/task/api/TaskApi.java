@@ -12,6 +12,7 @@ import com.solurion.eclipto.task.dto.TaskInfoDto;
 import com.solurion.eclipto.task.dto.TaskLiteDto;
 import com.solurion.eclipto.task.dto.TaskStatusDto;
 import com.solurion.eclipto.task.dto.UpdateTaskRequest;
+import com.solurion.eclipto.task.dto.UpdateTaskStatusRequest;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -353,7 +354,7 @@ public interface TaskApi {
      * Update task status information
      *
      * @param statusId ID of a task status (required)
-     * @param taskStatusDto Request to update a task status (optional)
+     * @param updateTaskStatusRequest Request to update a task status (optional)
      * @return Task updated successfully (status code 200)
      *         or There is no status with same ID (status code 403)
      *         or Unexpected error (status code 200)
@@ -386,7 +387,7 @@ public interface TaskApi {
     
     ResponseEntity<TaskStatusDto> updateTaskStatus(
         @Parameter(name = "statusId", description = "ID of a task status", required = true, in = ParameterIn.PATH) @PathVariable("statusId") Long statusId,
-        @Parameter(name = "TaskStatusDto", description = "Request to update a task status") @Valid @RequestBody(required = false) TaskStatusDto taskStatusDto
+        @Parameter(name = "UpdateTaskStatusRequest", description = "Request to update a task status") @Valid @RequestBody(required = false) UpdateTaskStatusRequest updateTaskStatusRequest
     );
 
 }

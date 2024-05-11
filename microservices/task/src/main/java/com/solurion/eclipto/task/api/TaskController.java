@@ -55,7 +55,7 @@ public class TaskController implements TaskApi {
     }
 
     @Override
-    public ResponseEntity<TaskStatusDto> updateTaskStatus(Long statusId, TaskStatusDto taskStatusDto) {
-        return ResponseEntity.ok(taskService.updateTaskStatus(statusId, taskStatusDto));
+    public ResponseEntity<TaskStatusDto> updateTaskStatus(Long statusId, UpdateTaskStatusRequest updateTaskStatusRequest) {
+        return ResponseEntity.ok(taskService.updateTaskStatus(statusId, updateTaskStatusRequest));
     }
 }

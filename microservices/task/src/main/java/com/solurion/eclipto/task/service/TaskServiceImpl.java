@@ -98,10 +98,10 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public TaskStatusDto updateTaskStatus(Long statusId, TaskStatusDto taskStatusDto) {
+    public TaskStatusDto updateTaskStatus(Long statusId, UpdateTaskStatusRequest updateTaskStatusRequest) {
         TaskStatusEntity entity = taskStatusRepository
                 .findById(statusId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        updateTaskStatusMapper.updateTaskStatus(taskStatusDto, entity);
+        updateTaskStatusMapper.updateTaskStatus(updateTaskStatusRequest, entity);
         return taskStatusMapper.toDto(entity);
     }
 }
