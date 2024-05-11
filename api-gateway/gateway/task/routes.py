@@ -15,8 +15,9 @@ SERVICE_URL = settings.task_service_url
 router = APIRouter()
 
 
+# noinspection PyUnusedLocal
 @router.get(
-    "/v1/tasks/{taskId}",
+    "/v1/tasks/{task_id}",
     response_model=TaskInfoDto,
     responses={
         403: {
@@ -49,8 +50,9 @@ async def get_task(
     pass
 
 
+# noinspection PyUnusedLocal
 @router.put(
-    "/v1/tasks/{taskId}",
+    "/v1/tasks/{task_id}",
     response_model=TaskInfoDto,
     responses={
         403: {
@@ -84,8 +86,9 @@ async def update_task(
     pass
 
 
+# noinspection PyUnusedLocal
 @router.delete(
-    "/v1/tasks/{taskId}",
+    "/v1/tasks/{task_id}",
     response_model=None,
     responses={
         403: {
@@ -118,6 +121,7 @@ async def delete_task(
     pass
 
 
+# noinspection PyUnusedLocal
 @router.get(
     "/v1/tasks",
     response_model=List[TaskInfoDto],
@@ -145,6 +149,7 @@ async def get_all_tasks(
     pass
 
 
+# noinspection PyUnusedLocal
 @router.post(
     "/v1/tasks/lite",
     response_model=TaskLiteDto,
@@ -177,6 +182,7 @@ async def create_lite_task(
     pass
 
 
+# noinspection PyUnusedLocal
 @router.get(
     "/v1/tasks/lite",
     response_model=List[TaskLiteDto],
@@ -204,6 +210,7 @@ async def get_lite_tasks(
     pass
 
 
+# noinspection PyUnusedLocal
 @router.post(
     "/v1/tasks/statuses",
     response_model=TaskStatusDto,
@@ -232,8 +239,9 @@ async def post_task_status(
     pass
 
 
+# noinspection PyUnusedLocal
 @router.put(
-    "/v1/tasks/statuses/{statusId}",
+    "/v1/tasks/statuses/{status_id}",
     response_model=TaskStatusDto,
     responses={
         403: {
@@ -259,7 +267,7 @@ async def post_task_status(
 async def update_task_status(
         request: Request,
         response: Response,
-        task_id: Annotated[
+        status_id: Annotated[
             int, Path(description="ID of a status", example=123, gt=0)
         ],
         update_task_status_request_body: Annotated[TaskStatusDto, Body()]
@@ -267,8 +275,9 @@ async def update_task_status(
     pass
 
 
+# noinspection PyUnusedLocal
 @router.get(
-    "/v1/projects/{projectId}/statuses",
+    "/v1/projects/{project_id}/statuses",
     response_model=List[TaskStatusDto],
     responses={
         403: {
@@ -294,7 +303,7 @@ async def update_task_status(
 async def get_project_task_statuses(
         request: Request,
         response: Response,
-        task_id: Annotated[
+        project_id: Annotated[
             int, Path(description="ID of a project", example=123, gt=0)
         ]
 ) -> List[TaskStatusDto]:
