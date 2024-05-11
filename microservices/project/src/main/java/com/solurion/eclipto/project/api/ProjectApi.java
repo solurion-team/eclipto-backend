@@ -153,7 +153,7 @@ public interface ProjectApi {
      * Create project with required information
      *
      * @param createProjectRequest Request to create a project (optional)
-     * @return Project created successfully (status code 201)
+     * @return Project created successfully (status code 200)
      *         or Unexpected error (status code 200)
      */
     @Operation(
@@ -161,7 +161,7 @@ public interface ProjectApi {
         description = "Create project with required information",
         tags = { "project" },
         responses = {
-            @ApiResponse(responseCode = "201", description = "Project created successfully", content = {
+            @ApiResponse(responseCode = "200", description = "Project created successfully", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ProjectInfoDto.class))
             }),
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
@@ -187,7 +187,7 @@ public interface ProjectApi {
      *
      * @param projectId ID of a project (required)
      * @param updateProjectRequest Request to update a project (optional)
-     * @return Project info updated successfully (status code 204)
+     * @return Project info updated successfully (status code 200)
      *         or There is no project with same ID (status code 403)
      *         or Unexpected error (status code 200)
      */
@@ -196,7 +196,7 @@ public interface ProjectApi {
         description = "Update project infor",
         tags = { "project" },
         responses = {
-            @ApiResponse(responseCode = "204", description = "Project info updated successfully", content = {
+            @ApiResponse(responseCode = "200", description = "Project info updated successfully", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ProjectInfoDto.class))
             }),
             @ApiResponse(responseCode = "403", description = "There is no project with same ID", content = {

@@ -23,6 +23,9 @@ public class ProjectEntity {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "tint")
+    private String tint;
+
     @Column(name = "lead_id")
     private Long leadId;
 
