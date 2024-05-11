@@ -11,6 +11,7 @@ import com.solurion.eclipto.user.mapper.UserMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,6 +26,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserMapper userMapper;
     private final UpdateUserMapper updateUserMapper;
     private final PasswordEncoder passwordEncoder;
+    private final KafkaTemplate<String, Long> kafkaTemplate;
 
     @Override
     public UserInfoDto getUser(Long id) {
@@ -55,6 +57,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "User with same id not found"));
         updateUserMapper.updateEntity(updateUserRequest, entity);
         return userMapper.toDto(entity);
+    }
+
+    @Override
+    public void deleteUser(Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User not exists");
+        }
+        userRepository.deleteById(userId);
+        kafkaTemplate.send("user-topic", "delete-user", userId);
     }
 
     @Override

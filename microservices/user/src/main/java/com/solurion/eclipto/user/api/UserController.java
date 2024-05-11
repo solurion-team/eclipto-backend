@@ -20,4 +20,10 @@ public class UserController implements UserApi {
     public ResponseEntity<UserInfoDto> updateUser(Long userId, UpdateUserRequest updateUserRequest) {
         return ResponseEntity.ok(userService.updateUser(userId, updateUserRequest));
     }
+
+    @Override
+    public ResponseEntity<Void> deleteUser(Long userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.noContent().build();
+    }
 }

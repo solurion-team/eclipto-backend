@@ -32,6 +32,7 @@ class EcliptoMicroservicePlugin : Plugin<Project> {
             implementation(libs.spring.boot.starter.data.jpa)
             implementation(libs.spring.boot.starter.validation)
             implementation(libs.spring.boot.starter.websocket)
+            implementation(libs.spring.kafka)
             implementation(libs.lombok)
             implementation(libs.mapstruct)
             implementation(libs.mapstruct.processor)

@@ -137,6 +137,26 @@ paths:
                 $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+    delete:
+      description: Delete user
+      operationId: deleteUser
+      tags:
+        - user
+      security:
+        - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        204:
+          description: "The user has been deleted"
+        403:
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
 
 components:
   securitySchemes:
