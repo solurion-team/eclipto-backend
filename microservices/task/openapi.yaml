@@ -175,7 +175,7 @@ paths:
       security:
         - bearerHttpAuthentication: [ ]
       parameters:
-          - $ref: "#/components/parameters/StatusId"
+        - $ref: "#/components/parameters/StatusId"
       requestBody:
         $ref: "#/components/requestBodies/UpdateTaskStatusRequestBody"
       responses:
@@ -229,7 +229,7 @@ components:
       type: http
       scheme: Bearer
       bearerFormat: JWT
-      
+
   parameters:
     PathProjectId:
       name: projectId
