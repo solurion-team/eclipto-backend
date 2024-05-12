@@ -27,6 +27,8 @@ public class ProjectInfoDto {
 
   private String description;
 
+  private String tint;
+
   private Long leadId;
 
   public ProjectInfoDto() {
@@ -102,6 +104,26 @@ public class ProjectInfoDto {
     this.description = description;
   }
 
+  public ProjectInfoDto tint(String tint) {
+    this.tint = tint;
+    return this;
+  }
+
+  /**
+   * A color that is convenient for the user to identify the project
+   * @return tint
+  */
+  @Pattern(regexp = "^#(?:[0-9a-fA-F]{3}){1,2}$") 
+  @Schema(name = "tint", description = "A color that is convenient for the user to identify the project", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("tint")
+  public String getTint() {
+    return tint;
+  }
+
+  public void setTint(String tint) {
+    this.tint = tint;
+  }
+
   public ProjectInfoDto leadId(Long leadId) {
     this.leadId = leadId;
     return this;
@@ -134,12 +156,13 @@ public class ProjectInfoDto {
     return Objects.equals(this.id, projectInfoDto.id) &&
         Objects.equals(this.name, projectInfoDto.name) &&
         Objects.equals(this.description, projectInfoDto.description) &&
+        Objects.equals(this.tint, projectInfoDto.tint) &&
         Objects.equals(this.leadId, projectInfoDto.leadId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, leadId);
+    return Objects.hash(id, name, description, tint, leadId);
   }
 
   @Override
@@ -149,6 +172,7 @@ public class ProjectInfoDto {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    tint: ").append(toIndentedString(tint)).append("\n");
     sb.append("    leadId: ").append(toIndentedString(leadId)).append("\n");
     sb.append("}");
     return sb.toString();

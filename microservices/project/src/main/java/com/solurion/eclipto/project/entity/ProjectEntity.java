@@ -23,9 +23,12 @@ public class ProjectEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "lead_id", unique = true)
+    @Column(name = "tint")
+    private String tint;
+
+    @Column(name = "lead_id")
     private Long leadId;
 
-    @Column(name = "workspace_id", unique = true)
+    @Column(name = "workspace_id")
     private Long workspaceId;
 }

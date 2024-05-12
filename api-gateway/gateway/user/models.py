@@ -8,7 +8,7 @@ class UserInfoDto(BaseModel):
     first_name: str = Field(
         description="User first name", example="John"
     )
-    last_name: str = Field(
+    last_name: str | None = Field(
         default=None, description="User last name", example="Lastname"
     )
     email: EmailStr = Field(
@@ -17,10 +17,10 @@ class UserInfoDto(BaseModel):
 
 
 class UpdateUserRequest(BaseModel):
-    first_name: str = Field(
+    first_name: str | None = Field(
         default=None, description="User first name", example="John"
     )
-    last_name: str = Field(
+    last_name: str | None = Field(
         default=None, description="User last name", example="Lastname"
     )
 
@@ -29,7 +29,7 @@ class RegisterRequest(BaseModel):
     first_name: str = Field(
         description="User first name", example="John"
     )
-    last_name: str = Field(
+    last_name: str | None = Field(
         default=None, description="User last name", example="Lastname"
     )
     email: EmailStr = Field(

@@ -20,6 +20,6 @@ public class TaskStatusEntity {
     private Long projectId;
     @Column(name = "name")
     private String name;
-    @Column(name = "color")
+    @Column(name = "tint")
     private String tint;
 }

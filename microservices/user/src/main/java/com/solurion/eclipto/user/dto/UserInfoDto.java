@@ -27,6 +27,8 @@ public class UserInfoDto {
 
   private String lastName;
 
+  private String iconTint;
+
   private String email;
 
   public UserInfoDto() {
@@ -102,6 +104,26 @@ public class UserInfoDto {
     this.lastName = lastName;
   }
 
+  public UserInfoDto iconTint(String iconTint) {
+    this.iconTint = iconTint;
+    return this;
+  }
+
+  /**
+   * A color that is convenient for the user
+   * @return iconTint
+  */
+  @Pattern(regexp = "^#(?:[0-9a-fA-F]{3}){1,2}$") 
+  @Schema(name = "icon_tint", description = "A color that is convenient for the user", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("icon_tint")
+  public String getIconTint() {
+    return iconTint;
+  }
+
+  public void setIconTint(String iconTint) {
+    this.iconTint = iconTint;
+  }
+
   public UserInfoDto email(String email) {
     this.email = email;
     return this;
@@ -134,12 +156,13 @@ public class UserInfoDto {
     return Objects.equals(this.id, userInfoDto.id) &&
         Objects.equals(this.firstName, userInfoDto.firstName) &&
         Objects.equals(this.lastName, userInfoDto.lastName) &&
+        Objects.equals(this.iconTint, userInfoDto.iconTint) &&
         Objects.equals(this.email, userInfoDto.email);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, firstName, lastName, email);
+    return Objects.hash(id, firstName, lastName, iconTint, email);
   }
 
   @Override
@@ -149,6 +172,7 @@ public class UserInfoDto {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
     sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
+    sb.append("    iconTint: ").append(toIndentedString(iconTint)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("}");
     return sb.toString();

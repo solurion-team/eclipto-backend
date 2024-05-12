@@ -69,7 +69,7 @@ async def login(
             "model": ErrorDto,
         }
     },
-    status_code=HTTPStatus.CREATED,
+    status_code=HTTPStatus.OK,
     tags=["auth"],
     summary="Register a user",
     description="Register a new user in the system",
@@ -85,10 +85,7 @@ async def register(
         response: Response,
         register_request_body: Annotated[
             RegisterRequest,
-            Body(
-                media_type="application/json",
-                description="User registration info"
-            )
+            Body(description="User registration info")
         ]
 ) -> JwtAuthenticationResponse:
     pass
