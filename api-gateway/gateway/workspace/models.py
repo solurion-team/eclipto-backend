@@ -8,7 +8,7 @@ class WorkspaceInfoDto(BaseModel):
     name: str = Field(
         description="Workspace name, which identifies the workspace to the user", example="eclipto-backend"
     )
-    description: str = Field(
+    description: str | None = Field(
         default=None, description="A workspace description that provides more detailed information about the workspace",
         example="Workspace of solurion company"
     )
