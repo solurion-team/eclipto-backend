@@ -1,8 +1,8 @@
 import functools
+import httpx
+
 from http import HTTPMethod
 from typing import get_type_hints, get_args
-
-import httpx
 from fastapi import Request, Response, params
 
 
