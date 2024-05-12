@@ -13,11 +13,15 @@ class Priority(str, Enum):
 
 class CreateTaskRequest(BaseModel):
     status_id: int = Field(description="Id of the status", example=12345432)
-    reporter_user_id: int | None = Field(
-        default=None, description="Id of the reporter user", example=123456
+    reporter_user_id: int = Field(
+      description="Id of the reporter user", example=123456
     )
     project_id: int = Field(description="Id of the project", example=123456)
     title: str = Field(description="Title of the task", example="Fsdasdasdasdasdasd")
+    description: str | None = Field(description="Description of the task", example="Learn Spring boot", default=None)
+    priority: Priority | None = Field(description="Priority of task", default=None)
+    due_date: str | None = Field(description="Due date", default=None, example=datetime.now())
+    assigned_user_id: int | None = Field(description="Assigned user id", default=None)
 
 
 class CreateTaskStatusRequest(BaseModel):
