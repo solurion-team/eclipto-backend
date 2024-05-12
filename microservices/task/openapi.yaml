@@ -40,6 +40,8 @@ paths:
       operationId: updateTask
       tags:
         - task
+      parameters:
+        - $ref: "#/components/parameters/TaskId"
       security:
         - bearerHttpAuthentication: [ ]
       requestBody:
@@ -208,7 +210,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TaskStatusDto"
+                type: array
+                items:
+                  $ref: "#/components/schemas/TaskStatusDto"
         403:
           description: "There is no status with same ID"
           content:
@@ -296,7 +300,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/TaskStatusDto"
+            $ref: "#/components/schemas/UpdateTaskStatusRequest"
 
   schemas:
     CreateTaskRequest:
@@ -344,6 +348,17 @@ components:
         - name
         - tint
         - project_id
+    UpdateTaskStatusRequest:
+      type: object
+      properties:
+        name:
+          description: "Task status name"
+          type: string
+          example: "In progress"
+        tint:
+          description: "A color that is convenient for the user to identify the status"
+          type: string
+          pattern: "^#(?:[0-9a-fA-F]{3}){1,2}$"
     UpdateTaskRequest:
       type: object
       properties:

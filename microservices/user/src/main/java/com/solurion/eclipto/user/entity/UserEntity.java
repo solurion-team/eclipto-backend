@@ -28,6 +28,9 @@ public class UserEntity implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "icon_tint")
+    private String iconTint;
+
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 

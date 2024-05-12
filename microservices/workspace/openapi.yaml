@@ -101,6 +101,32 @@ paths:
                 $ref: "#/components/schemas/WorkspaceInfoDto"
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+    get:
+      description: Get user workspaces
+      operationId: getWorkspaces
+      tags:
+        - workspace
+      security:
+        - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/WorkspaceId"
+      responses:
+        200:
+          description: "The workspace has been found"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WorkspaceInfoDto"
+        403:
+          description: "Workspace not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
 
 components:
   parameters:

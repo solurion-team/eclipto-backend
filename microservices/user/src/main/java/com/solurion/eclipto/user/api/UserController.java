@@ -1,7 +1,6 @@
 package com.solurion.eclipto.user.api;
 
 import com.solurion.eclipto.user.dto.*;
-import com.solurion.eclipto.user.service.AuthenticationService;
 import com.solurion.eclipto.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

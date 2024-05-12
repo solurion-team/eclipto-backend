@@ -39,10 +39,12 @@ paths:
         - project
       security:
         - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/ProjectId"
       requestBody:
         $ref: "#/components/requestBodies/UpdateProjectInfoRequestBody"
       responses:
-        204:
+        200:
           description: "Project info updated successfully"
           content:
             application/json:
@@ -80,7 +82,33 @@ paths:
                 $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
-  /v1/workspaces/{workspaceId}/projects:
+  /v1/projects:
+    get:
+      description: Get all user project (or all workspace`s project)
+      operationId: getProjects
+      tags:
+        - project
+      security:
+        - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/QueryWorkspaceId"
+      responses:
+        200:
+          description: "The project has been found"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProjectInfoDto"
+        403:
+          description: "Project not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
     post:
       description: Create project with required information
       operationId: postProject
@@ -91,7 +119,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/CreateProjectRequestBody"
       responses:
-        201:
+        200:
           description: "Project created successfully"
           content:
             application/json:
@@ -109,14 +137,25 @@ components:
       required: true
       schema:
         type: integer
+        format: int64
         example: "3746287468"
-    WorkspaceId:
+    PathWorkspaceId:
       name: workspaceId
       in: path
       description: ID of a workspace
       required: true
       schema:
         type: integer
+        format: int64
+        example: "3746287468"
+    QueryWorkspaceId:
+      name: workspaceId
+      in: query
+      description: ID of a workspace
+      required: false
+      schema:
+        type: integer
+        format: int64
         example: "3746287468"
 
   requestBodies:
@@ -141,6 +180,7 @@ components:
         id:
           description: "ID of the project"
           type: integer
+          format: int64
           example: 7438546582
         name:
           description: "Project name, which identifies the project to the user"
@@ -150,9 +190,14 @@ components:
           description: "A project description that provides more detailed information about the project"
           type: string
           example: "Project about microservice based eclipto backend project, that implement api-gateway pattern and ..."
+        tint:
+          description: "A color that is convenient for the user to identify the project"
+          type: string
+          pattern: "^#(?:[0-9a-fA-F]{3}){1,2}$"
         lead_id:
           description: "Project lead user id"
           type: integer
+          format: int64
           example: "3757385734"
       required:
         - id
@@ -169,9 +214,19 @@ components:
           description: "A project description that provides more detailed information about the project"
           type: string
           example: "Project about microservice based eclipto backend project, that implement api-gateway pattern and ..."
+        tint:
+          description: "A color that is convenient for the user to identify the project"
+          type: string
+          pattern: "^#(?:[0-9a-fA-F]{3}){1,2}$"
+        workspace_id:
+          description: "Project workspace id"
+          type: integer
+          format: int64
+          example: "3757385734"
         lead_id:
           description: "Project lead user id"
           type: integer
+          format: int64
           example: "3757385734"
       required:
         - name
@@ -187,8 +242,13 @@ components:
           description: "A project description that provides more detailed information about the project"
           type: string
           example: "Project about microservice based eclipto backend project, that implement api-gateway pattern and ..."
+        tint:
+          description: "A color that is convenient for the user to identify the project"
+          type: string
+          pattern: "^#(?:[0-9a-fA-F]{3}){1,2}$"
         lead_id:
           description: "Project lead user id"
           type: integer
+          format: int64
           example: "3757385734"
 
