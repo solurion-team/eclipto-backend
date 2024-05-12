@@ -20,18 +20,20 @@ class WorkspaceInfoDto(BaseModel):
 class CreateWorkspaceRequest(BaseModel):
     name: str = Field(
         description="Workspace name, which identifies the workspace to the user", example="eclipto-backend")
-    description: str = Field(
+    description: str | None = Field(
         default=None,
         description="A workspace description that provides more detailed information about the workspace",
-        example="Workspace of solurion company")
+        example="Workspace of solurion company"
+    )
 
 
 class UpdateWorkspaceRequest(BaseModel):
-    name: str = Field(
+    name: str | None = Field(
         default=None, description="Workspace name, which identifies the workspace to the user",
         example="eclipto-backend")
-    description: str = Field(
+    description: str | None = Field(
         default=None,
         description="A workspace description that provides more detailed information about the workspace",
         example="Workspace about microservice based eclipto backend workspace, that implement api-gateway pattern and "
-                "..")
+                ".."
+    )
