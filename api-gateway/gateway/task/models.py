@@ -6,9 +6,9 @@ from pydantic import BaseModel, Field
 
 
 class Priority(str, Enum):
-    low = "low"
-    medium = "medium"
-    high = "high"
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
 
 
 class CreateTaskRequest(BaseModel):
@@ -17,11 +17,12 @@ class CreateTaskRequest(BaseModel):
         default=None, description="Id of the reporter user", example=123456
     )
     project_id: int = Field(description="Id of the project", example=123456)
+    title: str = Field(description="Title of the task", example="Fsdasdasdasdasdasd")
 
 
 class CreateTaskStatusRequest(BaseModel):
     name: str = Field(description="Name of the task", example="In progress")
-    tint: int = Field(description="Tint of the task", example="...")
+    tint: str = Field(description="Tint of the task", example="...")
     project_id: int = Field(description="Id of the project", example=123456)
 
 
@@ -39,7 +40,7 @@ class UpdateTaskRequest(BaseModel):
     priority: Priority = Field(
         default=None, description="Priority of the task"
     )
-    due_date: datetime = Field(
+    due_date: str = Field(
         description="Due date"
     )
     assigned_user_id: int = Field(
@@ -70,8 +71,13 @@ class TaskInfoDto(BaseModel):
     description: str = Field(default=None, description="Description of the task", example="Learn Java core and Spring")
     status: TaskStatusDto = Field(description="")
     priority: Priority = Field(description="Priority of the task")
-    due_date: datetime = Field(default=None, description="Due date", example="2024-03-28T00:07:19+03:00")
+    due_date: str = Field(default=None, description="Due date", example="2024-03-28T00:07:19+03:00")
     assigned_user_id: int = Field(default=None, description="Id of the assigned user", example=123456)
     reporter_user_id: int = Field(description="Id of the reporter", example=123456)
-    created_at: datetime = Field(description="created_at", example=datetime.now())
-    updated_at: datetime = Field(description="updated_at", example=datetime.now())
+    created_at: str = Field(description="created_at", example=datetime.now())
+    updated_at: str = Field(description="updated_at", example=datetime.now())
+
+
+class UpdateTaskStatusRequest(BaseModel):
+    name: str = Field(description="Name of the task status", example="In progress")
+    tint: str = Field(description="Color of the task status", example="#FFF")

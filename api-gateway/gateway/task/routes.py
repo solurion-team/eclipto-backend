@@ -1,7 +1,7 @@
 from http import HTTPStatus, HTTPMethod
 from typing import Annotated
 
-from fastapi import APIRouter, Body, Path
+from fastapi import APIRouter, Body, Path, Query
 from starlette.requests import Request
 from starlette.responses import Response
 
@@ -13,6 +13,35 @@ from .models import *
 SERVICE_URL = settings.task_service_url
 
 router = APIRouter()
+
+
+# noinspection PyUnusedLocal
+@router.get(
+    "/v1/tasks/lite",
+    response_model=List[TaskLiteDto],
+    responses={
+        "default": {
+            "description": "Unexpected error",
+            "model": ErrorDto,
+        }
+    },
+    status_code=HTTPStatus.OK,
+    tags=["task"],
+    summary="List of task lite",
+    description="Get all project tasks with lite information",
+    operation_id="getLiteTasks",
+)
+@gate_to(
+    method=HTTPMethod.GET,
+    service_url=SERVICE_URL,
+    gateway_path="/v1/tasks/lite"
+)
+async def get_lite_tasks(
+        request: Request,
+        response: Response,
+        projectId: Annotated[int, Query(description="Project ID")]
+) -> List[TaskLiteDto]:
+    pass
 
 
 # noinspection PyUnusedLocal
@@ -38,7 +67,7 @@ router = APIRouter()
 @gate_to(
     method=HTTPMethod.GET,
     service_url=SERVICE_URL,
-    gateway_path="/v1/tasks/{taskId}"
+    gateway_path="/v1/tasks/{task_id}"
 )
 async def get_task(
         request: Request,
@@ -73,7 +102,7 @@ async def get_task(
 @gate_to(
     method=HTTPMethod.PUT,
     service_url=SERVICE_URL,
-    gateway_path="/v1/tasks/{taskId}"
+    gateway_path="/v1/tasks/{task_id}"
 )
 async def update_task(
         request: Request,
@@ -109,7 +138,7 @@ async def update_task(
 @gate_to(
     method=HTTPMethod.DELETE,
     service_url=SERVICE_URL,
-    gateway_path="/v1/tasks/{taskId}"
+    gateway_path="/v1/tasks/{task_id}"
 )
 async def delete_task(
         request: Request,
@@ -140,11 +169,12 @@ async def delete_task(
 @gate_to(
     method=HTTPMethod.GET,
     service_url=SERVICE_URL,
-    gateway_path="v1/tasks"
+    gateway_path="/v1/tasks"
 )
 async def get_all_tasks(
         request: Request,
         response: Response,
+        projectId: Annotated[int, Query()],
 ) -> List[TaskInfoDto]:
     pass
 
@@ -179,34 +209,6 @@ async def create_lite_task(
         response: Response,
         create_task_request_body: Annotated[CreateTaskRequest, Body()]
 ) -> TaskLiteDto:
-    pass
-
-
-# noinspection PyUnusedLocal
-@router.get(
-    "/v1/tasks/lite",
-    response_model=List[TaskLiteDto],
-    responses={
-        "default": {
-            "description": "Unexpected error",
-            "model": ErrorDto,
-        }
-    },
-    status_code=HTTPStatus.OK,
-    tags=["task"],
-    summary="List of task lite",
-    description="Get all project tasks with lite information",
-    operation_id="getLiteTasks",
-)
-@gate_to(
-    method=HTTPMethod.GET,
-    service_url=SERVICE_URL,
-    gateway_path="/v1/tasks/lite"
-)
-async def get_lite_tasks(
-        request: Request,
-        response: Response,
-) -> List[TaskLiteDto]:
     pass
 
 
@@ -262,7 +264,7 @@ async def post_task_status(
 @gate_to(
     method=HTTPMethod.PUT,
     service_url=SERVICE_URL,
-    gateway_path="/v1/tasks/statuses/{statusId}"
+    gateway_path="/v1/tasks/statuses/{status_id}"
 )
 async def update_task_status(
         request: Request,
@@ -270,7 +272,7 @@ async def update_task_status(
         status_id: Annotated[
             int, Path(description="ID of a status", example=123, gt=0)
         ],
-        update_task_status_request_body: Annotated[TaskStatusDto, Body()]
+        update_task_status_request_body: Annotated[UpdateTaskStatusRequest, Body()]
 ) -> TaskStatusDto:
     pass
 
@@ -298,13 +300,14 @@ async def update_task_status(
 @gate_to(
     method=HTTPMethod.GET,
     service_url=SERVICE_URL,
-    gateway_path="/v1/projects/{projectId}/statuses"
+    gateway_path="/v1/projects/{project_id}/statuses"
 )
 async def get_project_task_statuses(
         request: Request,
         response: Response,
         project_id: Annotated[
             int, Path(description="ID of a project", example=123, gt=0)
-        ]
+        ],
+        includeTasks: Annotated[bool, Query()]
 ) -> List[TaskStatusDto]:
     pass
