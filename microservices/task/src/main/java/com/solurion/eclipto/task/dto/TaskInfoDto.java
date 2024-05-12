@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "TaskInfoDto", description = "Task information")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.4.0")
-public class TaskInfoDto {
+public class  TaskInfoDto {
 
   private Long id;
 
