@@ -1,9 +1,9 @@
 import functools
 import httpx
 
+from http import HTTPMethod
 from typing import get_type_hints, get_args
 from fastapi import Request, Response, params
-from http import HTTPMethod
 
 
 def gate_to(

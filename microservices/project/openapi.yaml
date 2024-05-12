@@ -129,6 +129,13 @@ paths:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
 
 components:
+  securitySchemes:
+    bearerHttpAuthentication:
+      description: Bearer token using a JWT
+      type: http
+      scheme: Bearer
+      bearerFormat: JWT
+
   parameters:
     ProjectId:
       name: projectId

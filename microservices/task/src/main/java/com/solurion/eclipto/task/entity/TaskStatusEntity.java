@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Entity
 @Setter
 @Getter
@@ -22,4 +24,6 @@ public class TaskStatusEntity {
     private String name;
     @Column(name = "tint")
     private String tint;
+    @OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
+    private List<TaskEntity> tasks;
 }

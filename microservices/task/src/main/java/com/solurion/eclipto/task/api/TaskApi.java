@@ -12,6 +12,7 @@ import com.solurion.eclipto.task.dto.TaskInfoDto;
 import com.solurion.eclipto.task.dto.TaskLiteDto;
 import com.solurion.eclipto.task.dto.TaskStatusDto;
 import com.solurion.eclipto.task.dto.UpdateTaskRequest;
+import com.solurion.eclipto.task.dto.UpdateTaskStatusRequest;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -231,8 +232,8 @@ public interface TaskApi {
 
 
     /**
-     * POST /v1/tasks/lite
-     * Create task with lite information
+     * POST /v1/tasks
+     * Create task with information
      *
      * @param createTaskRequest Request to create a task (optional)
      * @return Task created successfully (status code 201)
@@ -240,8 +241,8 @@ public interface TaskApi {
      *         or Unexpected error (status code 200)
      */
     @Operation(
-        operationId = "postLiteTask",
-        description = "Create task with lite information",
+        operationId = "postTask",
+        description = "Create task with information",
         tags = { "task" },
         responses = {
             @ApiResponse(responseCode = "201", description = "Task created successfully", content = {
@@ -260,12 +261,12 @@ public interface TaskApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/v1/tasks/lite",
+        value = "/v1/tasks",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
     
-    ResponseEntity<TaskLiteDto> postLiteTask(
+    ResponseEntity<TaskLiteDto> postTask(
         @Parameter(name = "CreateTaskRequest", description = "Request to create a task") @Valid @RequestBody(required = false) CreateTaskRequest createTaskRequest
     );
 
@@ -353,7 +354,7 @@ public interface TaskApi {
      * Update task status information
      *
      * @param statusId ID of a task status (required)
-     * @param taskStatusDto Request to update a task status (optional)
+     * @param updateTaskStatusRequest Request to update a task status (optional)
      * @return Task updated successfully (status code 200)
      *         or There is no status with same ID (status code 403)
      *         or Unexpected error (status code 200)
@@ -386,7 +387,7 @@ public interface TaskApi {
     
     ResponseEntity<TaskStatusDto> updateTaskStatus(
         @Parameter(name = "statusId", description = "ID of a task status", required = true, in = ParameterIn.PATH) @PathVariable("statusId") Long statusId,
-        @Parameter(name = "TaskStatusDto", description = "Request to update a task status") @Valid @RequestBody(required = false) TaskStatusDto taskStatusDto
+        @Parameter(name = "UpdateTaskStatusRequest", description = "Request to update a task status") @Valid @RequestBody(required = false) UpdateTaskStatusRequest updateTaskStatusRequest
     );
 
 }

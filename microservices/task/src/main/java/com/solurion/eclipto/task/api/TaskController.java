@@ -31,6 +31,9 @@ public class TaskController implements TaskApi {
 
     @Override
     public ResponseEntity<List<TaskStatusDto>> getProjectTaskStatuses(Long projectId, Boolean includeTasks) {
+        if(includeTasks == null){
+            includeTasks = false;
+        }
         return ResponseEntity.ok(taskService.getProjectTaskStatuses(projectId, includeTasks));
     }
 
@@ -40,8 +43,8 @@ public class TaskController implements TaskApi {
     }
 
     @Override
-    public ResponseEntity<TaskLiteDto> postLiteTask(CreateTaskRequest createTaskRequest) {
-        return ResponseEntity.ok(taskService.postLiteTask(createTaskRequest));
+    public ResponseEntity<TaskLiteDto> postTask(CreateTaskRequest createTaskRequest) {
+        return ResponseEntity.ok(taskService.postTask(createTaskRequest));
     }
 
     @Override
@@ -55,7 +58,7 @@ public class TaskController implements TaskApi {
     }
 
     @Override
-    public ResponseEntity<TaskStatusDto> updateTaskStatus(Long statusId, TaskStatusDto taskStatusDto) {
-        return ResponseEntity.ok(taskService.updateTaskStatus(statusId, taskStatusDto));
+    public ResponseEntity<TaskStatusDto> updateTaskStatus(Long statusId, UpdateTaskStatusRequest updateTaskStatusRequest) {
+        return ResponseEntity.ok(taskService.updateTaskStatus(statusId, updateTaskStatusRequest));
     }
 }

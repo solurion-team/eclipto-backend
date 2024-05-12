@@ -82,30 +82,9 @@ paths:
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
   /v1/tasks:
-    get:
-      description: Get all project tasks with full information
-      operationId: getAllTasks
-      tags:
-        - task
-      security:
-        - bearerHttpAuthentication: [ ]
-      parameters:
-        - $ref: "#/components/parameters/QueryProjectId"
-      responses:
-        200:
-          description: "Get user tasks list (or project if query exists)"
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TaskInfoDto'
-        default:
-          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
-  /v1/tasks/lite:
     post:
-      description: Create task with lite information
-      operationId: postLiteTask
+      description: Create task with information
+      operationId: postTask
       tags:
         - task
       security:
@@ -127,6 +106,27 @@ paths:
                 $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+    get:
+      description: Get all project tasks with full information
+      operationId: getAllTasks
+      tags:
+        - task
+      security:
+        - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/QueryProjectId"
+      responses:
+        200:
+          description: "Get user tasks list (or project if query exists)"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskInfoDto'
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+  /v1/tasks/lite:
     get:
       description: Get all project tasks with lite information
       operationId: getLiteTasks
@@ -175,7 +175,7 @@ paths:
       security:
         - bearerHttpAuthentication: [ ]
       parameters:
-          - $ref: "#/components/parameters/StatusId"
+        - $ref: "#/components/parameters/StatusId"
       requestBody:
         $ref: "#/components/requestBodies/UpdateTaskStatusRequestBody"
       responses:
@@ -229,7 +229,7 @@ components:
       type: http
       scheme: Bearer
       bearerFormat: JWT
-      
+
   parameters:
     PathProjectId:
       name: projectId
@@ -310,11 +310,32 @@ components:
           description: "Task title, which identifies the task to the user"
           type: string
           example: "Learn Java core and Spring Boot"
+        description:
+          description: "A task description that provides more detailed information about the task"
+          type: string
+          example: "Go to metanit and learn all the chapters about Java. You can learn spring in the official tutorial"
         status_id:
           description: Id of the status
           type: integer
           format: int64
           example: 457345348
+        priority:
+          description: "Importance of the task"
+          type: string
+          enum:
+            - low
+            - medium
+            - high
+        due_date:
+          description: "Due timestamp with timezone (RFC 3339)"
+          type: string
+          format: date-time
+          example: "2024-03-28T00:07:19+03:00"
+        assigned_user_id:
+          description: "ID of the user who was assigned to the task"
+          type: integer
+          format: int64
+          example: 23486357348
         reporter_user_id:
           description: "ID of the user who reported the task"
           type: integer
@@ -326,7 +347,9 @@ components:
           format: int64
           example: 23486357348
       required:
+        - title
         - status_id
+        - reporter_user_id
         - project_id
     CreateTaskStatusRequest:
       type: object
@@ -397,8 +420,6 @@ components:
           type: integer
           format: int64
           example: 23486357348
-      required:
-        - id
     TaskLiteDto:
       description: Minimum task information
       type: object
