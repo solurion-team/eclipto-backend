@@ -79,5 +79,5 @@ class TaskInfoDto(BaseModel):
 
 
 class UpdateTaskStatusRequest(BaseModel):
-    name: str = Field(description="Name of the task status", example="In progress")
-    tint: str = Field(description="Color of the task status", example="#FFF")
+    name: str = Field(description="Name of the task status", example="In progress", default=None)
+    tint: str = Field(description="Color of the task status", example="#FFF", default=None)
