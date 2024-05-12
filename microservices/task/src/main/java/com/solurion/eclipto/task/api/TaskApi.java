@@ -232,8 +232,8 @@ public interface TaskApi {
 
 
     /**
-     * POST /v1/tasks/lite
-     * Create task with lite information
+     * POST /v1/tasks
+     * Create task with information
      *
      * @param createTaskRequest Request to create a task (optional)
      * @return Task created successfully (status code 201)
@@ -241,8 +241,8 @@ public interface TaskApi {
      *         or Unexpected error (status code 200)
      */
     @Operation(
-        operationId = "postLiteTask",
-        description = "Create task with lite information",
+        operationId = "postTask",
+        description = "Create task with information",
         tags = { "task" },
         responses = {
             @ApiResponse(responseCode = "201", description = "Task created successfully", content = {
@@ -261,12 +261,12 @@ public interface TaskApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/v1/tasks/lite",
+        value = "/v1/tasks",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
     
-    ResponseEntity<TaskLiteDto> postLiteTask(
+    ResponseEntity<TaskLiteDto> postTask(
         @Parameter(name = "CreateTaskRequest", description = "Request to create a task") @Valid @RequestBody(required = false) CreateTaskRequest createTaskRequest
     );
 

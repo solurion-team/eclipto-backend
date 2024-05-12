@@ -15,7 +15,7 @@ public interface TaskService {
 
     TaskInfoDto getTask(Long taskId);
 
-    TaskLiteDto postLiteTask(CreateTaskRequest createTaskRequest);
+    TaskLiteDto postTask(CreateTaskRequest createTaskRequest);
 
     TaskStatusDto postTaskStatus(CreateTaskStatusRequest createTaskStatusRequest);
 

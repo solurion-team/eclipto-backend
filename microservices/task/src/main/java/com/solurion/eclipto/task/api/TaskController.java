@@ -43,8 +43,8 @@ public class TaskController implements TaskApi {
     }
 
     @Override
-    public ResponseEntity<TaskLiteDto> postLiteTask(CreateTaskRequest createTaskRequest) {
-        return ResponseEntity.ok(taskService.postLiteTask(createTaskRequest));
+    public ResponseEntity<TaskLiteDto> postTask(CreateTaskRequest createTaskRequest) {
+        return ResponseEntity.ok(taskService.postTask(createTaskRequest));
     }
 
     @Override
