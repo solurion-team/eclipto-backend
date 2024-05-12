@@ -181,7 +181,7 @@ async def get_all_tasks(
 
 # noinspection PyUnusedLocal
 @router.post(
-    "/v1/tasks/lite",
+    "/v1/tasks",
     response_model=TaskLiteDto,
     responses={
         403: {
@@ -202,9 +202,9 @@ async def get_all_tasks(
 @gate_to(
     method=HTTPMethod.POST,
     service_url=SERVICE_URL,
-    gateway_path="/v1/tasks/lite"
+    gateway_path="/v1/tasks"
 )
-async def create_lite_task(
+async def create_task(
         request: Request,
         response: Response,
         create_task_request_body: Annotated[CreateTaskRequest, Body()]
