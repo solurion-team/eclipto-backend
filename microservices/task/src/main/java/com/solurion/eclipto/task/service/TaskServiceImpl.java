@@ -72,7 +72,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskLiteDto postLiteTask(CreateTaskRequest createTaskRequest) {
+    public TaskLiteDto postTask(CreateTaskRequest createTaskRequest) {
         return taskMapper.toTaskLite(taskRepository.save(taskMapper.toEntity(createTaskRequest)));
     }
 
