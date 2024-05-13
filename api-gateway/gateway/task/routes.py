@@ -1,7 +1,7 @@
 from http import HTTPStatus, HTTPMethod
 from typing import Annotated
 
-from fastapi import APIRouter, Body, Path, Query
+from fastapi import APIRouter, Body, Path, Query, Depends
 from starlette.requests import Request
 from starlette.responses import Response
 
@@ -9,6 +9,7 @@ from config import settings
 from gateway.common.models import ErrorDto
 from gateway.core.gateway import gate_to
 from .models import *
+from gateway.common.security import bearer_auth_scheme
 
 SERVICE_URL = settings.task_service_url
 
@@ -39,6 +40,7 @@ router = APIRouter()
 async def get_lite_tasks(
         request: Request,
         response: Response,
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         projectId: Annotated[int, Query(description="Project ID")] = None
 ) -> List[TaskLiteDto]:
     pass
@@ -72,6 +74,7 @@ async def get_lite_tasks(
 async def get_task(
         request: Request,
         response: Response,
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         task_id: Annotated[
             int, Path(description="ID of a task", example=123, gt=0)
         ]
@@ -107,6 +110,7 @@ async def get_task(
 async def update_task(
         request: Request,
         response: Response,
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         task_id: Annotated[
             int, Path(description="ID of a task", example=123, gt=0)
         ],
@@ -143,6 +147,7 @@ async def update_task(
 async def delete_task(
         request: Request,
         response: Response,
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         task_id: Annotated[
             int, Path(description="ID of a task", example=123, gt=0)
         ]
@@ -174,6 +179,7 @@ async def delete_task(
 async def get_all_tasks(
         request: Request,
         response: Response,
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         projectId: Annotated[int, Query()] = None,
 ) -> List[TaskInfoDto]:
     pass
@@ -197,7 +203,7 @@ async def get_all_tasks(
     tags=["task"],
     summary="Task lite create",
     description="Request to create a task",
-    operation_id="postLiteTask",
+    operation_id="postTask",
 )
 @gate_to(
     method=HTTPMethod.POST,
@@ -207,6 +213,7 @@ async def get_all_tasks(
 async def create_task(
         request: Request,
         response: Response,
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         create_task_request_body: Annotated[CreateTaskRequest, Body()]
 ) -> TaskLiteDto:
     pass
@@ -236,6 +243,7 @@ async def create_task(
 async def post_task_status(
         request: Request,
         response: Response,
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         create_task_status_request_body: Annotated[CreateTaskStatusRequest, Body()]
 ) -> TaskStatusDto:
     pass
@@ -269,6 +277,7 @@ async def post_task_status(
 async def update_task_status(
         request: Request,
         response: Response,
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         status_id: Annotated[
             int, Path(description="ID of a status", example=123, gt=0)
         ],
@@ -305,6 +314,7 @@ async def update_task_status(
 async def get_project_task_statuses(
         request: Request,
         response: Response,
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         project_id: Annotated[
             int, Path(description="ID of a project", example=123, gt=0)
         ],

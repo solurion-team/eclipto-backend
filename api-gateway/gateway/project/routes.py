@@ -45,7 +45,7 @@ SERVICE_URL = settings.project_service_url
 async def get_project(
         request: Request,
         response: Response,
-        # token: Annotated[str, Depends(bearer_auth_scheme)],
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         project_id: Annotated[
             int, Path(description="ID of a project", gt=0, example=123)
         ],
@@ -81,7 +81,7 @@ async def get_project(
 async def update_project(
         request: Request,
         response: Response,
-        # token: Annotated[str, Depends(bearer_auth_scheme)],
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         project_id: Annotated[
             int, Path(description="ID of a project", gt=0, example=123)
         ],
@@ -114,7 +114,7 @@ async def update_project(
 async def create_project(
         request: Request,
         response: Response,
-        # token: Annotated[str, Depends(bearer_auth_scheme)],
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         create_project_request_body: Annotated[CreateProjectRequest, Body()]
 ) -> ProjectInfoDto:
     pass
@@ -148,7 +148,7 @@ async def create_project(
 async def delete_project(
         request: Request,
         response: Response,
-        # token: Annotated[str, Depends(bearer_auth_scheme)],
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         project_id: Annotated[
             int, Path(description="ID of a project", gt=0, example=123)
         ]
@@ -185,8 +185,8 @@ async def delete_project(
 async def get_projects(
         request: Request,
         response: Response,
-        # token: Annotated[str, Depends(bearer_auth_scheme)],
-        workspace_id: int = Query(
+        token: Annotated[str, Depends(bearer_auth_scheme)],
+        workspaceId: int = Query(
             title="Workspace ID",
             description="The ID of the workspace to filter projects by", example=123
         ),

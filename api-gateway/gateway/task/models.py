@@ -65,7 +65,7 @@ class TaskLiteDto(BaseModel):
 class TaskStatusDto(BaseModel):
     id: int = Field(description="Id of the task", example=1)
     name: str = Field(description="Name of the task", example="")
-    tint: int = Field(description="Tint of the task", example=1)
+    tint: str = Field(description="Tint of the task", example=1)
     tasks: List[TaskLiteDto] | None = Field(default=None, description="List of TaskLiteDto objects")
 
 

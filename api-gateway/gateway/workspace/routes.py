@@ -44,7 +44,7 @@ SERVICE_URL = settings.workspace_service_url
 async def get_workspace(
         request: Request,
         response: Response,
-        # token: Annotated[str, Depends(bearer_auth_scheme)],
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         workspace_id: Annotated[
             int, Path(description="ID of a workspace", gt=0, example=123)
         ],
@@ -80,7 +80,7 @@ async def get_workspace(
 async def update_workspace(
         request: Request,
         response: Response,
-        # token: Annotated[str, Depends(bearer_auth_scheme)],
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         workspace_id: Annotated[
             int, Path(description="ID of a workspace", gt=0, example=123)
         ],
@@ -113,7 +113,7 @@ async def update_workspace(
 async def create_workspace(
         request: Request,
         response: Response,
-        # token: Annotated[str, Depends(bearer_auth_scheme)],
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         create_workspace_request_body: Annotated[CreateWorkspaceRequest, Body()]
 ) -> WorkspaceInfoDto:
     pass
@@ -147,7 +147,7 @@ async def create_workspace(
 async def delete_workspace(
         request: Request,
         response: Response,
-        # token: Annotated[str, Depends(bearer_auth_scheme)],
+        token: Annotated[str, Depends(bearer_auth_scheme)],
         workspace_id: Annotated[
             int, Path(description="ID of a workspace", gt=0, example=123)
         ]
