@@ -42,6 +42,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findAllByProjectId(projectId)
                 .stream()
                 .map(taskMapper::toTaskInfo)
+                .peek(obj -> obj.getStatus().setTasks(null))
                 .collect(Collectors.toList());
     }
 
@@ -67,8 +68,10 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskInfoDto getTask(Long taskId) {
-        return taskMapper.toTaskInfo(taskRepository.findById(taskId)
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+        TaskEntity entity = taskRepository.findById(taskId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        entity.getStatus().setTasks(null);
+        return taskMapper.toTaskInfo(entity);
     }
 
     @Override
