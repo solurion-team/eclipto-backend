@@ -72,8 +72,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional
     public TaskLiteDto postTask(CreateTaskRequest createTaskRequest) {
-        return taskMapper.toTaskLite(taskRepository.save(taskMapper.toEntity(createTaskRequest)));
+        TaskEntity entity = taskRepository.save(taskMapper.toEntity(createTaskRequest));
+        entity.setStatus(taskStatusRepository.findById(createTaskRequest.getStatusId())
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+        return taskMapper.toTaskLite(entity);
     }
 
     @Override
