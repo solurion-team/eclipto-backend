@@ -19,7 +19,7 @@ def gate_to(
         body_key = next((k for k, v in hints.items() if is_body_meta(v)), None)
         path_keys = {k for k, v in hints.items() if is_path_meta(v)}
         header_keys = {k for k, v in hints.items() if is_header_meta(v)}
-        default_header_keys = ["authorization", "cookies"]
+        default_header_keys = ["authorization", "cookie"]
         base_url = f"{service_url}{gateway_path}"
 
         @functools.wraps(f)
