@@ -5,6 +5,8 @@ from http import HTTPMethod
 from typing import get_type_hints, get_args
 from fastapi import Request, Response, params
 
+http_client = httpx.AsyncClient()
+
 
 def gate_to(
         method: HTTPMethod,
@@ -39,15 +41,14 @@ def gate_to(
             if body_key and body_key in kwargs:
                 body = kwargs[body_key].dict()
 
-            async with httpx.AsyncClient() as client:
-                resp = await client.request(
-                    method=method.upper(),
-                    url=url,
-                    headers=header_params,
-                    params=query_params,
-                    json=body,
-                    timeout=timeout
-                )
+            resp = await http_client.request(
+                method=method.upper(),
+                url=url,
+                headers=header_params,
+                params=query_params,
+                json=body,
+                timeout=timeout
+            )
             response.status_code = resp.status_code
             response.body = resp.content
             response.headers.update(resp.headers)
