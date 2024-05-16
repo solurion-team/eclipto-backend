@@ -1,5 +1,7 @@
 package com.solurion.eclipto.task.service;
 
+import com.solurion.eclipto.common.kafka.UserTopicConfig;
+import com.solurion.eclipto.common.kafka.UserTopicListener;
 import com.solurion.eclipto.task.dto.*;
 import com.solurion.eclipto.task.entity.TaskEntity;
 import com.solurion.eclipto.task.entity.TaskStatusEntity;
@@ -107,5 +109,10 @@ public class TaskServiceImpl implements TaskService {
                 .findById(statusId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         updateTaskStatusMapper.updateTaskStatus(updateTaskStatusRequest, entity);
         return taskStatusMapper.toDto(entity);
+    }
+
+    @Override
+    public void onUserDeleted(Long userId) {
+
     }
 }

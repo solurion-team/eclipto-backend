@@ -6,6 +6,7 @@ import com.solurion.eclipto.project.dto.UpdateProjectRequest;
 import com.solurion.eclipto.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

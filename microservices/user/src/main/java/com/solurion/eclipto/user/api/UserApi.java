@@ -40,6 +40,43 @@ import jakarta.annotation.Generated;
 public interface UserApi {
 
     /**
+     * DELETE /v1/users/{userId}
+     * Delete user
+     *
+     * @param userId ID of a user (required)
+     * @return The user has been deleted (status code 204)
+     *         or User not found (status code 403)
+     *         or Unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "deleteUser",
+        description = "Delete user",
+        tags = { "user" },
+        responses = {
+            @ApiResponse(responseCode = "204", description = "The user has been deleted"),
+            @ApiResponse(responseCode = "403", description = "User not found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.DELETE,
+        value = "/v1/users/{userId}",
+        produces = { "application/json" }
+    )
+    
+    ResponseEntity<Void> deleteUser(
+        @Parameter(name = "userId", description = "ID of a user", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId
+    );
+
+
+    /**
      * GET /v1/users/{userId}
      * Get user info
      *

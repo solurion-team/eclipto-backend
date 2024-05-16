@@ -4,6 +4,7 @@ import com.solurion.eclipto.task.dto.*;
 import com.solurion.eclipto.task.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
