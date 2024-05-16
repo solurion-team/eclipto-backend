@@ -3,6 +3,7 @@ package com.solurion.eclipto.common.config;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,8 @@ import java.util.Map;
 
 @Configuration
 public class KafkaConsumerConfig {
+    public static final String STRING_LONG_CONTAINER_FACTORY = "longKafkaListenerContainerFactory";
+
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
@@ -30,6 +33,7 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
+    @Named(STRING_LONG_CONTAINER_FACTORY)
     public ConcurrentKafkaListenerContainerFactory<String, Long> longKafkaListenerContainerFactory(
             ConsumerFactory<String, Long> consumerFactory
     ) {

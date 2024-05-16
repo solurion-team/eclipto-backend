@@ -1,5 +1,6 @@
 package com.solurion.eclipto.user.service;
 
+import com.solurion.eclipto.common.kafka.UserTopicConfig;
 import com.solurion.eclipto.user.dto.UpdateUserRequest;
 import com.solurion.eclipto.user.entity.UserEntity;
 import com.solurion.eclipto.user.mapper.UpdateUserMapper;
@@ -65,7 +66,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User not exists");
         }
         userRepository.deleteById(userId);
-        kafkaTemplate.send("user-topic", "delete-user", userId);
+        kafkaTemplate.send(UserTopicConfig.TOPIC, UserTopicConfig.DELETE_USER_KEY, userId);
     }
 
     @Override

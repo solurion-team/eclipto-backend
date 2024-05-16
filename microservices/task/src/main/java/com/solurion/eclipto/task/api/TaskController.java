@@ -59,9 +59,4 @@ public class TaskController implements TaskApi {
     public ResponseEntity<TaskStatusDto> updateTaskStatus(Long statusId, TaskStatusDto taskStatusDto) {
         return ResponseEntity.ok(taskService.updateTaskStatus(statusId, taskStatusDto));
     }
-//
-//    @KafkaListener(topics = "user-topic", containerFactory = "#{@longKafkaListenerContainerFactory}", condition = "#{'delete-user'.equals(headers['kafka_receivedMessageKey'])}")
-//    public void listenDeleteUserEvent(Long userId) {
-//        System.out.println("Received delete user from TASK: " + userId);
-//    }
 }
