@@ -42,9 +42,4 @@ public class ProjectController implements ProjectApi {
     public ResponseEntity<ProjectInfoDto> updateProjectInfo(Long projectId, UpdateProjectRequest updateProjectRequest) {
         return ResponseEntity.ok(projectService.updateProjectInfo(updateProjectRequest, projectId));
     }
-
-    @KafkaListener(topics = "user-topic")
-    public void listenDeleteUserEvent(Long userId) {
-        System.out.println("Received delete user from TASK: " + userId);
-    }
 }
