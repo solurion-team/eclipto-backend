@@ -15,13 +15,13 @@ public interface TaskService {
 
     TaskInfoDto getTask(Long taskId);
 
-    TaskLiteDto postLiteTask(CreateTaskRequest createTaskRequest);
+    TaskLiteDto postTask(CreateTaskRequest createTaskRequest);
 
     TaskStatusDto postTaskStatus(CreateTaskStatusRequest createTaskStatusRequest);
 
     TaskInfoDto updateTask(Long taskId, UpdateTaskRequest updateTaskRequest);
 
-    TaskStatusDto updateTaskStatus(Long statusId, TaskStatusDto taskStatusDto);
-
+    TaskStatusDto updateTaskStatus(Long statusId, UpdateTaskStatusRequest taskStatusDto);
+  
     void onUserDeleted(Long userId);
 }

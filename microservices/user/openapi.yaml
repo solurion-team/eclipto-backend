@@ -195,6 +195,10 @@ components:
           description: "User last name"
           type: string
           example: "Lastname"
+        icon_tint:
+          description: "A color that is convenient for the user"
+          type: string
+          pattern: "^#(?:[0-9a-fA-F]{3}){1,2}$"
         email:
           description: "User email"
           type: string

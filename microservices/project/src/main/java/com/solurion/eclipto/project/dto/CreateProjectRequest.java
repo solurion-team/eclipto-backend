@@ -25,6 +25,8 @@ public class CreateProjectRequest {
 
   private String description;
 
+  private String tint;
+
   private Long workspaceId;
 
   private Long leadId;
@@ -81,6 +83,26 @@ public class CreateProjectRequest {
     this.description = description;
   }
 
+  public CreateProjectRequest tint(String tint) {
+    this.tint = tint;
+    return this;
+  }
+
+  /**
+   * A color that is convenient for the user to identify the project
+   * @return tint
+  */
+  @Pattern(regexp = "^#(?:[0-9a-fA-F]{3}){1,2}$") 
+  @Schema(name = "tint", description = "A color that is convenient for the user to identify the project", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("tint")
+  public String getTint() {
+    return tint;
+  }
+
+  public void setTint(String tint) {
+    this.tint = tint;
+  }
+
   public CreateProjectRequest workspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
     return this;
@@ -132,13 +154,14 @@ public class CreateProjectRequest {
     CreateProjectRequest createProjectRequest = (CreateProjectRequest) o;
     return Objects.equals(this.name, createProjectRequest.name) &&
         Objects.equals(this.description, createProjectRequest.description) &&
+        Objects.equals(this.tint, createProjectRequest.tint) &&
         Objects.equals(this.workspaceId, createProjectRequest.workspaceId) &&
         Objects.equals(this.leadId, createProjectRequest.leadId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, description, workspaceId, leadId);
+    return Objects.hash(name, description, tint, workspaceId, leadId);
   }
 
   @Override
@@ -147,6 +170,7 @@ public class CreateProjectRequest {
     sb.append("class CreateProjectRequest {\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    tint: ").append(toIndentedString(tint)).append("\n");
     sb.append("    workspaceId: ").append(toIndentedString(workspaceId)).append("\n");
     sb.append("    leadId: ").append(toIndentedString(leadId)).append("\n");
     sb.append("}");

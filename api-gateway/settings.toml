@@ -1,5 +1,8 @@
 [development]
+host = "0.0.0.0"
 port = 8000
+request_timeout = 5
+workers = 4
 frontend_url = "http://localhost:4200"
 user_service_url = "http://localhost:8080"
 task_service_url = "http://localhost:8081"

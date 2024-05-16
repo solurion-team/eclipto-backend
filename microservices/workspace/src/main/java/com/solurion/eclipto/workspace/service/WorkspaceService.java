@@ -7,7 +7,7 @@ import com.solurion.eclipto.workspace.dto.WorkspaceInfoDto;
 public interface WorkspaceService {
     WorkspaceInfoDto getWorkspace(Long id);
 
-    void updateWorkspaceInfo(UpdateWorkspaceRequest request, Long workspaceId);
+    WorkspaceInfoDto updateWorkspaceInfo(UpdateWorkspaceRequest request, Long workspaceId);
 
     void deleteWorkspace(Long workspaceId);
 

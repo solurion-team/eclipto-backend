@@ -20,6 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Random;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -45,10 +47,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.save(
                 userMapper.toEntity(registerRequest)
                         .toBuilder()
+                        .iconTint(generateRandomHex())
                         .password(passwordEncoder.encode(registerRequest.getPassword()))
                         .role(UserRole.ROLE_USER)
                         .build()
         );
+    }
+
+    private String generateRandomHex() {
+        String[] colors = {"#0B3954", "#024959", "#5F0F40", "#145C9E", "#1C2826",
+                "#412234", "#1B1B3A", "#3E0E2F", "#2C1320", "#18206F"};
+        Random random = new Random();
+        int index = random.nextInt(colors.length);
+        return colors[index];
     }
 
     @Transactional

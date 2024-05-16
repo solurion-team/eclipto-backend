@@ -129,6 +129,13 @@ paths:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
 
 components:
+  securitySchemes:
+    bearerHttpAuthentication:
+      description: Bearer token using a JWT
+      type: http
+      scheme: Bearer
+      bearerFormat: JWT
+
   parameters:
     ProjectId:
       name: projectId
@@ -190,6 +197,10 @@ components:
           description: "A project description that provides more detailed information about the project"
           type: string
           example: "Project about microservice based eclipto backend project, that implement api-gateway pattern and ..."
+        tint:
+          description: "A color that is convenient for the user to identify the project"
+          type: string
+          pattern: "^#(?:[0-9a-fA-F]{3}){1,2}$"
         lead_id:
           description: "Project lead user id"
           type: integer
@@ -210,6 +221,10 @@ components:
           description: "A project description that provides more detailed information about the project"
           type: string
           example: "Project about microservice based eclipto backend project, that implement api-gateway pattern and ..."
+        tint:
+          description: "A color that is convenient for the user to identify the project"
+          type: string
+          pattern: "^#(?:[0-9a-fA-F]{3}){1,2}$"
         workspace_id:
           description: "Project workspace id"
           type: integer
@@ -234,6 +249,10 @@ components:
           description: "A project description that provides more detailed information about the project"
           type: string
           example: "Project about microservice based eclipto backend project, that implement api-gateway pattern and ..."
+        tint:
+          description: "A color that is convenient for the user to identify the project"
+          type: string
+          pattern: "^#(?:[0-9a-fA-F]{3}){1,2}$"
         lead_id:
           description: "Project lead user id"
           type: integer

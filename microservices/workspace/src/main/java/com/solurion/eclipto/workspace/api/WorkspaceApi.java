@@ -151,7 +151,7 @@ public interface WorkspaceApi {
      *
      * @param workspaceId ID of a workspace (required)
      * @param updateWorkspaceRequest Request to update a workspace (optional)
-     * @return Workspace info updated successfully (status code 204)
+     * @return Workspace info updated successfully (status code 200)
      *         or There is no workspace with same ID (status code 403)
      *         or Unexpected error (status code 200)
      */
@@ -160,7 +160,7 @@ public interface WorkspaceApi {
         description = "Update workspace infor",
         tags = { "workspace" },
         responses = {
-            @ApiResponse(responseCode = "204", description = "Workspace info updated successfully", content = {
+            @ApiResponse(responseCode = "200", description = "Workspace info updated successfully", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = WorkspaceInfoDto.class))
             }),
             @ApiResponse(responseCode = "403", description = "There is no workspace with same ID", content = {

@@ -1,9 +1,11 @@
 import functools
 import httpx
 
+from http import HTTPMethod
 from typing import get_type_hints, get_args
 from fastapi import Request, Response, params
-from http import HTTPMethod
+
+http_client = httpx.AsyncClient()
 
 
 def gate_to(
@@ -19,7 +21,7 @@ def gate_to(
         body_key = next((k for k, v in hints.items() if is_body_meta(v)), None)
         path_keys = {k for k, v in hints.items() if is_path_meta(v)}
         header_keys = {k for k, v in hints.items() if is_header_meta(v)}
-        default_header_keys = ["authorization", "cookies"]
+        default_header_keys = ["authorization", "cookie"]
         base_url = f"{service_url}{gateway_path}"
 
         @functools.wraps(f)
@@ -39,15 +41,14 @@ def gate_to(
             if body_key and body_key in kwargs:
                 body = kwargs[body_key].dict()
 
-            async with httpx.AsyncClient() as client:
-                resp = await client.request(
-                    method=method.upper(),
-                    url=url,
-                    headers=header_params,
-                    params=query_params,
-                    json=body,
-                    timeout=timeout
-                )
+            resp = await http_client.request(
+                method=method.upper(),
+                url=url,
+                headers=header_params,
+                params=query_params,
+                json=body,
+                timeout=timeout
+            )
             response.status_code = resp.status_code
             response.body = resp.content
             response.headers.update(resp.headers)

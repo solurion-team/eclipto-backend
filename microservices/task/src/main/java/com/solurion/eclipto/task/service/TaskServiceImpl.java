@@ -61,16 +61,8 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskStatusDto> getProjectTaskStatuses(Long projectId, Boolean includeTasks) {
         List<TaskStatusEntity> entities = taskStatusRepository.findAllByProjectId(projectId);
         List<TaskStatusDto> statusDtoList = entities.stream().map(taskStatusMapper::toDto).toList();
-        if(includeTasks){
-            statusDtoList
-                    .stream()
-                    .forEach(obj -> obj.setTasks(
-                            taskRepository
-                                    .findAllByStatus(taskStatusMapper.toEntity(obj))
-                                    .stream()
-                                    .map(taskMapper::toTaskLite)
-                                    .toList()
-                    ));
+        if(!includeTasks){
+            statusDtoList.stream().forEach(obj -> obj.setTasks(null));
         }
         return statusDtoList;
     }
@@ -82,8 +74,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskLiteDto postLiteTask(CreateTaskRequest createTaskRequest) {
-        return taskMapper.toTaskLite(taskRepository.save(taskMapper.toEntity(createTaskRequest)));
+    @Transactional
+    public TaskLiteDto postTask(CreateTaskRequest createTaskRequest) {
+        TaskEntity entity = taskRepository.save(taskMapper.toEntity(createTaskRequest));
+        entity.setStatus(taskStatusRepository.findById(createTaskRequest.getStatusId())
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+        return taskMapper.toTaskLite(entity);
     }
 
     @Override
@@ -98,15 +94,20 @@ public class TaskServiceImpl implements TaskService {
         TaskEntity entity = taskRepository
                 .findById(taskId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         updateTaskMapper.updateEntity(updateTaskRequest, entity);
+        if(updateTaskRequest.getStatusId() != null){
+            entity.setStatus(taskStatusRepository
+                    .findById(updateTaskRequest.getStatusId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+        }
         return taskMapper.toTaskInfo(entity);
     }
 
     @Override
     @Transactional
-    public TaskStatusDto updateTaskStatus(Long statusId, TaskStatusDto taskStatusDto) {
+    public TaskStatusDto updateTaskStatus(Long statusId, UpdateTaskStatusRequest updateTaskStatusRequest) {
         TaskStatusEntity entity = taskStatusRepository
                 .findById(statusId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        updateTaskStatusMapper.updateTaskStatus(taskStatusDto, entity);
+        updateTaskStatusMapper.updateTaskStatus(updateTaskStatusRequest, entity);
         return taskStatusMapper.toDto(entity);
     }
 
