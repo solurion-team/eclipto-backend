@@ -43,6 +43,10 @@ public class TaskEntity {
     @UpdateTimestamp
     private OffsetDateTime updatedAt;
 
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private BoardEntity board;
+
     @Getter
     @RequiredArgsConstructor
     public enum PriorityEnum {

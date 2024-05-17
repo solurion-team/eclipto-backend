@@ -1,14 +1,14 @@
 package com.solurion.eclipto.task.service;
 
-import com.solurion.eclipto.common.kafka.UserTopicConfig;
-import com.solurion.eclipto.common.kafka.UserTopicListener;
 import com.solurion.eclipto.task.dto.*;
+import com.solurion.eclipto.task.entity.BoardEntity;
 import com.solurion.eclipto.task.entity.TaskEntity;
 import com.solurion.eclipto.task.entity.TaskStatusEntity;
 import com.solurion.eclipto.task.mapper.TaskMapper;
 import com.solurion.eclipto.task.mapper.TaskStatusMapper;
 import com.solurion.eclipto.task.mapper.UpdateTaskMapper;
 import com.solurion.eclipto.task.mapper.UpdateTaskStatusMapper;
+import com.solurion.eclipto.task.repository.BoardRepository;
 import com.solurion.eclipto.task.repository.TaskRepository;
 import com.solurion.eclipto.task.repository.TaskStatusRepository;
 import jakarta.transaction.Transactional;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +30,7 @@ public class TaskServiceImpl implements TaskService {
     private final TaskStatusMapper taskStatusMapper;
     private final UpdateTaskMapper updateTaskMapper;
     private final UpdateTaskStatusMapper updateTaskStatusMapper;
+    private final BoardRepository boardRepository;
 
     @Override
     public void deleteTask(Long taskId) {
@@ -62,7 +64,7 @@ public class TaskServiceImpl implements TaskService {
         List<TaskStatusEntity> entities = taskStatusRepository.findAllByProjectId(projectId);
         List<TaskStatusDto> statusDtoList = entities.stream().map(taskStatusMapper::toDto).toList();
         if(!includeTasks){
-            statusDtoList.stream().forEach(obj -> obj.setTasks(null));
+            statusDtoList.forEach(obj -> obj.setTasks(null));
         }
         return statusDtoList;
     }
@@ -112,7 +114,53 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional
     public void onUserDeleted(Long userId) {
+        List<TaskEntity> entities = taskRepository.findAllByAssignedUserIdOrReporterUserId(userId);
+        for(TaskEntity obj:entities){
+            if(Objects.equals(obj.getAssignedUserId(), userId)){
+                    obj.setAssignedUserId(null);
+            }
+            if(Objects.equals(obj.getReporterUserId(), userId)){
+                    obj.setReporterUserId(null);
+            }
+        }
+        taskRepository.saveAll(entities);
+    }
 
+    @Override
+    @Transactional
+    public void onProjectCreated(Long projectId) {
+        boardRepository.save(BoardEntity.builder()
+                        .projectId(projectId)
+                .build());
+        taskStatusRepository.save(
+                TaskStatusEntity.builder()
+                        .projectId(projectId)
+                        .name("To do")
+                        .tint("#808080")
+                        .build()
+        );
+        taskStatusRepository.save(
+                TaskStatusEntity.builder()
+                        .projectId(projectId)
+                        .name("In progress")
+                        .tint("#0000ff")
+                        .build()
+        );
+        taskStatusRepository.save(
+                TaskStatusEntity.builder()
+                        .projectId(projectId)
+                        .name("Completed")
+                        .tint("#008000")
+                        .build()
+        );
+    }
+
+    @Override
+    public void onProjectDeleted(Long projectId) {
+        if(boardRepository.existsByProjectId(projectId)){
+            boardRepository.deleteByProjectId(projectId);
+        }
     }
 }
