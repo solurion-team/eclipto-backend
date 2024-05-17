@@ -117,6 +117,7 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public void onUserDeleted(Long userId) {
         List<TaskEntity> entities = taskRepository.findAllByAssignedUserIdOrReporterUserId(userId);
+
         for(TaskEntity obj:entities){
             if(Objects.equals(obj.getAssignedUserId(), userId)){
                     obj.setAssignedUserId(null);
