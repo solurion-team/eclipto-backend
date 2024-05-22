@@ -1,5 +1,6 @@
 package com.solurion.eclipto.workspace.service;
 
+import com.solurion.eclipto.common.kafka.WorkspaceTopicConfig;
 import com.solurion.eclipto.workspace.dto.CreateWorkspaceRequest;
 import com.solurion.eclipto.workspace.dto.UpdateWorkspaceRequest;
 import com.solurion.eclipto.workspace.dto.WorkspaceInfoDto;
@@ -10,6 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class WorkspaceServiceImpl implements WorkspaceService {
     private final WorkspaceRepository workspaceRepository;
     private final WorkspaceMapper workspaceMapper;
+    private final KafkaTemplate<String, Long> kafkaTemplate;
 
     @Override
     public WorkspaceInfoDto getWorkspace(Long id) {
@@ -46,6 +49,8 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     public void deleteWorkspace(Long workspaceId) {
         if (workspaceRepository.existsById(workspaceId)) {
             workspaceRepository.deleteById(workspaceId);
+            kafkaTemplate.send(WorkspaceTopicConfig.TOPIC, WorkspaceTopicConfig.DELETE_WORKSPACE_KEY, workspaceId);
+
         } else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Workspace not found");
         }

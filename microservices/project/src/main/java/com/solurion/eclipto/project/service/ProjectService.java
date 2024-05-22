@@ -17,4 +17,6 @@ public interface ProjectService {
     ProjectInfoDto createProject(CreateProjectRequest createProjectRequest);
 
     List<ProjectInfoDto> getProjects(@Nullable Long workspaceId);
+
+    void onWorkspaceDeleted(Long workspaceId);
 }

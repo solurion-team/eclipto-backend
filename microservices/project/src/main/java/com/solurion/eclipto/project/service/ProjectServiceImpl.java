@@ -1,5 +1,6 @@
 package com.solurion.eclipto.project.service;
 
+import com.solurion.eclipto.common.kafka.ProjectTopicConfig;
 import com.solurion.eclipto.project.dto.CreateProjectRequest;
 import com.solurion.eclipto.project.dto.ProjectInfoDto;
 import com.solurion.eclipto.project.dto.UpdateProjectRequest;
@@ -11,6 +12,7 @@ import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -22,6 +24,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
     private final UpdateProjectMapper updateProjectMapper;
     private final ProjectMapper projectMapper;
+    private final KafkaTemplate<String, Long> kafkaTemplate;
 
     public ProjectInfoDto getProject(Long id) {
         return projectMapper.toDto(projectRepository.findById(id).orElseThrow(
@@ -40,6 +43,7 @@ public class ProjectServiceImpl implements ProjectService {
     public void deleteProject(Long id) {
         if (projectRepository.existsById(id)) {
             projectRepository.deleteById(id);
+            kafkaTemplate.send(ProjectTopicConfig.TOPIC, ProjectTopicConfig.DELETE_PROJECT_KEY, id);
         } else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Project not found");
         }
@@ -47,11 +51,23 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectInfoDto createProject(CreateProjectRequest createProjectRequest) {
-        return projectMapper.toDto(projectRepository.save(projectMapper.toEntity(createProjectRequest)));
+        ProjectEntity entity = projectRepository.save(projectMapper.toEntity(createProjectRequest));
+        kafkaTemplate.send(ProjectTopicConfig.TOPIC, ProjectTopicConfig.CREATE_PROJECT_KEY, entity.getId());
+        return projectMapper.toDto(entity);
     }
 
     @Override
     public List<ProjectInfoDto> getProjects(@Nullable Long workspaceId) {
         return projectRepository.findAll().stream().map(projectMapper::toDto).toList();
+    }
+
+    @Override
+    public void onWorkspaceDeleted(Long workspaceId) {
+        List<ProjectEntity> entities = projectRepository.getAllByWorkspaceId(workspaceId);
+        entities.parallelStream()
+                .forEach(obj -> {
+                    kafkaTemplate.send(ProjectTopicConfig.TOPIC, ProjectTopicConfig.DELETE_PROJECT_KEY, obj.getId());
+                    projectRepository.delete(obj);
+                });
     }
 }
