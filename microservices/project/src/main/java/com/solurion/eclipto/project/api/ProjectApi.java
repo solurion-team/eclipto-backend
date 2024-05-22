@@ -7,6 +7,7 @@ package com.solurion.eclipto.project.api;
 
 import com.solurion.eclipto.project.dto.CreateProjectRequest;
 import com.solurion.eclipto.project.dto.ErrorDto;
+import com.solurion.eclipto.project.dto.ProjectAuthorityDto;
 import com.solurion.eclipto.project.dto.ProjectInfoDto;
 import com.solurion.eclipto.project.dto.UpdateProjectRequest;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
@@ -41,6 +42,48 @@ import jakarta.annotation.Generated;
 public interface ProjectApi {
 
     /**
+     * POST /v1/project/{projectId}/authorities
+     * Create project authorities
+     *
+     * @param projectId ID of a project (required)
+     * @param projectAuthorityDto Request to create a project authorities (optional)
+     * @return Project authorities (status code 200)
+     *         or Project authorities not found (status code 403)
+     *         or Unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "createProjectAuthorities",
+        description = "Create project authorities",
+        tags = { "project" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Project authorities", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ProjectAuthorityDto.class))
+            }),
+            @ApiResponse(responseCode = "403", description = "Project authorities not found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/v1/project/{projectId}/authorities",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    
+    ResponseEntity<ProjectAuthorityDto> createProjectAuthorities(
+        @Parameter(name = "projectId", description = "ID of a project", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId,
+        @Parameter(name = "ProjectAuthorityDto", description = "Request to create a project authorities") @Valid @RequestBody(required = false) ProjectAuthorityDto projectAuthorityDto
+    );
+
+
+    /**
      * DELETE /v1/projects/{projectId}
      * Permanently delete project
      *
@@ -63,6 +106,9 @@ public interface ProjectApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
@@ -72,6 +118,45 @@ public interface ProjectApi {
     )
     
     ResponseEntity<ProjectInfoDto> deleteProject(
+        @Parameter(name = "projectId", description = "ID of a project", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId
+    );
+
+
+    /**
+     * GET /v1/project/{projectId}/authorities
+     * Get information about users authorities
+     *
+     * @param projectId ID of a project (required)
+     * @return Project authorities (status code 200)
+     *         or Project authorities not found (status code 403)
+     *         or Unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "getProjectAuthorities",
+        description = "Get information about users authorities",
+        tags = { "project" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Project authorities", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ProjectAuthorityDto.class)))
+            }),
+            @ApiResponse(responseCode = "403", description = "Project authorities not found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/v1/project/{projectId}/authorities",
+        produces = { "application/json" }
+    )
+    
+    ResponseEntity<List<ProjectAuthorityDto>> getProjectAuthorities(
         @Parameter(name = "projectId", description = "ID of a project", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId
     );
 
@@ -99,6 +184,9 @@ public interface ProjectApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
@@ -135,6 +223,9 @@ public interface ProjectApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
@@ -167,6 +258,9 @@ public interface ProjectApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
@@ -178,6 +272,48 @@ public interface ProjectApi {
     
     ResponseEntity<ProjectInfoDto> postProject(
         @Parameter(name = "CreateProjectRequest", description = "Request to create a project") @Valid @RequestBody(required = false) CreateProjectRequest createProjectRequest
+    );
+
+
+    /**
+     * PUT /v1/project/{projectId}/authorities
+     * Update information about users authorities
+     *
+     * @param projectId ID of a project (required)
+     * @param projectAuthorityDto Request to update a project authorities (optional)
+     * @return Project authorities (status code 200)
+     *         or Project authorities not found (status code 403)
+     *         or Unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "updateProjectAuthorities",
+        description = "Update information about users authorities",
+        tags = { "project" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Project authorities", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ProjectAuthorityDto.class))
+            }),
+            @ApiResponse(responseCode = "403", description = "Project authorities not found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.PUT,
+        value = "/v1/project/{projectId}/authorities",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    
+    ResponseEntity<ProjectAuthorityDto> updateProjectAuthorities(
+        @Parameter(name = "projectId", description = "ID of a project", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId,
+        @Parameter(name = "ProjectAuthorityDto", description = "Request to update a project authorities") @Valid @RequestBody(required = false) ProjectAuthorityDto projectAuthorityDto
     );
 
 
@@ -205,6 +341,9 @@ public interface ProjectApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
