@@ -18,15 +18,13 @@ public class ProjectTopicConfig {
 
     public static final String DELETE_PROJECT_FILTER = "deletedProjectFilter";
 
-    @Bean
-    @Named(CREATE_PROJECT_FILTER)
-    public RecordFilterStrategy<String, String> createProjectFilter() {
+    @Bean(CREATE_PROJECT_FILTER)
+    public RecordFilterStrategy<String, Long> createdProjectFilter() {
         return new KeyRecordFilterStrategy<>(CREATE_PROJECT_KEY);
     }
 
-    @Bean
-    @Named(DELETE_PROJECT_FILTER)
-    public RecordFilterStrategy<String, String> deleteProjectFilter() {
+    @Bean(DELETE_PROJECT_FILTER)
+    public RecordFilterStrategy<String, Long> deletedProjectFilter() {
         return new KeyRecordFilterStrategy<>(DELETE_PROJECT_KEY);
     }
 }

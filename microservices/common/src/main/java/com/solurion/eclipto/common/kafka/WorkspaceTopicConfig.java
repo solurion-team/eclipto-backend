@@ -14,9 +14,8 @@ public class WorkspaceTopicConfig {
 
     public static final String DELETE_WORKSPACE_FILTER = "deleteWorkspaceFilter";
 
-    @Bean
-    @Named(DELETE_WORKSPACE_FILTER)
-    public RecordFilterStrategy<String, String> deleteWorkspaceFilter() {
+    @Bean(DELETE_WORKSPACE_FILTER)
+    public RecordFilterStrategy<String, Long> deleteWorkspaceFilter() {
         return new KeyRecordFilterStrategy<>(DELETE_WORKSPACE_KEY);
     }
 }
