@@ -127,6 +127,85 @@ paths:
                 $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+  /v1/workspace/{workspaceId}/authorities:
+    get:
+      description: Get information about users authorities
+      operationId: getWorkspaceAuthorities
+      tags:
+        - workspace
+      security:
+        - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/WorkspaceId"
+      responses:
+        200:
+          description: "Workspace authorities"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WorkspaceAuthorityDto"
+        403:
+          description: "Workspace authorities not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+    post:
+      description: Create workspace authorities
+      operationId: createWorkspaceAuthorities
+      tags:
+        - workspace
+      security:
+        - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/WorkspaceId"
+      requestBody:
+        $ref: "#/components/requestBodies/CreateWorkspaceAuthoritiesRequestBody"
+      responses:
+        200:
+          description: "Workspace authorities"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkspaceAuthorityDto"
+        403:
+          description: "Workspace authorities not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+    put:
+      description: Update information about users authorities
+      operationId: updateWorkspaceAuthorities
+      tags:
+        - workspace
+      security:
+        - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/WorkspaceId"
+      requestBody:
+        $ref: "#/components/requestBodies/UpdateWorkspaceAuthoritiesRequestBody"
+      responses:
+        200:
+          description: "Workspace authorities"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkspaceAuthorityDto"
+        403:
+          description: "Workspace authorities not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
 
 components:
   securitySchemes:
@@ -160,7 +239,18 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/UpdateWorkspaceRequest"
-
+    CreateWorkspaceAuthoritiesRequestBody:
+      description: Request to create a workspace authorities
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/WorkspaceAuthorityDto"
+    UpdateWorkspaceAuthoritiesRequestBody:
+      description: Request to update a workspace authorities
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/WorkspaceAuthorityDto"
   schemas:
     WorkspaceInfoDto:
       description: Workspace information
@@ -212,3 +302,21 @@ components:
           description: "A workspace description that provides more detailed information about the workspace"
           type: string
           example: "Workspace about microservice based eclipto backend workspace, that implement api-gateway pattern and ..."
+    WorkspaceAuthorityDto:
+      description: Workspace Authority DTO
+      properties:
+        user_id:
+          description: "Id of user"
+          type: integer
+          format: int64
+          example: "3757385734"
+        privilege:
+          description: "Privilege"
+          type: string
+          enum:
+            - READ
+            - WRITE
+            - ADMIN
+      required:
+        - user_id
+        - privilege
