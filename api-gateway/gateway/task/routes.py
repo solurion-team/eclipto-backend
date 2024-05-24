@@ -175,6 +175,7 @@ async def get_all_tasks(
         request: Request,
         response: Response,
         projectId: Annotated[int, Query()] = None,
+        isCompleted: Annotated[bool, Query()] = None,
 ) -> List[TaskInfoDto]:
     pass
 
@@ -309,5 +310,6 @@ async def get_project_task_statuses(
             int, Path(description="ID of a project", example=123, gt=0)
         ],
         includeTasks: Annotated[bool, Query()] = None,
+        isCompleted: Annotated[bool, Query()] = None,
 ) -> List[TaskStatusDto]:
     pass
