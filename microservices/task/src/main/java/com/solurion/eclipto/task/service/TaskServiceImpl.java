@@ -79,15 +79,19 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public TaskLiteDto postTask(CreateTaskRequest createTaskRequest) {
         TaskEntity entity = taskRepository.save(taskMapper.toEntity(createTaskRequest));
+        BoardEntity board = boardRepository.findByProjectId(createTaskRequest.getProjectId());
+        entity.setBoard(board);
         entity.setStatus(taskStatusRepository.findById(createTaskRequest.getStatusId())
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND)));
         return taskMapper.toTaskLite(entity);
     }
 
     @Override
+    @Transactional
     public TaskStatusDto postTaskStatus(CreateTaskStatusRequest createTaskStatusRequest) {
-        return taskStatusMapper
-                .toDto(taskStatusRepository.save(taskStatusMapper.toEntity(createTaskStatusRequest)));
+        TaskStatusEntity taskStatusEntity = taskStatusMapper.toEntity(createTaskStatusRequest);
+        taskStatusEntity.setBoard(boardRepository.findByProjectId(createTaskStatusRequest.getProjectId()));
+        return taskStatusMapper.toDto(taskStatusEntity);
     }
 
     @Override
@@ -160,8 +164,6 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void onProjectDeleted(Long projectId) {
-        if(boardRepository.existsByProjectId(projectId)){
-            boardRepository.deleteByProjectId(projectId);
-        }
+        boardRepository.deleteByProjectId(projectId);
     }
 }

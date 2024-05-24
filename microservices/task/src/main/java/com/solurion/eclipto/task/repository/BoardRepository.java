@@ -8,5 +8,7 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
 
     void deleteByProjectId(Long projectId);
 
+    BoardEntity findByProjectId(Long projectId);
+
 
 }

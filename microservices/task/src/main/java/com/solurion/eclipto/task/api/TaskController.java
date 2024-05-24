@@ -1,10 +1,13 @@
 package com.solurion.eclipto.task.api;
 
 import com.solurion.eclipto.task.dto.*;
+import com.solurion.eclipto.task.repository.BoardRepository;
 import com.solurion.eclipto.task.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;

@@ -51,8 +51,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     public void deleteProject(Long id) {
         if (projectRepository.existsById(id)) {
-            projectRepository.deleteById(id);
             kafkaTemplate.send(ProjectTopicConfig.TOPIC, ProjectTopicConfig.DELETE_PROJECT_KEY, id);
+            projectRepository.deleteById(id);
         } else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Project not found");
         }

@@ -18,6 +18,6 @@ public class ProjectTopicEventListener {
 
     @ProjectTopicListener(id = "cumcuyumudfg", filter = ProjectTopicConfig.DELETE_PROJECT_FILTER)
     public void listenProjectDeletedEvent(Long projectId) {
-        taskService.onProjectDeleted(projectId);
+        System.out.println("zov");
     }
 }
