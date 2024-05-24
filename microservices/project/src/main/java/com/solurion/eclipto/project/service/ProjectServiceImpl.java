@@ -71,6 +71,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    @Transactional
     public void onWorkspaceDeleted(Long workspaceId) {
         List<ProjectEntity> entities = projectRepository.getAllByWorkspaceId(workspaceId);
         entities.parallelStream()

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class WorkspaceEventTopicListener {
     private final ProjectService projectService;
 
-    @WorkspaceTopicListener(filter = WorkspaceTopicConfig.DELETE_WORKSPACE_FILTER)
+    @WorkspaceTopicListener(id = "workspaceDeleteEvent",filter = WorkspaceTopicConfig.DELETE_WORKSPACE_FILTER)
     public void listenWorkspaceDeletedEvent(Long workspaceId){projectService.onWorkspaceDeleted(workspaceId);}
 
 }

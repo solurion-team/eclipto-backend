@@ -7,10 +7,12 @@ import org.springframework.kafka.annotation.KafkaListener;
 import java.lang.annotation.*;
 
 @Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Retention(RetentionPolicy.RUNTIME)
 @KafkaListener
 public @interface WorkspaceTopicListener {
+    @AliasFor(annotation = KafkaListener.class, attribute = "id")
+    String id() default "";
 
     @AliasFor(annotation = KafkaListener.class, attribute = "topics")
     String[] topics() default {WorkspaceTopicConfig.TOPIC};
@@ -20,5 +22,4 @@ public @interface WorkspaceTopicListener {
 
     @AliasFor(annotation = KafkaListener.class, attribute = "filter")
     String filter();
-
 }

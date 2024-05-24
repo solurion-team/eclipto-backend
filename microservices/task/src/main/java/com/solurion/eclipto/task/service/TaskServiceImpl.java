@@ -79,8 +79,7 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public TaskLiteDto postTask(CreateTaskRequest createTaskRequest) {
         TaskEntity entity = taskRepository.save(taskMapper.toEntity(createTaskRequest));
-        BoardEntity board = boardRepository.findByProjectId(createTaskRequest.getProjectId());
-        entity.setBoard(board);
+        entity.setBoard(boardRepository.findByProjectId(createTaskRequest.getProjectId()));
         entity.setStatus(taskStatusRepository.findById(createTaskRequest.getStatusId())
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND)));
         return taskMapper.toTaskLite(entity);
@@ -136,7 +135,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public void onProjectCreated(Long projectId) {
-        boardRepository.save(BoardEntity.builder()
+        BoardEntity board = boardRepository.save(BoardEntity.builder()
                         .projectId(projectId)
                 .build());
         taskStatusRepository.save(
@@ -144,6 +143,7 @@ public class TaskServiceImpl implements TaskService {
                         .projectId(projectId)
                         .name("To do")
                         .tint("#808080")
+                        .board(board)
                         .build()
         );
         taskStatusRepository.save(
@@ -151,6 +151,7 @@ public class TaskServiceImpl implements TaskService {
                         .projectId(projectId)
                         .name("In progress")
                         .tint("#0000ff")
+                        .board(board)
                         .build()
         );
         taskStatusRepository.save(
@@ -158,11 +159,13 @@ public class TaskServiceImpl implements TaskService {
                         .projectId(projectId)
                         .name("Completed")
                         .tint("#008000")
+                        .board(board)
                         .build()
         );
     }
 
     @Override
+    @Transactional
     public void onProjectDeleted(Long projectId) {
         boardRepository.deleteByProjectId(projectId);
     }
