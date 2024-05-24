@@ -115,6 +115,7 @@ paths:
         - bearerHttpAuthentication: [ ]
       parameters:
         - $ref: "#/components/parameters/QueryProjectId"
+        - $ref: "#/components/parameters/IsCompleted"
       responses:
         200:
           description: "Get user tasks list (or project if query exists)"
