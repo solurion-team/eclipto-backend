@@ -1,5 +1,6 @@
 package com.solurion.eclipto.workspace.service;
 
+import com.solurion.eclipto.common.jwt.JwtClaimsManager;
 import com.solurion.eclipto.common.kafka.WorkspaceTopicConfig;
 import com.solurion.eclipto.workspace.dto.CreateWorkspaceRequest;
 import com.solurion.eclipto.workspace.dto.UpdateWorkspaceRequest;
@@ -21,6 +22,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     private final WorkspaceRepository workspaceRepository;
     private final WorkspaceMapper workspaceMapper;
     private final KafkaTemplate<String, Long> kafkaTemplate;
+    private final JwtClaimsManager jwtClaimsManager;
 
     @Override
     public WorkspaceInfoDto getWorkspace(Long id) {
@@ -58,7 +60,9 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
     @Override
     public WorkspaceInfoDto createWorkspace(CreateWorkspaceRequest request) {
-        return workspaceMapper.toDto(workspaceRepository.save(workspaceMapper.toEntity(request)));
+        WorkspaceEntity entity = workspaceMapper.toEntity(request);
+        entity.setOwnerId(jwtClaimsManager.extractUserId());
+        return workspaceMapper.toDto(workspaceRepository.save(entity));
     }
 
 
