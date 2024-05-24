@@ -79,6 +79,7 @@ public class TaskServiceImpl implements TaskService {
         TaskEntity entity = taskRepository.save(taskMapper.toEntity(createTaskRequest));
         entity.setStatus(taskStatusRepository.findById(createTaskRequest.getStatusId())
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+        entity.setIsCompleted(false);
         return taskMapper.toTaskLite(entity);
     }
 

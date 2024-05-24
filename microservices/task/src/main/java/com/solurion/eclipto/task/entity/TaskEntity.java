@@ -42,6 +42,8 @@ public class TaskEntity {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private OffsetDateTime updatedAt;
+    @Column(name = "is_completed")
+    private Boolean isCompleted;
 
     @Getter
     @RequiredArgsConstructor
