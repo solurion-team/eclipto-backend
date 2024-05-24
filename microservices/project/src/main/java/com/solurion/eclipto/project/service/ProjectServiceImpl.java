@@ -90,6 +90,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectAuthorityDto createProjectAuthority(Long projectId,ProjectAuthorityDto projectAuthorityDto) {
+        if(projectAuthorityRepository.existsByUserId(projectAuthorityDto.getUserId())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         ProjectAuthorityEntity projectAuthorityEntity = projectAuthorityMapper.toEntity(projectAuthorityDto);
         projectAuthorityEntity.setProjectId(projectId);
         projectAuthorityRepository.save(projectAuthorityEntity);
