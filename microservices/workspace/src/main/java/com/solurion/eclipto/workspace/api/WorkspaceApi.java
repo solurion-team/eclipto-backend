@@ -204,7 +204,6 @@ public interface WorkspaceApi {
      * GET /v1/workspaces
      * Get user workspaces
      *
-     * @param workspaceId ID of a workspace (required)
      * @return The workspace has been found (status code 200)
      *         or Workspace not found (status code 403)
      *         or Unexpected error (status code 200)
@@ -235,7 +234,7 @@ public interface WorkspaceApi {
     )
     
     ResponseEntity<List<WorkspaceInfoDto>> getWorkspaces(
-        @Parameter(name = "workspaceId", description = "ID of a workspace", required = true, in = ParameterIn.PATH) @PathVariable("workspaceId") Long workspaceId
+        
     );
 
 

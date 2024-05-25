@@ -1,5 +1,6 @@
 package com.solurion.eclipto.workspace.service;
 
+import com.solurion.eclipto.common.jwt.JwtClaimsManager;
 import com.solurion.eclipto.workspace.dto.CreateWorkspaceRequest;
 import com.solurion.eclipto.workspace.dto.UpdateWorkspaceRequest;
 import com.solurion.eclipto.workspace.dto.WorkspaceAuthorityDto;
@@ -20,6 +21,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+//<<<<<<< HEAD
+//=======
+//import java.util.Optional;
+//>>>>>>> feature/WORKSPACE-4
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +35,8 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     private final WorkspaceAuthorityMapper workspaceAuthorityMapper;
     private final WorkspaceAuthorityRepository workspaceAuthorityRepository;
     private final UpdateWorkspaceAuthorityMapper updateWorkspaceAuthorityMapper;
+    private final JwtClaimsManager jwtClaimsManager;
+
 
     @Override
     public WorkspaceInfoDto getWorkspace(Long id) {
@@ -65,7 +72,11 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
     @Override
     public WorkspaceInfoDto createWorkspace(CreateWorkspaceRequest request) {
-        return workspaceMapper.toDto(workspaceRepository.save(workspaceMapper.toEntity(request)));
+        WorkspaceEntity workspaceEntity = workspaceMapper.toEntity(request);
+        WorkspaceInfoDto workspaceInfoDto = workspaceMapper.toDto(workspaceEntity);
+        workspaceEntity.setOwnerId(jwtClaimsManager.extractUserId());
+        workspaceRepository.save(workspaceEntity);
+        return workspaceInfoDto;
     }
 
     @Override
@@ -76,6 +87,12 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         return workspaceAuthorityDto;
     }
 
+    public List<WorkspaceInfoDto> getWorkspaces() {
+        List<WorkspaceEntity> workspaceEntities = workspaceRepository.findByOwnerId(jwtClaimsManager.extractUserId());
+        return workspaceMapper.entitiesToDtos(workspaceEntities);
+    }
+
+
     @Override
     public List<WorkspaceAuthorityDto> getWorkspaceAuthorityEntity(Long workspaceId) {
         return workspaceAuthorityRepository.getAllByWorkspaceId(workspaceId).stream()
@@ -83,10 +100,6 @@ public class WorkspaceServiceImpl implements WorkspaceService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<WorkspaceInfoDto> getWorkspaces(@Nullable Long workspaceId) {
-        return workspaceRepository.findAll().stream().map(workspaceMapper::toDto).toList();
-    }
 
     @Override
     @Transactional

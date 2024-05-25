@@ -16,11 +16,14 @@ public interface WorkspaceService {
 
     WorkspaceInfoDto createWorkspace(CreateWorkspaceRequest request);
 
+
     WorkspaceAuthorityDto createWorkspaceAuthority(Long workspaceId, WorkspaceAuthorityDto workspaceAuthorityDto);
 
     List<WorkspaceAuthorityDto> getWorkspaceAuthorityEntity(Long workspaceId);
 
-    List<WorkspaceInfoDto> getWorkspaces(Long workspaceId);
 
     WorkspaceAuthorityDto updateWorkspaceAuthority(Long workspaceId, WorkspaceAuthorityDto workspaceAuthorityDto);
+
+    List<WorkspaceInfoDto> getWorkspaces();
+
 }
