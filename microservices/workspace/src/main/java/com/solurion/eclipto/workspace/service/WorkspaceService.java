@@ -15,7 +15,6 @@ public interface WorkspaceService {
 
     WorkspaceInfoDto createWorkspace(CreateWorkspaceRequest request);
 
-    List<WorkspaceInfoDto> getWorkspaces(Long workspaceId);
+    List<WorkspaceInfoDto> getWorkspaces();
 
-    List<WorkspaceInfoDto> getWorkspacesByUserId(Long userId);
 }

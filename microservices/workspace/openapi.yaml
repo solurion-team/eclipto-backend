@@ -108,8 +108,6 @@ paths:
         - workspace
       security:
         - bearerHttpAuthentication: [ ]
-      parameters:
-        - $ref: "#/components/parameters/WorkspaceId"
       responses:
         200:
           description: "The workspace has been found"
@@ -125,32 +123,6 @@ paths:
             application/json:
               schema:
                 $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
-        default:
-          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
-  /v1/user/{userId}/workspaces:
-    get:
-      description: Get all workspaces of user
-      operationId: getWorkspacesByUserId
-      tags:
-        - workspace
-      security:
-        - bearerHttpAuthentication: [ ]
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: The user and workspaces has been found
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/WorkspaceInfoDto"
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
 

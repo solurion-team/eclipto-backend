@@ -28,13 +28,8 @@ public class WorkspaceController implements WorkspaceApi {
     }
 
     @Override
-    public ResponseEntity<List<WorkspaceInfoDto>> getWorkspaces(Long workspaceId) {
-        return ResponseEntity.ok(workspaceService.getWorkspaces(workspaceId));
-    }
-
-    @Override
-    public ResponseEntity<List<WorkspaceInfoDto>> getWorkspacesByUserId(Long userId) {
-        return ResponseEntity.ok(workspaceService.getWorkspacesByUserId(userId));
+    public ResponseEntity<List<WorkspaceInfoDto>> getWorkspaces() {
+        return ResponseEntity.ok(workspaceService.getWorkspaces());
     }
 
     @Override
