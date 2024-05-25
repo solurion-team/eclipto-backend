@@ -21,8 +21,8 @@ public class TaskController implements TaskApi {
     }
 
     @Override
-    public ResponseEntity<List<TaskInfoDto>> getAllTasks(Long projectId) {
-        return ResponseEntity.ok(taskService.getAllTasks(projectId));
+    public ResponseEntity<List<TaskInfoDto>> getAllTasks(Long projectId, Boolean isCompleted) {
+        return ResponseEntity.ok(taskService.getAllTasks(projectId, isCompleted));
     }
 
     @Override
@@ -31,11 +31,11 @@ public class TaskController implements TaskApi {
     }
 
     @Override
-    public ResponseEntity<List<TaskStatusDto>> getProjectTaskStatuses(Long projectId, Boolean includeTasks) {
+    public ResponseEntity<List<TaskStatusDto>> getProjectTaskStatuses(Long projectId, Boolean includeTasks, Boolean isCompleted) {
         if(includeTasks == null){
             includeTasks = false;
         }
-        return ResponseEntity.ok(taskService.getProjectTaskStatuses(projectId, includeTasks));
+        return ResponseEntity.ok(taskService.getProjectTaskStatuses(projectId, includeTasks, isCompleted));
     }
 
     @Override

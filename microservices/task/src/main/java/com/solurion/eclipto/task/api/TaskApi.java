@@ -86,6 +86,7 @@ public interface TaskApi {
      * Get all project tasks with full information
      *
      * @param projectId ID of a project that contains tasks (optional)
+     * @param isCompleted Should information (optional)
      * @return Get user tasks list (or project if query exists) (status code 200)
      *         or Unexpected error (status code 200)
      */
@@ -112,7 +113,8 @@ public interface TaskApi {
     )
     
     ResponseEntity<List<TaskInfoDto>> getAllTasks(
-        @Parameter(name = "projectId", description = "ID of a project that contains tasks", in = ParameterIn.QUERY) @Valid @RequestParam(value = "projectId", required = false) Long projectId
+        @Parameter(name = "projectId", description = "ID of a project that contains tasks", in = ParameterIn.QUERY) @Valid @RequestParam(value = "projectId", required = false) Long projectId,
+        @Parameter(name = "isCompleted", description = "Should information", in = ParameterIn.QUERY) @Valid @RequestParam(value = "isCompleted", required = false) Boolean isCompleted
     );
 
 
@@ -157,6 +159,7 @@ public interface TaskApi {
      *
      * @param projectId ID of a project that contains tasks (required)
      * @param includeTasks Should include tasks (optional)
+     * @param isCompleted Should information (optional)
      * @return Tasks successfully fetched (status code 200)
      *         or There is no status with same ID (status code 403)
      *         or Unexpected error (status code 200)
@@ -188,7 +191,8 @@ public interface TaskApi {
     
     ResponseEntity<List<TaskStatusDto>> getProjectTaskStatuses(
         @Parameter(name = "projectId", description = "ID of a project that contains tasks", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId,
-        @Parameter(name = "includeTasks", description = "Should include tasks", in = ParameterIn.QUERY) @Valid @RequestParam(value = "includeTasks", required = false) Boolean includeTasks
+        @Parameter(name = "includeTasks", description = "Should include tasks", in = ParameterIn.QUERY) @Valid @RequestParam(value = "includeTasks", required = false) Boolean includeTasks,
+        @Parameter(name = "isCompleted", description = "Should information", in = ParameterIn.QUERY) @Valid @RequestParam(value = "isCompleted", required = false) Boolean isCompleted
     );
 
 

@@ -85,6 +85,8 @@ public class TaskInfoDto {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime updatedAt;
 
+  private Boolean isCompleted;
+
   public TaskInfoDto() {
     super();
   }
@@ -302,6 +304,26 @@ public class TaskInfoDto {
     this.updatedAt = updatedAt;
   }
 
+  public TaskInfoDto isCompleted(Boolean isCompleted) {
+    this.isCompleted = isCompleted;
+    return this;
+  }
+
+  /**
+   * Information about status of task
+   * @return isCompleted
+  */
+  
+  @Schema(name = "is_completed", example = "true", description = "Information about status of task", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("is_completed")
+  public Boolean getIsCompleted() {
+    return isCompleted;
+  }
+
+  public void setIsCompleted(Boolean isCompleted) {
+    this.isCompleted = isCompleted;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -320,12 +342,13 @@ public class TaskInfoDto {
         Objects.equals(this.assignedUserId, taskInfoDto.assignedUserId) &&
         Objects.equals(this.reporterUserId, taskInfoDto.reporterUserId) &&
         Objects.equals(this.createdAt, taskInfoDto.createdAt) &&
-        Objects.equals(this.updatedAt, taskInfoDto.updatedAt);
+        Objects.equals(this.updatedAt, taskInfoDto.updatedAt) &&
+        Objects.equals(this.isCompleted, taskInfoDto.isCompleted);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, status, priority, dueDate, assignedUserId, reporterUserId, createdAt, updatedAt);
+    return Objects.hash(id, title, description, status, priority, dueDate, assignedUserId, reporterUserId, createdAt, updatedAt, isCompleted);
   }
 
   @Override
@@ -342,6 +365,7 @@ public class TaskInfoDto {
     sb.append("    reporterUserId: ").append(toIndentedString(reporterUserId)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
+    sb.append("    isCompleted: ").append(toIndentedString(isCompleted)).append("\n");
     sb.append("}");
     return sb.toString();
   }

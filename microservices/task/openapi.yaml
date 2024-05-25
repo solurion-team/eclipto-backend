@@ -115,6 +115,7 @@ paths:
         - bearerHttpAuthentication: [ ]
       parameters:
         - $ref: "#/components/parameters/QueryProjectId"
+        - $ref: "#/components/parameters/IsCompleted"
       responses:
         200:
           description: "Get user tasks list (or project if query exists)"
@@ -204,6 +205,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/PathProjectId"
         - $ref: "#/components/parameters/IncludeTasks"
+        - $ref: "#/components/parameters/IsCompleted"
       responses:
         200:
           description: "Tasks successfully fetched"
@@ -271,6 +273,14 @@ components:
       name: includeTasks
       in: query
       description: Should include tasks
+      required: false
+      schema:
+        type: boolean
+        example: false
+    IsCompleted:
+      name: isCompleted
+      in: query
+      description: Should information
       required: false
       schema:
         type: boolean
@@ -420,6 +430,10 @@ components:
           type: integer
           format: int64
           example: 23486357348
+        is_completed:
+          description: "Information about status of task"
+          type: boolean
+          example: true
     TaskLiteDto:
       description: Minimum task information
       type: object
@@ -445,6 +459,10 @@ components:
           type: integer
           format: int64
           example: 23486357348
+        is_completed:
+          description: "Information about status of task"
+          type: boolean
+          example: true
       required:
         - id
         - title
@@ -502,6 +520,10 @@ components:
           type: string
           format: date-time
           example: '2024-03-28T00:07:19+03:00'
+        is_completed:
+          description: "Information about status of task"
+          type: boolean
+          example: true
       required:
         - id
         - title
