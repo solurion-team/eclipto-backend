@@ -63,6 +63,9 @@ public interface WorkspaceApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
@@ -99,6 +102,9 @@ public interface WorkspaceApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
@@ -109,6 +115,80 @@ public interface WorkspaceApi {
     
     ResponseEntity<WorkspaceInfoDto> getWorkspaceInfo(
         @Parameter(name = "workspaceId", description = "ID of a workspace", required = true, in = ParameterIn.PATH) @PathVariable("workspaceId") Long workspaceId
+    );
+
+
+    /**
+     * GET /v1/workspaces
+     * Get user workspaces
+     *
+     * @param workspaceId ID of a workspace (required)
+     * @return The workspace has been found (status code 200)
+     *         or Workspace not found (status code 403)
+     *         or Unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "getWorkspaces",
+        description = "Get user workspaces",
+        tags = { "workspace" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "The workspace has been found", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = WorkspaceInfoDto.class)))
+            }),
+            @ApiResponse(responseCode = "403", description = "Workspace not found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/v1/workspaces",
+        produces = { "application/json" }
+    )
+    
+    ResponseEntity<List<WorkspaceInfoDto>> getWorkspaces(
+        @Parameter(name = "workspaceId", description = "ID of a workspace", required = true, in = ParameterIn.PATH) @PathVariable("workspaceId") Long workspaceId
+    );
+
+
+    /**
+     * GET /v1/user/{userId}/workspaces
+     * Get all workspaces of user
+     *
+     * @param userId  (required)
+     * @return The user and workspaces has been found (status code 200)
+     *         or Unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "getWorkspacesByUserId",
+        description = "Get all workspaces of user",
+        tags = { "workspace" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "The user and workspaces has been found", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = WorkspaceInfoDto.class)))
+            }),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/v1/user/{userId}/workspaces",
+        produces = { "application/json" }
+    )
+    
+    ResponseEntity<List<WorkspaceInfoDto>> getWorkspacesByUserId(
+        @Parameter(name = "userId", description = "", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId
     );
 
 
@@ -131,6 +211,9 @@ public interface WorkspaceApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
@@ -169,6 +252,9 @@ public interface WorkspaceApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(

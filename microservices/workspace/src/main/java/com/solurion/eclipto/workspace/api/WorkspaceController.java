@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class WorkspaceController implements WorkspaceApi {
@@ -23,6 +25,16 @@ public class WorkspaceController implements WorkspaceApi {
     @Override
     public ResponseEntity<WorkspaceInfoDto> getWorkspaceInfo(Long workspaceId) {
         return ResponseEntity.ok(workspaceService.getWorkspace(workspaceId));
+    }
+
+    @Override
+    public ResponseEntity<List<WorkspaceInfoDto>> getWorkspaces(Long workspaceId) {
+        return ResponseEntity.ok(workspaceService.getWorkspaces(workspaceId));
+    }
+
+    @Override
+    public ResponseEntity<List<WorkspaceInfoDto>> getWorkspacesByUserId(Long userId) {
+        return ResponseEntity.ok(workspaceService.getWorkspacesByUserId(userId));
     }
 
     @Override

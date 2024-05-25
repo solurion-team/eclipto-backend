@@ -6,12 +6,15 @@ import com.solurion.eclipto.workspace.dto.WorkspaceInfoDto;
 import com.solurion.eclipto.workspace.entity.WorkspaceEntity;
 import com.solurion.eclipto.workspace.mapper.WorkspaceMapper;
 import com.solurion.eclipto.workspace.repository.WorkspaceRepository;
+import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -56,5 +59,14 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         return workspaceMapper.toDto(workspaceRepository.save(workspaceMapper.toEntity(request)));
     }
 
+    @Override
+    public List<WorkspaceInfoDto> getWorkspaces(@Nullable Long workspaceId) {
+        return workspaceRepository.findAll().stream().map(workspaceMapper::toDto).toList();
+    }
+
+    @Override
+    public List<WorkspaceInfoDto> getWorkspacesByUserId(Long userId) {
+        return workspaceRepository.findAll().stream().map(workspaceMapper::toDto).toList();
+    }
 
 }

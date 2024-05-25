@@ -4,6 +4,8 @@ import com.solurion.eclipto.workspace.dto.CreateWorkspaceRequest;
 import com.solurion.eclipto.workspace.dto.UpdateWorkspaceRequest;
 import com.solurion.eclipto.workspace.dto.WorkspaceInfoDto;
 
+import java.util.List;
+
 public interface WorkspaceService {
     WorkspaceInfoDto getWorkspace(Long id);
 
@@ -12,4 +14,8 @@ public interface WorkspaceService {
     void deleteWorkspace(Long workspaceId);
 
     WorkspaceInfoDto createWorkspace(CreateWorkspaceRequest request);
+
+    List<WorkspaceInfoDto> getWorkspaces(Long workspaceId);
+
+    List<WorkspaceInfoDto> getWorkspacesByUserId(Long userId);
 }

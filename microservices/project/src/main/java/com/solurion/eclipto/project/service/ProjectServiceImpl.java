@@ -52,6 +52,15 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectInfoDto> getProjects(@Nullable Long workspaceId) {
-        return projectRepository.findAll().stream().map(projectMapper::toDto).toList();
+//        return projectRepository.findAll().stream().map(projectMapper::toDto).toList();
+        List<ProjectEntity> projects;
+
+        if (workspaceId == null) {
+            projects = projectRepository.findAll();
+        } else {
+            projects = projectRepository.findByWorkspaceId(workspaceId);
+        }
+
+        return projects.stream().map(projectMapper::toDto).toList();
     }
 }
