@@ -13,5 +13,7 @@ public interface WorkspaceAuthorityRepository extends JpaRepository<WorkspaceAut
     List<WorkspaceAuthorityEntity> getAllByWorkspaceId(Long workspaceId);
 
     WorkspaceAuthorityEntity findByWorkspaceIdAndUserId(Long workspaceId, Long userId);
+
     List<WorkspaceAuthorityEntity> getAllByUserId(Long userId);
+
 }

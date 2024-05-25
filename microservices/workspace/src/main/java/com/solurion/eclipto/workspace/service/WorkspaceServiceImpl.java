@@ -1,6 +1,6 @@
 package com.solurion.eclipto.workspace.service;
-
 import com.solurion.eclipto.common.jwt.JwtClaimsManager;
+import com.solurion.eclipto.common.kafka.WorkspaceTopicConfig;
 import com.solurion.eclipto.workspace.dto.CreateWorkspaceRequest;
 import com.solurion.eclipto.workspace.dto.UpdateWorkspaceRequest;
 import com.solurion.eclipto.workspace.dto.WorkspaceAuthorityDto;
@@ -64,6 +64,8 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     public void deleteWorkspace(Long workspaceId) {
         if (workspaceRepository.existsById(workspaceId)) {
             workspaceRepository.deleteById(workspaceId);
+            kafkaTemplate.send(WorkspaceTopicConfig.TOPIC, WorkspaceTopicConfig.DELETE_WORKSPACE_KEY, workspaceId);
+
         } else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Workspace not found");
         }

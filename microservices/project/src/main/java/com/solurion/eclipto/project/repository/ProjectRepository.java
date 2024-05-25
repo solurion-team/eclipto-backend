@@ -9,5 +9,9 @@ import java.util.List;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
+
     List<ProjectEntity> findByWorkspaceId(Long workspaceId);
+
+    List<ProjectEntity> getAllByWorkspaceId(Long workspaceId);
+
 }

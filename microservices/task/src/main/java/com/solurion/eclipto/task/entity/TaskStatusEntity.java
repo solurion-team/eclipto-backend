@@ -26,4 +26,7 @@ public class TaskStatusEntity {
     private String tint;
     @OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
     private List<TaskEntity> tasks;
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private BoardEntity board;
 }
