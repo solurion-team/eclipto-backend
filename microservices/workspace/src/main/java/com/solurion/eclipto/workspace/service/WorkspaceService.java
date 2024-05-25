@@ -26,4 +26,5 @@ public interface WorkspaceService {
 
     List<WorkspaceInfoDto> getWorkspaces();
 
+    void onUserDeleted(Long userId);
 }

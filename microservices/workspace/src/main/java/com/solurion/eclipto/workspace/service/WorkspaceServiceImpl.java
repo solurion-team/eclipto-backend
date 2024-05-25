@@ -17,14 +17,12 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-//<<<<<<< HEAD
-//=======
-//import java.util.Optional;
-//>>>>>>> feature/WORKSPACE-4
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +34,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     private final WorkspaceAuthorityRepository workspaceAuthorityRepository;
     private final UpdateWorkspaceAuthorityMapper updateWorkspaceAuthorityMapper;
     private final JwtClaimsManager jwtClaimsManager;
+    private final KafkaTemplate<String, Long> kafkaTemplate;
 
 
     @Override
@@ -73,10 +72,9 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     @Override
     public WorkspaceInfoDto createWorkspace(CreateWorkspaceRequest request) {
         WorkspaceEntity workspaceEntity = workspaceMapper.toEntity(request);
-        WorkspaceInfoDto workspaceInfoDto = workspaceMapper.toDto(workspaceEntity);
         workspaceEntity.setOwnerId(jwtClaimsManager.extractUserId());
         workspaceRepository.save(workspaceEntity);
-        return workspaceInfoDto;
+        return workspaceMapper.toDto(workspaceEntity);
     }
 
     @Override
@@ -88,8 +86,21 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     }
 
     public List<WorkspaceInfoDto> getWorkspaces() {
-        List<WorkspaceEntity> workspaceEntities = workspaceRepository.findByOwnerId(jwtClaimsManager.extractUserId());
+        List<WorkspaceAuthorityEntity> workspaceAuthorityEntities = workspaceAuthorityRepository.getAllByUserId(jwtClaimsManager.extractUserId());
+//        List<WorkspaceEntity> workspaceEntities = workspaceRepository.findByOwnerId(jwtClaimsManager.extractUserId());
+        List<WorkspaceEntity> workspaceEntities = workspaceAuthorityEntities.stream().map(workspaceAuthority -> workspaceRepository.findById(workspaceAuthority.getWorkspaceId())
+                        .orElse(null))
+                .filter(Objects::nonNull) // Отфильтровываем null значения, если не найдены WorkspaceEntity
+                .collect(Collectors.toList());
         return workspaceMapper.entitiesToDtos(workspaceEntities);
+    }
+
+    @Override
+    public void onUserDeleted(Long userId) {
+        List<WorkspaceEntity> workspaceEntities = workspaceRepository.findAllByOwnerId(userId);
+        workspaceEntities.forEach(n -> {
+            kafkaTemplate.send(n.getId());
+        });
     }
 
 
@@ -110,4 +121,6 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         updateWorkspaceAuthorityMapper.updateEntity(workspaceAuthorityDto, workspaceAuthorityEntity);
         return workspaceAuthorityDto;
     }
+
+
 }

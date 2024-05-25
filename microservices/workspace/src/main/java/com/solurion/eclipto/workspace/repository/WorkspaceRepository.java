@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface WorkspaceRepository extends JpaRepository<WorkspaceEntity, Long> {
-    List<WorkspaceEntity> findByOwnerId(Long ownerId);
+//    List<WorkspaceEntity> findByOwnerId(Long ownerId);
+
+    List<WorkspaceEntity> findAllByOwnerId(Long userId);
 }
