@@ -39,7 +39,7 @@ class UpdateTaskRequest(BaseModel):
         default=None, description="Description of the task",
         example="example: Go to metanit and learn all the chapters about Java."
     )
-    index: int = Field(
+    index: int | None = Field(
         description="Position index of the task", example=1
     )
     status_id: int | None = Field(
@@ -48,7 +48,7 @@ class UpdateTaskRequest(BaseModel):
     priority: Priority | None = Field(
         default=None, description="Priority of the task"
     )
-    due_date: str = Field(
+    due_date: str | None = Field(
         description="Due date"
     )
     assigned_user_id: int | None = Field(
