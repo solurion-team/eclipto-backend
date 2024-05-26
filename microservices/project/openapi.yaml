@@ -127,7 +127,7 @@ paths:
                 $ref: "#/components/schemas/ProjectInfoDto"
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
-  /v1/project/{projectId}/authorities:
+  /v1/projects/{projectId}/authorities:
     get:
       description: Get information about users authorities
       operationId: getProjectAuthorities

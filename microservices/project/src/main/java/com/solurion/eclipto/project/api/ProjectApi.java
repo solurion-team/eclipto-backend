@@ -42,7 +42,7 @@ import jakarta.annotation.Generated;
 public interface ProjectApi {
 
     /**
-     * POST /v1/project/{projectId}/authorities
+     * POST /v1/projects/{projectId}/authorities
      * Create project authorities
      *
      * @param projectId ID of a project (required)
@@ -72,7 +72,7 @@ public interface ProjectApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/v1/project/{projectId}/authorities",
+        value = "/v1/projects/{projectId}/authorities",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
@@ -123,7 +123,7 @@ public interface ProjectApi {
 
 
     /**
-     * GET /v1/project/{projectId}/authorities
+     * GET /v1/projects/{projectId}/authorities
      * Get information about users authorities
      *
      * @param projectId ID of a project (required)
@@ -152,7 +152,7 @@ public interface ProjectApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/v1/project/{projectId}/authorities",
+        value = "/v1/projects/{projectId}/authorities",
         produces = { "application/json" }
     )
     
@@ -276,7 +276,7 @@ public interface ProjectApi {
 
 
     /**
-     * PUT /v1/project/{projectId}/authorities
+     * PUT /v1/projects/{projectId}/authorities
      * Update information about users authorities
      *
      * @param projectId ID of a project (required)
@@ -306,7 +306,7 @@ public interface ProjectApi {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/v1/project/{projectId}/authorities",
+        value = "/v1/projects/{projectId}/authorities",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
