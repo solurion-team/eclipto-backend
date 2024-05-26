@@ -66,7 +66,6 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         if (workspaceRepository.existsById(workspaceId)) {
             workspaceRepository.deleteById(workspaceId);
             kafkaTemplate.send(WorkspaceTopicConfig.TOPIC, WorkspaceTopicConfig.DELETE_WORKSPACE_KEY, workspaceId);
-
         } else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Workspace not found");
         }
@@ -76,10 +75,12 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     public WorkspaceInfoDto createWorkspace(CreateWorkspaceRequest request) {
         WorkspaceEntity workspaceEntity = workspaceMapper.toEntity(request);
         workspaceEntity.setOwnerId(jwtClaimsManager.extractUserId());
+        workspaceEntity = workspaceRepository.save(workspaceEntity);
+
         WorkspaceAuthorityDto workspaceAuthorityDto = new WorkspaceAuthorityDto(jwtClaimsManager.extractUserId(),
                 WorkspaceAuthorityDto.PrivilegeEnum.ADMIN);
-        workspaceEntity = workspaceRepository.save(workspaceEntity);
         createWorkspaceAuthority(workspaceEntity.getId(), workspaceAuthorityDto);
+
         return workspaceMapper.toDto(workspaceEntity);
     }
 
@@ -91,27 +92,33 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         return workspaceAuthorityDto;
     }
 
+    @Transactional
     public List<WorkspaceInfoDto> getWorkspaces() {
         List<WorkspaceAuthorityEntity> workspaceAuthorityEntities = workspaceAuthorityRepository.getAllByUserId(jwtClaimsManager.extractUserId());
-        for (WorkspaceAuthorityEntity entity : workspaceAuthorityEntities) {
-            System.out.println(entity.getWorkspaceId());
-        }
-        List<WorkspaceEntity> workspaceEntities = workspaceAuthorityEntities.stream().map(workspaceAuthority -> workspaceRepository.findById(workspaceAuthority.getWorkspaceId())
-                        .orElse(null))
-                .filter(Objects::nonNull)
+        List<Long> workspaceIds = workspaceAuthorityEntities
+                .stream()
+                .map(WorkspaceAuthorityEntity::getWorkspaceId)
                 .toList();
-        return workspaceEntities.stream().map(workspaceMapper::toDto).toList();
+        return workspaceRepository.findAllById(workspaceIds)
+                .stream()
+                .map(workspaceMapper::toDto)
+                .toList();
     }
 
     @Override
     @Transactional
     public void onUserDeleted(Long userId) {
         List<WorkspaceEntity> workspaceEntities = workspaceRepository.findAllByOwnerId(userId);
+        List<Long> workspaceIds = workspaceEntities
+                .stream()
+                .map(WorkspaceEntity::getId)
+                .toList();
+        workspaceRepository.deleteAllById(workspaceIds);
+        workspaceAuthorityRepository.deleteAllByUserId(userId);
+
         workspaceEntities.forEach(n -> {
             kafkaTemplate.send(WorkspaceTopicConfig.TOPIC, WorkspaceTopicConfig.DELETE_WORKSPACE_KEY, n.getId());
-            workspaceRepository.delete(n);
         });
-        workspaceAuthorityRepository.deleteAllByUserId(userId);
     }
 
 

@@ -74,17 +74,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectInfoDto> getProjects(@Nullable Long workspaceId) {
+        Long userId = jwtClaimsManager.extractUserId();
         List<ProjectEntity> projects;
         if (workspaceId == null) {
-            projects = new ArrayList<>();
-            Long userId = jwtClaimsManager.extractUserId();
-            for (ProjectAuthorityEntity projectAuthority : projectAuthorityRepository.findAllByUserId(userId)) {
-                projectRepository.findById(projectAuthority.getProjectId()).ifPresent(projects::add);
-            }
+            projects = projectRepository.findAllByAuthoritiesUserId(userId);
         } else {
-            projects = projectRepository.findByWorkspaceId(workspaceId);
+            projects = projectRepository.findAllByAuthoritiesUserIdAndWorkspaceId(userId, workspaceId);
         }
-        return projects.stream().map(projectMapper::toDto).toList();
+        return projects
+                .stream()
+                .map(projectMapper::toDto)
+                .toList();
     }
 
     @Override
@@ -106,8 +106,11 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectAuthorityDto createProjectAuthority(Long projectId, ProjectAuthorityDto projectAuthorityDto) {
+        ProjectEntity projectEntity = projectRepository.findById(projectId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Project not found"));
         ProjectAuthorityEntity projectAuthorityEntity = projectAuthorityMapper.toEntity(projectAuthorityDto);
         projectAuthorityEntity.setProjectId(projectId);
+        projectAuthorityEntity.setProject(projectEntity);
         projectAuthorityRepository.save(projectAuthorityEntity);
         return projectAuthorityDto;
     }
