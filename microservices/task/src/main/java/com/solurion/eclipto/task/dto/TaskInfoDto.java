@@ -31,6 +31,8 @@ public class TaskInfoDto {
 
   private String description;
 
+  private Integer index;
+
   private TaskStatusDto status;
 
   /**
@@ -162,6 +164,26 @@ public class TaskInfoDto {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public TaskInfoDto index(Integer index) {
+    this.index = index;
+    return this;
+  }
+
+  /**
+   * Id of the status
+   * @return index
+  */
+  
+  @Schema(name = "index", example = "457345348", description = "Id of the status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("index")
+  public Integer getIndex() {
+    return index;
+  }
+
+  public void setIndex(Integer index) {
+    this.index = index;
   }
 
   public TaskInfoDto status(TaskStatusDto status) {
@@ -336,6 +358,7 @@ public class TaskInfoDto {
     return Objects.equals(this.id, taskInfoDto.id) &&
         Objects.equals(this.title, taskInfoDto.title) &&
         Objects.equals(this.description, taskInfoDto.description) &&
+        Objects.equals(this.index, taskInfoDto.index) &&
         Objects.equals(this.status, taskInfoDto.status) &&
         Objects.equals(this.priority, taskInfoDto.priority) &&
         Objects.equals(this.dueDate, taskInfoDto.dueDate) &&
@@ -348,7 +371,7 @@ public class TaskInfoDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, status, priority, dueDate, assignedUserId, reporterUserId, createdAt, updatedAt, isCompleted);
+    return Objects.hash(id, title, description, index, status, priority, dueDate, assignedUserId, reporterUserId, createdAt, updatedAt, isCompleted);
   }
 
   @Override
@@ -358,6 +381,7 @@ public class TaskInfoDto {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    index: ").append(toIndentedString(index)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
     sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");

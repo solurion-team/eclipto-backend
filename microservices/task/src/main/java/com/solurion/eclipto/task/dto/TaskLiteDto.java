@@ -26,6 +26,8 @@ public class TaskLiteDto {
 
   private String title;
 
+  private Integer index;
+
   /**
    * Importance of the task
    */
@@ -76,9 +78,10 @@ public class TaskLiteDto {
   /**
    * Constructor with only required parameters
    */
-  public TaskLiteDto(Long id, String title, PriorityEnum priority, Long assignedUserId) {
+  public TaskLiteDto(Long id, String title, Integer index, PriorityEnum priority, Long assignedUserId) {
     this.id = id;
     this.title = title;
+    this.index = index;
     this.priority = priority;
     this.assignedUserId = assignedUserId;
   }
@@ -121,6 +124,26 @@ public class TaskLiteDto {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public TaskLiteDto index(Integer index) {
+    this.index = index;
+    return this;
+  }
+
+  /**
+   * Id of the status
+   * @return index
+  */
+  @NotNull 
+  @Schema(name = "index", example = "457345348", description = "Id of the status", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("index")
+  public Integer getIndex() {
+    return index;
+  }
+
+  public void setIndex(Integer index) {
+    this.index = index;
   }
 
   public TaskLiteDto priority(PriorityEnum priority) {
@@ -194,6 +217,7 @@ public class TaskLiteDto {
     TaskLiteDto taskLiteDto = (TaskLiteDto) o;
     return Objects.equals(this.id, taskLiteDto.id) &&
         Objects.equals(this.title, taskLiteDto.title) &&
+        Objects.equals(this.index, taskLiteDto.index) &&
         Objects.equals(this.priority, taskLiteDto.priority) &&
         Objects.equals(this.assignedUserId, taskLiteDto.assignedUserId) &&
         Objects.equals(this.isCompleted, taskLiteDto.isCompleted);
@@ -201,7 +225,7 @@ public class TaskLiteDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, priority, assignedUserId, isCompleted);
+    return Objects.hash(id, title, index, priority, assignedUserId, isCompleted);
   }
 
   @Override
@@ -210,6 +234,7 @@ public class TaskLiteDto {
     sb.append("class TaskLiteDto {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
+    sb.append("    index: ").append(toIndentedString(index)).append("\n");
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
     sb.append("    assignedUserId: ").append(toIndentedString(assignedUserId)).append("\n");
     sb.append("    isCompleted: ").append(toIndentedString(isCompleted)).append("\n");

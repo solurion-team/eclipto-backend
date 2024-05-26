@@ -19,6 +19,7 @@ class CreateTaskRequest(BaseModel):
     project_id: int = Field(description="Id of the project", example=123456)
     title: str = Field(description="Title of the task", example="Fsdasdasdasdasdasd")
     description: str | None = Field(description="Description of the task", example="Learn Spring boot", default=None)
+    index: int = Field(description="Position index of the task", example=1)
     priority: Priority | None = Field(description="Priority of task", default=None)
     due_date: str | None = Field(description="Due date", default=None, example=datetime.now())
     assigned_user_id: int | None = Field(description="Assigned user id", default=None)
@@ -37,6 +38,9 @@ class UpdateTaskRequest(BaseModel):
     description: str | None = Field(
         default=None, description="Description of the task",
         example="example: Go to metanit and learn all the chapters about Java."
+    )
+    index: int = Field(
+        description="Position index of the task", example=1
     )
     status_id: int | None = Field(
         default=None, description="Id of the status", example=123456
@@ -61,6 +65,7 @@ class UpdateTaskRequest(BaseModel):
 class TaskLiteDto(BaseModel):
     id: int = Field(description="Id of the task", example=12345678)
     title: str = Field(description="Title of the task", example="Learn Java core and Spring Boot")
+    index: int = Field(description="Position index of the task", example=1)
     priority: Priority = Field(description="Priority of the task")
     assigned_user_id: int = Field(description="Id of the assigned", example=123456)
     is_completed: bool = Field(description="Completed task", example=True)
@@ -77,6 +82,7 @@ class TaskInfoDto(BaseModel):
     id: int = Field(description="Id of the task", example=1)
     title: str = Field(description="Title of the task", example="")
     description: str | None = Field(default=None, description="Description of the task", example="Learn Java core and Spring")
+    index: int = Field(description="Position index of the task", example=1)
     status: TaskStatusDto = Field(description="")
     priority: Priority = Field(description="Priority of the task")
     due_date: str | None = Field(default=None, description="Due date", example="2024-03-28T00:07:19+03:00")
