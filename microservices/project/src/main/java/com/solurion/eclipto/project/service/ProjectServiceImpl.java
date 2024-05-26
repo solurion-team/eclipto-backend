@@ -146,7 +146,7 @@ public class ProjectServiceImpl implements ProjectService {
                     break;
                 }
             }
-            projectAuthorityRepository.deleteAllByUserId(userId);
         });
+        projectAuthorityRepository.deleteAllByUserId(userId);
     }
 }
