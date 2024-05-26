@@ -18,9 +18,9 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
     List<ProjectEntity> findAllByLeadId(Long userId);
 
-    @Query("SELECT ProjectEntity p FROM ProjectEntity WHERE :userId MEMBER OF p.authorities")
+    @Query("SELECT p FROM ProjectEntity p WHERE :userId MEMBER OF p.authorities")
     List<ProjectEntity> findAllByAuthoritiesUserId(Long userId);
 
-    @Query("SELECT ProjectEntity p FROM ProjectEntity WHERE :userId MEMBER OF p.authorities AND p.workspaceId = :workspaceId")
+    @Query("SELECT p FROM ProjectEntity p WHERE :userId MEMBER OF p.authorities AND p.workspaceId = :workspaceId")
     List<ProjectEntity> findAllByAuthoritiesUserIdAndWorkspaceId(Long userId, Long workspaceId);
 }

@@ -2,6 +2,8 @@ package com.solurion.eclipto.workspace.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "workspace_authority")
@@ -21,14 +23,17 @@ public class WorkspaceAuthorityEntity {
     private Long userId;
     @Column(name = "privilege")
 
-    private PrivilegeEnum privilege;
+    private Privilege privilege;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "workspace_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private WorkspaceEntity workspace;
 
     @RequiredArgsConstructor
-    @Getter
-    public enum PrivilegeEnum {
-        READ("READ"),
-        WRITE("WRITE"),
-        ADMIN("ADMIN");
-        private final String value;
+    public enum Privilege {
+        READ,
+        WRITE,
+        ADMIN;
     }
 }

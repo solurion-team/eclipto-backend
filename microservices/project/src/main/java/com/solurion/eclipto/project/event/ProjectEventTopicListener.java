@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProjectEventTopicListener {
     private final ProjectService projectService;
-    @UserTopicListener(filter = UserTopicConfig.DELETE_USER_FILTER)
+
+    @UserTopicListener(id = "userDeleteEvent", filter = UserTopicConfig.DELETE_USER_FILTER)
     public void listenProjectTopicListener(Long userId){
         projectService.onUserDeleted(userId);
     }

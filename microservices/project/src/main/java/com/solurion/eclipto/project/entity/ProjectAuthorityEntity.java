@@ -6,7 +6,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name ="project_authority")
+@Table(name = "project_authority")
 @Getter
 @Setter
 @Builder(toBuilder = true)
@@ -25,7 +25,7 @@ public class ProjectAuthorityEntity {
     private Long userId;
 
     @Column(name = "privilege")
-    private PrivilegeEnum privilege;
+    private Privilege privilege;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
@@ -33,11 +33,9 @@ public class ProjectAuthorityEntity {
     private ProjectEntity project;
 
     @RequiredArgsConstructor
-    @Getter
-    public enum PrivilegeEnum {
-        READ("READ"),
-        WRITE("WRITE"),
-        ADMIN("ADMIN");
-        private final String value;
+    public enum Privilege {
+        READ,
+        WRITE,
+        ADMIN;
     }
 }

@@ -11,6 +11,6 @@ public interface WorkspaceMapper {
 
     WorkspaceInfoDto toDto(WorkspaceEntity entity);
 
-    WorkspaceEntity toEntity(CreateWorkspaceRequest request);
+    WorkspaceEntity toEntity(CreateWorkspaceRequest request, Long ownerId);
 
 }

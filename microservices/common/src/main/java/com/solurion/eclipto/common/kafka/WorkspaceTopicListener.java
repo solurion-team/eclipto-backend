@@ -11,6 +11,8 @@ import java.lang.annotation.*;
 @Documented
 @KafkaListener
 public @interface WorkspaceTopicListener {
+    @AliasFor(annotation = KafkaListener.class, attribute = "id")
+    String id() default "";
 
     @AliasFor(annotation = KafkaListener.class, attribute = "topics")
     String[] topics() default {WorkspaceTopicConfig.TOPIC};

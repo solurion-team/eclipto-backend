@@ -41,7 +41,7 @@ class UpdateWorkspaceRequest(BaseModel):
     )
 
 
-class Privilege(str, Enum):
+class WorkspacePrivilege(str, Enum):
     READ = "READ"
     WRITE = "WRITE"
     ADMIN = "ADMIN"
@@ -52,6 +52,6 @@ class WorkspaceAuthorityDto(BaseModel):
         description="Id of user",
         example=3757385734
     )
-    privilege: Privilege = Field(
+    privilege: WorkspacePrivilege = Field(
         description="Privilege"
     )

@@ -31,13 +31,11 @@ public class WorkspaceMapperImpl implements WorkspaceMapper {
     }
 
     @Override
-    public WorkspaceEntity toEntity(CreateWorkspaceRequest request){
+    public WorkspaceEntity toEntity(CreateWorkspaceRequest request, Long ownerId){
         return WorkspaceEntity.builder()
                 .id(null)
                 .name(request.getName())
                 .description(request.getDescription())
                 .ownerId(null).build();
     }
-
-
 }

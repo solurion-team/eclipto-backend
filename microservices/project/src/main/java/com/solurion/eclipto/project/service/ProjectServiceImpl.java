@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.solurion.eclipto.project.entity.ProjectAuthorityEntity.PrivilegeEnum.*;
+import static com.solurion.eclipto.project.entity.ProjectAuthorityEntity.Privilege.*;
 
 @Service
 @RequiredArgsConstructor
@@ -68,8 +68,22 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectInfoDto createProject(CreateProjectRequest createProjectRequest) {
         ProjectEntity entity = projectRepository.save(projectMapper.toEntity(createProjectRequest));
+        ProjectAuthorityDto projectAuthorityDto = new ProjectAuthorityDto(jwtClaimsManager.extractUserId(),
+                ProjectAuthorityDto.PrivilegeEnum.ADMIN);
+        createProjectAuthority(entity.getId(), projectAuthorityDto);
         kafkaTemplate.send(ProjectTopicConfig.TOPIC, ProjectTopicConfig.CREATE_PROJECT_KEY, entity.getId());
         return projectMapper.toDto(entity);
+    }
+
+    @Override
+    public ProjectAuthorityDto createProjectAuthority(Long projectId, ProjectAuthorityDto projectAuthorityDto) {
+        ProjectEntity projectEntity = projectRepository.findById(projectId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Project not found"));
+        ProjectAuthorityEntity projectAuthorityEntity = projectAuthorityMapper.toEntity(projectAuthorityDto);
+        projectAuthorityEntity.setProjectId(projectId);
+        projectAuthorityEntity.setProject(projectEntity);
+        projectAuthorityRepository.save(projectAuthorityEntity);
+        return projectAuthorityDto;
     }
 
     @Override
@@ -100,19 +114,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<ProjectAuthorityDto> getProjectAuthorityEntity(Long projectId) {
         return projectAuthorityRepository.getAllByProjectId(projectId).stream()
-                .map(projectAuthorityMapper::toDto)
-                .collect(Collectors.toList());
-    }
+                .map(projectAuthorityMapper::toDto).
+                toList();
 
-    @Override
-    public ProjectAuthorityDto createProjectAuthority(Long projectId, ProjectAuthorityDto projectAuthorityDto) {
-        ProjectEntity projectEntity = projectRepository.findById(projectId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Project not found"));
-        ProjectAuthorityEntity projectAuthorityEntity = projectAuthorityMapper.toEntity(projectAuthorityDto);
-        projectAuthorityEntity.setProjectId(projectId);
-        projectAuthorityEntity.setProject(projectEntity);
-        projectAuthorityRepository.save(projectAuthorityEntity);
-        return projectAuthorityDto;
     }
 
     @Override

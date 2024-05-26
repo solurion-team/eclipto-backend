@@ -73,14 +73,11 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
     @Override
     public WorkspaceInfoDto createWorkspace(CreateWorkspaceRequest request) {
-        WorkspaceEntity workspaceEntity = workspaceMapper.toEntity(request);
-        workspaceEntity.setOwnerId(jwtClaimsManager.extractUserId());
+        WorkspaceEntity workspaceEntity = workspaceMapper.toEntity(request, jwtClaimsManager.extractUserId());
         workspaceEntity = workspaceRepository.save(workspaceEntity);
-
         WorkspaceAuthorityDto workspaceAuthorityDto = new WorkspaceAuthorityDto(jwtClaimsManager.extractUserId(),
                 WorkspaceAuthorityDto.PrivilegeEnum.ADMIN);
         createWorkspaceAuthority(workspaceEntity.getId(), workspaceAuthorityDto);
-
         return workspaceMapper.toDto(workspaceEntity);
     }
 
