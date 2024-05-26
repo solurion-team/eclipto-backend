@@ -57,7 +57,6 @@ public class WorkspaceController implements WorkspaceApi {
     @Override
     public ResponseEntity<WorkspaceInfoDto> updateWorkspaceInfo(Long workspaceId,
                                                                 UpdateWorkspaceRequest updateWorkspaceRequest) {
-//        workspaceService.updateWorkspaceInfo(updateWorkspaceRequest, workspaceId);
         return ResponseEntity.ok(workspaceService.updateWorkspaceInfo(updateWorkspaceRequest, workspaceId));
     }
 }

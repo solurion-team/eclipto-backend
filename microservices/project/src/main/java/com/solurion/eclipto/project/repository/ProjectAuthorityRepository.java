@@ -11,4 +11,10 @@ public interface ProjectAuthorityRepository extends JpaRepository<ProjectAuthori
     List<ProjectAuthorityEntity> getAllByProjectId(Long projectId);
 
     ProjectAuthorityEntity findByProjectIdAndUserId(Long projectId, Long userId);
+
+    void deleteAllByUserId(Long userId);
+
+    List<ProjectAuthorityEntity> findAllByUserId(Long userId);
+
+    List<ProjectAuthorityEntity> findAllByProjectId(Long id);
 }

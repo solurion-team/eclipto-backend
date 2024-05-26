@@ -1,6 +1,8 @@
 package com.solurion.eclipto.project.service;
 
+import com.solurion.eclipto.common.jwt.JwtClaimsManager;
 import com.solurion.eclipto.common.kafka.ProjectTopicConfig;
+import com.solurion.eclipto.common.kafka.WorkspaceTopicConfig;
 import com.solurion.eclipto.project.dto.CreateProjectRequest;
 import com.solurion.eclipto.project.dto.ProjectAuthorityDto;
 import com.solurion.eclipto.project.dto.ProjectInfoDto;
@@ -21,8 +23,12 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.solurion.eclipto.project.entity.ProjectAuthorityEntity.PrivilegeEnum.*;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +40,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectAuthorityMapper projectAuthorityMapper;
     private final ProjectAuthorityRepository projectAuthorityRepository;
     private final UpdateProjectAuthorityMapper updateProjectAuthorityMapper;
+    private final JwtClaimsManager jwtClaimsManager;
 
     public ProjectInfoDto getProject(Long id) {
         return projectMapper.toDto(projectRepository.findById(id).orElseThrow(
@@ -67,15 +74,16 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectInfoDto> getProjects(@Nullable Long workspaceId) {
-//        return projectRepository.findAll().stream().map(projectMapper::toDto).toList();
         List<ProjectEntity> projects;
-
         if (workspaceId == null) {
-            projects = projectRepository.findAll();
+            projects = new ArrayList<>();
+            Long userId = jwtClaimsManager.extractUserId();
+            for (ProjectAuthorityEntity projectAuthority : projectAuthorityRepository.findAllByUserId(userId)) {
+                projectRepository.findById(projectAuthority.getProjectId()).ifPresent(projects::add);
+            }
         } else {
             projects = projectRepository.findByWorkspaceId(workspaceId);
         }
-
         return projects.stream().map(projectMapper::toDto).toList();
     }
 
@@ -97,7 +105,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectAuthorityDto createProjectAuthority(Long projectId,ProjectAuthorityDto projectAuthorityDto) {
+    public ProjectAuthorityDto createProjectAuthority(Long projectId, ProjectAuthorityDto projectAuthorityDto) {
         ProjectAuthorityEntity projectAuthorityEntity = projectAuthorityMapper.toEntity(projectAuthorityDto);
         projectAuthorityEntity.setProjectId(projectId);
         projectAuthorityRepository.save(projectAuthorityEntity);
@@ -110,7 +118,32 @@ public class ProjectServiceImpl implements ProjectService {
         ProjectAuthorityEntity projectAuthorityEntity = projectAuthorityRepository.findByProjectIdAndUserId(
                 projectId, projectAuthorityDto.getUserId()
         );
-        updateProjectAuthorityMapper.updateEntity(projectAuthorityDto,projectAuthorityEntity);
+        updateProjectAuthorityMapper.updateEntity(projectAuthorityDto, projectAuthorityEntity);
         return projectAuthorityDto;
+    }
+
+    @Override
+    @Transactional
+    public void onUserDeleted(Long userId) {
+        List<ProjectEntity> projectEntities = projectRepository.findAllByLeadId(userId);
+        projectEntities.forEach(n -> {
+            List<ProjectAuthorityEntity> entityList = projectAuthorityRepository.findAllByProjectId(n.getId());
+            for (ProjectAuthorityEntity entity : entityList) {
+                if (entity.getPrivilege() == WRITE) {
+                    entity.setPrivilege(ADMIN);
+                    n.setLeadId(entity.getUserId());
+                    projectAuthorityRepository.save(entity);
+                    projectRepository.save(n);
+                    break;
+                } else if (entity.getPrivilege() == READ) {
+                    entity.setPrivilege(ADMIN);
+                    n.setLeadId(entity.getUserId());
+                    projectAuthorityRepository.save(entity);
+                    projectRepository.save(n);
+                    break;
+                }
+            }
+            projectAuthorityRepository.deleteAllByUserId(userId);
+        });
     }
 }

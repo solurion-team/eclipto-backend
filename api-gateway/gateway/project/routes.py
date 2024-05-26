@@ -152,7 +152,6 @@ async def delete_project(
         project_id: Annotated[
             int, Path(description="ID of a project", gt=0, example=123)
         ]
-# ) -> ProjectInfoDto:
 ) -> None:
     pass
 

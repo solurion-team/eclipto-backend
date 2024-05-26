@@ -56,3 +56,4 @@ class UpdateProjectRequest(BaseModel):
     lead_id: int | None = Field(
         default=None, description="Project lead user id", example=3757385734
     )
+
