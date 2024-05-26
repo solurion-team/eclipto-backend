@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component;
 public class ProjectTopicEventListener {
     private final TaskService taskService;
 
-    @ProjectTopicListener(id = "somesomesome", filter = ProjectTopicConfig.CREATE_PROJECT_FILTER)
+    @ProjectTopicListener(id = "projectCreatedEvent", filter = ProjectTopicConfig.CREATE_PROJECT_FILTER)
     public void listenProjectCreatedEvent(Long projectId) {
         taskService.onProjectCreated(projectId);
     }
 
-    @ProjectTopicListener(id = "cumcuyumudfg", filter = ProjectTopicConfig.DELETE_PROJECT_FILTER)
+    @ProjectTopicListener(id = "projectDeletedEvent", filter = ProjectTopicConfig.DELETE_PROJECT_FILTER)
     public void listenProjectDeletedEvent(Long projectId) {
         taskService.onProjectDeleted(projectId);
     }

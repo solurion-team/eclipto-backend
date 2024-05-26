@@ -34,7 +34,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void deleteTask(Long taskId) {
-        if (taskRepository.existsById(taskId)){
+        if (taskRepository.existsById(taskId)) {
             taskRepository.deleteById(taskId);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -63,7 +63,7 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskStatusDto> getProjectTaskStatuses(Long projectId, Boolean includeTasks) {
         List<TaskStatusEntity> entities = taskStatusRepository.findAllByProjectId(projectId);
         List<TaskStatusDto> statusDtoList = entities.stream().map(taskStatusMapper::toDto).toList();
-        if(!includeTasks){
+        if (!includeTasks) {
             statusDtoList.forEach(obj -> obj.setTasks(null));
         }
         return statusDtoList;
@@ -72,7 +72,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskInfoDto getTask(Long taskId) {
         return taskMapper.toTaskInfo(taskRepository.findById(taskId)
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
     }
 
     @Override
@@ -81,7 +81,7 @@ public class TaskServiceImpl implements TaskService {
         TaskEntity entity = taskRepository.save(taskMapper.toEntity(createTaskRequest));
         entity.setBoard(boardRepository.findByProjectId(createTaskRequest.getProjectId()));
         entity.setStatus(taskStatusRepository.findById(createTaskRequest.getStatusId())
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
         return taskMapper.toTaskLite(entity);
     }
 
@@ -95,11 +95,11 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public TaskInfoDto updateTask(Long taskId,UpdateTaskRequest updateTaskRequest) {
+    public TaskInfoDto updateTask(Long taskId, UpdateTaskRequest updateTaskRequest) {
         TaskEntity entity = taskRepository
                 .findById(taskId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         updateTaskMapper.updateEntity(updateTaskRequest, entity);
-        if(updateTaskRequest.getStatusId() != null){
+        if (updateTaskRequest.getStatusId() != null) {
             entity.setStatus(taskStatusRepository
                     .findById(updateTaskRequest.getStatusId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
@@ -121,12 +121,12 @@ public class TaskServiceImpl implements TaskService {
     public void onUserDeleted(Long userId) {
         List<TaskEntity> entities = taskRepository.findAllByAssignedUserIdOrReporterUserId(userId);
 
-        for(TaskEntity obj:entities){
-            if(Objects.equals(obj.getAssignedUserId(), userId)){
-                    obj.setAssignedUserId(null);
+        for (TaskEntity obj : entities) {
+            if (Objects.equals(obj.getAssignedUserId(), userId)) {
+                obj.setAssignedUserId(null);
             }
-            if(Objects.equals(obj.getReporterUserId(), userId)){
-                    obj.setReporterUserId(null);
+            if (Objects.equals(obj.getReporterUserId(), userId)) {
+                obj.setReporterUserId(null);
             }
         }
         taskRepository.saveAll(entities);
@@ -136,7 +136,7 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public void onProjectCreated(Long projectId) {
         BoardEntity board = boardRepository.save(BoardEntity.builder()
-                        .projectId(projectId)
+                .projectId(projectId)
                 .build());
         taskStatusRepository.save(
                 TaskStatusEntity.builder()

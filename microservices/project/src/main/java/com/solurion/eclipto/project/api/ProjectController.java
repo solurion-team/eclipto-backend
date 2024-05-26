@@ -7,8 +7,6 @@ import com.solurion.eclipto.project.dto.UpdateProjectRequest;
 import com.solurion.eclipto.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,7 +29,7 @@ public class ProjectController implements ProjectApi {
 
     @Override
     public ResponseEntity<List<ProjectAuthorityDto>> getProjectAuthorities(Long projectId) {
-        return ResponseEntity.ok(projectService.getProjectAuthorityEntity(projectId));
+        return ResponseEntity.ok(projectService.getProjectAuthorities(projectId));
     }
 
     @Override
