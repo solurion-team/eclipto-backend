@@ -240,7 +240,7 @@ async def get_project_authorities(
     },
     status_code=HTTPStatus.OK,
     tags=["project"],
-    summary="Create project authorities",
+    summary="Create project authority",
     description="Create project authorities with required information",
     operation_id="postProjectAuthorities",
 )
@@ -256,7 +256,7 @@ async def create_project_authorities(
         project_id: Annotated[
             int, Path(description="ID of a project", gt=0, example=123)
         ],
-        create_project_authorities_request_body: Annotated[ProjectAuthorityDto, Body()]
+        create_project_authority_request_body: Annotated[ProjectAuthorityDto, Body()]
 ) -> ProjectAuthorityDto:
     pass
 
@@ -285,13 +285,13 @@ async def create_project_authorities(
     service_url=SERVICE_URL,
     gateway_path="/v1/projects/{project_id}/authorities"
 )
-async def update_project(
+async def update_project_authorities(
         request: Request,
         response: Response,
         token: Annotated[str, Depends(bearer_auth_scheme)],
         project_id: Annotated[
             int, Path(description="ID of a project", gt=0, example=123)
         ],
-        update_project_request_body: Annotated[ProjectAuthorityDto, Body()]
+        update_project_authority_request_body: Annotated[ProjectAuthorityDto, Body()]
 ) -> ProjectAuthorityDto:
     pass
