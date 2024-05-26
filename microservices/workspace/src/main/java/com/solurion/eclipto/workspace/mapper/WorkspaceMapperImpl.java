@@ -39,14 +39,5 @@ public class WorkspaceMapperImpl implements WorkspaceMapper {
                 .ownerId(null).build();
     }
 
-    @Override
-    public List<WorkspaceInfoDto> entitiesToDtos(List<WorkspaceEntity> entities) {
-        if (entities == null) {
-            return Collections.emptyList();
-        }
 
-        return entities.stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
-    }
 }

@@ -13,5 +13,4 @@ public interface WorkspaceMapper {
 
     WorkspaceEntity toEntity(CreateWorkspaceRequest request);
 
-    List<WorkspaceInfoDto> entitiesToDtos(List<WorkspaceEntity> entities);
 }

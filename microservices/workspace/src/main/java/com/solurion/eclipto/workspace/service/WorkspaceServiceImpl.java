@@ -93,14 +93,14 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
     public List<WorkspaceInfoDto> getWorkspaces() {
         List<WorkspaceAuthorityEntity> workspaceAuthorityEntities = workspaceAuthorityRepository.getAllByUserId(jwtClaimsManager.extractUserId());
-        for (WorkspaceAuthorityEntity entity: workspaceAuthorityEntities){
+        for (WorkspaceAuthorityEntity entity : workspaceAuthorityEntities) {
             System.out.println(entity.getWorkspaceId());
         }
         List<WorkspaceEntity> workspaceEntities = workspaceAuthorityEntities.stream().map(workspaceAuthority -> workspaceRepository.findById(workspaceAuthority.getWorkspaceId())
                         .orElse(null))
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-        return workspaceMapper.entitiesToDtos(workspaceEntities);
+                .toList();
+        return workspaceEntities.stream().map(workspaceMapper::toDto).toList();
     }
 
     @Override
@@ -132,6 +132,4 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         updateWorkspaceAuthorityMapper.updateEntity(workspaceAuthorityDto, workspaceAuthorityEntity);
         return workspaceAuthorityDto;
     }
-
-
 }

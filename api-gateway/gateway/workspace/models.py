@@ -1,3 +1,5 @@
+from enum import Enum
+
 from pydantic import BaseModel, Field
 
 
@@ -36,4 +38,20 @@ class UpdateWorkspaceRequest(BaseModel):
         description="A workspace description that provides more detailed information about the workspace",
         example="Workspace about microservice based eclipto backend workspace, that implement api-gateway pattern and "
                 ".."
+    )
+
+
+class Privilege(str, Enum):
+    READ = "READ"
+    WRITE = "WRITE"
+    ADMIN = "ADMIN"
+
+
+class WorkspaceAuthorityDto(BaseModel):
+    user_id: int = Field(
+        description="Id of user",
+        example=3757385734
+    )
+    privilege: Privilege = Field(
+        description="Privilege"
     )
