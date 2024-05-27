@@ -34,7 +34,6 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     private final JwtClaimsManager jwtClaimsManager;
     private final KafkaTemplate<String, Long> kafkaTemplate;
 
-
     @Override
     public WorkspaceInfoDto getWorkspace(Long id) {
         return workspaceMapper.toDto(workspaceRepository.findById(id).orElseThrow(
@@ -80,6 +79,9 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
     @Override
     public WorkspaceAuthorityDto createWorkspaceAuthority(Long workspaceId, WorkspaceAuthorityDto workspaceAuthorityDto) {
+        if (!workspaceRepository.existsById(workspaceId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Workspace not found");
+        }
         WorkspaceAuthorityEntity workspaceAuthorityEntity = workspaceAuthorityMapper.toEntity(workspaceAuthorityDto);
         workspaceAuthorityEntity.setWorkspaceId(workspaceId);
         workspaceAuthorityRepository.save(workspaceAuthorityEntity);
@@ -108,7 +110,6 @@ public class WorkspaceServiceImpl implements WorkspaceService {
                 .map(WorkspaceEntity::getId)
                 .toList();
         workspaceRepository.deleteAllById(workspaceIds);
-        workspaceAuthorityRepository.deleteAllByUserId(userId);
 
         workspaceEntities.forEach(n -> {
             kafkaTemplate.send(WorkspaceTopicConfig.TOPIC, WorkspaceTopicConfig.DELETE_WORKSPACE_KEY, n.getId());

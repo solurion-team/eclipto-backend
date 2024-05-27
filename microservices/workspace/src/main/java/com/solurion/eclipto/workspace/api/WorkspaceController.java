@@ -2,7 +2,6 @@ package com.solurion.eclipto.workspace.api;
 
 import com.solurion.eclipto.workspace.dto.*;
 import com.solurion.eclipto.workspace.service.WorkspaceService;
-import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,8 +51,7 @@ public class WorkspaceController implements WorkspaceApi {
     }
 
     @Override
-    public ResponseEntity<WorkspaceInfoDto> updateWorkspaceInfo(Long workspaceId,
-                                                                UpdateWorkspaceRequest updateWorkspaceRequest) {
+    public ResponseEntity<WorkspaceInfoDto> updateWorkspaceInfo(Long workspaceId, UpdateWorkspaceRequest updateWorkspaceRequest) {
         return ResponseEntity.ok(workspaceService.updateWorkspaceInfo(updateWorkspaceRequest, workspaceId));
     }
 }

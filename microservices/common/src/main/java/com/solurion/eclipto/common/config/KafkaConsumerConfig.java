@@ -32,8 +32,7 @@ public class KafkaConsumerConfig {
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new LongDeserializer());
     }
 
-    @Bean
-    @Named(STRING_LONG_CONTAINER_FACTORY)
+    @Bean(STRING_LONG_CONTAINER_FACTORY)
     public ConcurrentKafkaListenerContainerFactory<String, Long> longKafkaListenerContainerFactory(
             ConsumerFactory<String, Long> consumerFactory
     ) {

@@ -34,7 +34,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void deleteTask(Long taskId) {
-        if (taskRepository.existsById(taskId)){
+        if (taskRepository.existsById(taskId)) {
             taskRepository.deleteById(taskId);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -42,11 +42,17 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskInfoDto> getAllTasks(Long projectId) {
-        return taskRepository.findAllByProjectId(projectId)
-                .stream()
-                .map(taskMapper::toTaskInfo)
-                .collect(Collectors.toList());
+    public List<TaskInfoDto> getAllTasks(Long projectId, Boolean isCompleted) {
+        List<TaskEntity> entities = taskRepository.findAllByProjectId(projectId);
+        if(isCompleted!=null){
+            entities = entities.stream().filter(task -> task.getIsCompleted() == isCompleted).toList();
+        }
+        entities.forEach(obj ->{
+            TaskStatusEntity entity = obj.getStatus();
+            entity.setTasks(null);
+            obj.setStatus(entity);
+        });
+        return entities.stream().map(taskMapper::toTaskInfo).toList();
     }
 
     @Override
@@ -60,47 +66,57 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public List<TaskStatusDto> getProjectTaskStatuses(Long projectId, Boolean includeTasks) {
+    public List<TaskStatusDto> getProjectTaskStatuses(Long projectId, Boolean includeTasks, Boolean isCompleted) {
         List<TaskStatusEntity> entities = taskStatusRepository.findAllByProjectId(projectId);
-        List<TaskStatusDto> statusDtoList = entities.stream().map(taskStatusMapper::toDto).toList();
         if(!includeTasks){
-            statusDtoList.forEach(obj -> obj.setTasks(null));
+            entities.forEach(obj -> obj.setTasks(null));
+        } else if(isCompleted != null){
+            entities.stream().forEach(obj -> {
+                obj.setTasks(obj.getTasks().stream().filter(obj1 -> obj1.getIsCompleted()==isCompleted).toList());
+            });
         }
-        return statusDtoList;
+        return entities.stream().map(taskStatusMapper::toDto).toList();
     }
 
     @Override
     public TaskInfoDto getTask(Long taskId) {
-        return taskMapper.toTaskInfo(taskRepository.findById(taskId)
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+        TaskEntity entity = taskRepository.findById(taskId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        entity.getStatus().setTasks(null);
+        return taskMapper.toTaskInfo(entity);
     }
 
     @Override
     @Transactional
     public TaskLiteDto postTask(CreateTaskRequest createTaskRequest) {
         TaskEntity entity = taskRepository.save(taskMapper.toEntity(createTaskRequest));
+        entity.setBoard(boardRepository.findByProjectId(createTaskRequest.getProjectId()));
         entity.setStatus(taskStatusRepository.findById(createTaskRequest.getStatusId())
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+        entity.setIsCompleted(false);
         return taskMapper.toTaskLite(entity);
     }
 
     @Override
+    @Transactional
     public TaskStatusDto postTaskStatus(CreateTaskStatusRequest createTaskStatusRequest) {
-        return taskStatusMapper
-                .toDto(taskStatusRepository.save(taskStatusMapper.toEntity(createTaskStatusRequest)));
+        TaskStatusEntity taskStatusEntity = taskStatusMapper.toEntity(createTaskStatusRequest);
+        taskStatusEntity.setBoard(boardRepository.findByProjectId(createTaskStatusRequest.getProjectId()));
+        return taskStatusMapper.toDto(taskStatusEntity);
     }
 
     @Override
     @Transactional
-    public TaskInfoDto updateTask(Long taskId,UpdateTaskRequest updateTaskRequest) {
+    public TaskInfoDto updateTask(Long taskId, UpdateTaskRequest updateTaskRequest) {
         TaskEntity entity = taskRepository
                 .findById(taskId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         updateTaskMapper.updateEntity(updateTaskRequest, entity);
-        if(updateTaskRequest.getStatusId() != null){
+        if (updateTaskRequest.getStatusId() != null) {
             entity.setStatus(taskStatusRepository
                     .findById(updateTaskRequest.getStatusId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
         }
+        entity.getStatus().setTasks(null);
         return taskMapper.toTaskInfo(entity);
     }
 
@@ -118,12 +134,12 @@ public class TaskServiceImpl implements TaskService {
     public void onUserDeleted(Long userId) {
         List<TaskEntity> entities = taskRepository.findAllByAssignedUserIdOrReporterUserId(userId);
 
-        for(TaskEntity obj:entities){
-            if(Objects.equals(obj.getAssignedUserId(), userId)){
-                    obj.setAssignedUserId(null);
+        for (TaskEntity obj : entities) {
+            if (Objects.equals(obj.getAssignedUserId(), userId)) {
+                obj.setAssignedUserId(null);
             }
-            if(Objects.equals(obj.getReporterUserId(), userId)){
-                    obj.setReporterUserId(null);
+            if (Objects.equals(obj.getReporterUserId(), userId)) {
+                obj.setReporterUserId(null);
             }
         }
         taskRepository.saveAll(entities);
@@ -132,14 +148,15 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public void onProjectCreated(Long projectId) {
-        boardRepository.save(BoardEntity.builder()
-                        .projectId(projectId)
+        BoardEntity board = boardRepository.save(BoardEntity.builder()
+                .projectId(projectId)
                 .build());
         taskStatusRepository.save(
                 TaskStatusEntity.builder()
                         .projectId(projectId)
                         .name("To do")
                         .tint("#808080")
+                        .board(board)
                         .build()
         );
         taskStatusRepository.save(
@@ -147,6 +164,7 @@ public class TaskServiceImpl implements TaskService {
                         .projectId(projectId)
                         .name("In progress")
                         .tint("#0000ff")
+                        .board(board)
                         .build()
         );
         taskStatusRepository.save(
@@ -154,14 +172,14 @@ public class TaskServiceImpl implements TaskService {
                         .projectId(projectId)
                         .name("Completed")
                         .tint("#008000")
+                        .board(board)
                         .build()
         );
     }
 
     @Override
+    @Transactional
     public void onProjectDeleted(Long projectId) {
-        if(boardRepository.existsByProjectId(projectId)){
-            boardRepository.deleteByProjectId(projectId);
-        }
+        boardRepository.deleteByProjectId(projectId);
     }
 }

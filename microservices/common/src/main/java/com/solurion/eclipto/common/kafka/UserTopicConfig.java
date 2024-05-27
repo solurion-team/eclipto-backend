@@ -13,9 +13,8 @@ public class UserTopicConfig {
 
     public static final String DELETE_USER_FILTER = "deleteUserFilter";
 
-    @Bean
-    @Named(DELETE_USER_FILTER)
-    public RecordFilterStrategy<String, String> deleteUserFilter() {
+    @Bean(DELETE_USER_FILTER)
+    public RecordFilterStrategy<String, Long> deleteUserFilter() {
         return new KeyRecordFilterStrategy<>(DELETE_USER_KEY);
     }
 }

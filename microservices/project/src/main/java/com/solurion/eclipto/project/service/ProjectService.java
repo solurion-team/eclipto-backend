@@ -18,7 +18,7 @@ public interface ProjectService {
 
     void onWorkspaceDeleted(Long workspaceId);
 
-    List<ProjectAuthorityDto> getProjectAuthorityEntity(Long projectId);
+    List<ProjectAuthorityDto> getProjectAuthorities(Long projectId);
 
     ProjectAuthorityDto createProjectAuthority(Long projectId, ProjectAuthorityDto projectAuthorityDto);
 

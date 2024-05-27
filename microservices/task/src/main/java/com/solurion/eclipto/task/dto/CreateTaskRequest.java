@@ -27,6 +27,8 @@ public class CreateTaskRequest {
 
   private String description;
 
+  private Integer index;
+
   private Long statusId;
 
   /**
@@ -84,8 +86,9 @@ public class CreateTaskRequest {
   /**
    * Constructor with only required parameters
    */
-  public CreateTaskRequest(String title, Long statusId, Long reporterUserId, Long projectId) {
+  public CreateTaskRequest(String title, Integer index, Long statusId, Long reporterUserId, Long projectId) {
     this.title = title;
+    this.index = index;
     this.statusId = statusId;
     this.reporterUserId = reporterUserId;
     this.projectId = projectId;
@@ -129,6 +132,26 @@ public class CreateTaskRequest {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public CreateTaskRequest index(Integer index) {
+    this.index = index;
+    return this;
+  }
+
+  /**
+   * Id of the status
+   * @return index
+  */
+  @NotNull 
+  @Schema(name = "index", example = "457345348", description = "Id of the status", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("index")
+  public Integer getIndex() {
+    return index;
+  }
+
+  public void setIndex(Integer index) {
+    this.index = index;
   }
 
   public CreateTaskRequest statusId(Long statusId) {
@@ -262,6 +285,7 @@ public class CreateTaskRequest {
     CreateTaskRequest createTaskRequest = (CreateTaskRequest) o;
     return Objects.equals(this.title, createTaskRequest.title) &&
         Objects.equals(this.description, createTaskRequest.description) &&
+        Objects.equals(this.index, createTaskRequest.index) &&
         Objects.equals(this.statusId, createTaskRequest.statusId) &&
         Objects.equals(this.priority, createTaskRequest.priority) &&
         Objects.equals(this.dueDate, createTaskRequest.dueDate) &&
@@ -272,7 +296,7 @@ public class CreateTaskRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(title, description, statusId, priority, dueDate, assignedUserId, reporterUserId, projectId);
+    return Objects.hash(title, description, index, statusId, priority, dueDate, assignedUserId, reporterUserId, projectId);
   }
 
   @Override
@@ -281,6 +305,7 @@ public class CreateTaskRequest {
     sb.append("class CreateTaskRequest {\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    index: ").append(toIndentedString(index)).append("\n");
     sb.append("    statusId: ").append(toIndentedString(statusId)).append("\n");
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
     sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");

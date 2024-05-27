@@ -2,8 +2,10 @@ package com.solurion.eclipto.project.service;
 
 import com.solurion.eclipto.common.jwt.JwtClaimsManager;
 import com.solurion.eclipto.common.kafka.ProjectTopicConfig;
-import com.solurion.eclipto.common.kafka.WorkspaceTopicConfig;
-import com.solurion.eclipto.project.dto.*;
+import com.solurion.eclipto.project.dto.CreateProjectRequest;
+import com.solurion.eclipto.project.dto.ProjectAuthorityDto;
+import com.solurion.eclipto.project.dto.ProjectInfoDto;
+import com.solurion.eclipto.project.dto.UpdateProjectRequest;
 import com.solurion.eclipto.project.entity.ProjectAuthorityEntity;
 import com.solurion.eclipto.project.entity.ProjectEntity;
 import com.solurion.eclipto.project.mapper.ProjectAuthorityMapper;
@@ -20,12 +22,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import static com.solurion.eclipto.project.entity.ProjectAuthorityEntity.Privilege.*;
 
 @Service
 @RequiredArgsConstructor
@@ -63,24 +61,20 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    @Transactional
     public ProjectInfoDto createProject(CreateProjectRequest createProjectRequest) {
         ProjectEntity entity = projectRepository.save(projectMapper.toEntity(createProjectRequest));
-        ProjectAuthorityDto projectAuthorityDto = new ProjectAuthorityDto(jwtClaimsManager.extractUserId(),
-                ProjectAuthorityDto.PrivilegeEnum.ADMIN);
-        createProjectAuthority(entity.getId(), projectAuthorityDto);
+        ProjectAuthorityEntity projectAuthorityEntity = ProjectAuthorityEntity
+                .builder()
+                .projectId(entity.getId())
+                .project(entity)
+                .privilege(ProjectAuthorityEntity.Privilege.ADMIN)
+                .userId(jwtClaimsManager.extractUserId())
+                .build();
+        entity.setAuthorities(Collections.singletonList(projectAuthorityEntity));
+        projectAuthorityRepository.save(projectAuthorityEntity);
         kafkaTemplate.send(ProjectTopicConfig.TOPIC, ProjectTopicConfig.CREATE_PROJECT_KEY, entity.getId());
         return projectMapper.toDto(entity);
-    }
-
-    @Override
-    public ProjectAuthorityDto createProjectAuthority(Long projectId, ProjectAuthorityDto projectAuthorityDto) {
-        ProjectEntity projectEntity = projectRepository.findById(projectId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Project not found"));
-        ProjectAuthorityEntity projectAuthorityEntity = projectAuthorityMapper.toEntity(projectAuthorityDto);
-        projectAuthorityEntity.setProjectId(projectId);
-        projectAuthorityEntity.setProject(projectEntity);
-        projectAuthorityRepository.save(projectAuthorityEntity);
-        return projectAuthorityDto;
     }
 
     @Override
@@ -99,6 +93,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    @Transactional
     public void onWorkspaceDeleted(Long workspaceId) {
         List<ProjectEntity> entities = projectRepository.getAllByWorkspaceId(workspaceId);
         entities.parallelStream()
@@ -109,11 +104,29 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectAuthorityDto> getProjectAuthorityEntity(Long projectId) {
+    public List<ProjectAuthorityDto> getProjectAuthorities(Long projectId) {
         return projectAuthorityRepository.getAllByProjectId(projectId).stream()
-                .map(projectAuthorityMapper::toDto).
-                toList();
+                .map(projectAuthorityMapper::toDto)
+                .toList();
+    }
 
+    @Override
+    @Transactional
+    public ProjectAuthorityDto createProjectAuthority(Long projectId, ProjectAuthorityDto projectAuthorityDto) {
+        if (projectAuthorityRepository.existsByUserId(projectAuthorityDto.getUserId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        ProjectEntity projectEntity = projectRepository.findById(projectId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN));
+        ProjectAuthorityEntity projectAuthorityEntity = projectAuthorityMapper.toEntity(projectAuthorityDto);
+        projectAuthorityEntity.setProjectId(projectId);
+        projectAuthorityEntity.setProject(projectEntity);
+        projectAuthorityRepository.save(projectAuthorityEntity);
+        List<ProjectAuthorityEntity> entities = projectEntity.getAuthorities();
+        entities.add(projectAuthorityEntity);
+        projectEntity.setAuthorities(entities);
+        projectRepository.save(projectEntity);
+        return projectAuthorityDto;
     }
 
     @Override
@@ -133,14 +146,14 @@ public class ProjectServiceImpl implements ProjectService {
         projectEntities.forEach(n -> {
             List<ProjectAuthorityEntity> entityList = projectAuthorityRepository.findAllByProjectId(n.getId());
             for (ProjectAuthorityEntity entity : entityList) {
-                if (entity.getPrivilege() == WRITE) {
-                    entity.setPrivilege(ADMIN);
+                if (entity.getPrivilege() == ProjectAuthorityEntity.Privilege.WRITE) {
+                    entity.setPrivilege(ProjectAuthorityEntity.Privilege.ADMIN);
                     n.setLeadId(entity.getUserId());
                     projectAuthorityRepository.save(entity);
                     projectRepository.save(n);
                     break;
-                } else if (entity.getPrivilege() == READ) {
-                    entity.setPrivilege(ADMIN);
+                } else if (entity.getPrivilege() == ProjectAuthorityEntity.Privilege.READ) {
+                    entity.setPrivilege(ProjectAuthorityEntity.Privilege.ADMIN);
                     n.setLeadId(entity.getUserId());
                     projectAuthorityRepository.save(entity);
                     projectRepository.save(n);

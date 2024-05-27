@@ -1,10 +1,13 @@
 package com.solurion.eclipto.task.api;
 
 import com.solurion.eclipto.task.dto.*;
+import com.solurion.eclipto.task.repository.BoardRepository;
 import com.solurion.eclipto.task.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -21,8 +24,8 @@ public class TaskController implements TaskApi {
     }
 
     @Override
-    public ResponseEntity<List<TaskInfoDto>> getAllTasks(Long projectId) {
-        return ResponseEntity.ok(taskService.getAllTasks(projectId));
+    public ResponseEntity<List<TaskInfoDto>> getAllTasks(Long projectId, Boolean isCompleted) {
+        return ResponseEntity.ok(taskService.getAllTasks(projectId, isCompleted));
     }
 
     @Override
@@ -31,11 +34,11 @@ public class TaskController implements TaskApi {
     }
 
     @Override
-    public ResponseEntity<List<TaskStatusDto>> getProjectTaskStatuses(Long projectId, Boolean includeTasks) {
+    public ResponseEntity<List<TaskStatusDto>> getProjectTaskStatuses(Long projectId, Boolean includeTasks, Boolean isCompleted) {
         if(includeTasks == null){
             includeTasks = false;
         }
-        return ResponseEntity.ok(taskService.getProjectTaskStatuses(projectId, includeTasks));
+        return ResponseEntity.ok(taskService.getProjectTaskStatuses(projectId, includeTasks, isCompleted));
     }
 
     @Override

@@ -17,20 +17,21 @@ public class WorkspaceAuthorityEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     private Long id;
+
     @Column(name = "workspace_id")
     private Long workspaceId;
+
     @Column(name = "user_id")
     private Long userId;
-    @Column(name = "privilege")
 
+    @Column(name = "privilege")
     private Privilege privilege;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "workspace")
+    @JoinColumn(name = "workspace_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private WorkspaceEntity workspace;
 
-    @RequiredArgsConstructor
     public enum Privilege {
         READ,
         WRITE,

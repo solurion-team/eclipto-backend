@@ -11,6 +11,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @KafkaListener
 public @interface ProjectTopicListener {
+    @AliasFor(annotation = KafkaListener.class, attribute = "id")
+    String id() default "";
 
     @AliasFor(annotation = KafkaListener.class, attribute = "topics")
     String[] topics() default {ProjectTopicConfig.TOPIC};

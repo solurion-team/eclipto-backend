@@ -31,6 +31,8 @@ public class TaskInfoDto {
 
   private String description;
 
+  private Integer index;
+
   private TaskStatusDto status;
 
   /**
@@ -84,6 +86,8 @@ public class TaskInfoDto {
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime updatedAt;
+
+  private Boolean isCompleted;
 
   public TaskInfoDto() {
     super();
@@ -160,6 +164,26 @@ public class TaskInfoDto {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public TaskInfoDto index(Integer index) {
+    this.index = index;
+    return this;
+  }
+
+  /**
+   * Id of the status
+   * @return index
+  */
+  
+  @Schema(name = "index", example = "457345348", description = "Id of the status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("index")
+  public Integer getIndex() {
+    return index;
+  }
+
+  public void setIndex(Integer index) {
+    this.index = index;
   }
 
   public TaskInfoDto status(TaskStatusDto status) {
@@ -302,6 +326,26 @@ public class TaskInfoDto {
     this.updatedAt = updatedAt;
   }
 
+  public TaskInfoDto isCompleted(Boolean isCompleted) {
+    this.isCompleted = isCompleted;
+    return this;
+  }
+
+  /**
+   * Information about status of task
+   * @return isCompleted
+  */
+  
+  @Schema(name = "is_completed", example = "true", description = "Information about status of task", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("is_completed")
+  public Boolean getIsCompleted() {
+    return isCompleted;
+  }
+
+  public void setIsCompleted(Boolean isCompleted) {
+    this.isCompleted = isCompleted;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -314,18 +358,20 @@ public class TaskInfoDto {
     return Objects.equals(this.id, taskInfoDto.id) &&
         Objects.equals(this.title, taskInfoDto.title) &&
         Objects.equals(this.description, taskInfoDto.description) &&
+        Objects.equals(this.index, taskInfoDto.index) &&
         Objects.equals(this.status, taskInfoDto.status) &&
         Objects.equals(this.priority, taskInfoDto.priority) &&
         Objects.equals(this.dueDate, taskInfoDto.dueDate) &&
         Objects.equals(this.assignedUserId, taskInfoDto.assignedUserId) &&
         Objects.equals(this.reporterUserId, taskInfoDto.reporterUserId) &&
         Objects.equals(this.createdAt, taskInfoDto.createdAt) &&
-        Objects.equals(this.updatedAt, taskInfoDto.updatedAt);
+        Objects.equals(this.updatedAt, taskInfoDto.updatedAt) &&
+        Objects.equals(this.isCompleted, taskInfoDto.isCompleted);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, status, priority, dueDate, assignedUserId, reporterUserId, createdAt, updatedAt);
+    return Objects.hash(id, title, description, index, status, priority, dueDate, assignedUserId, reporterUserId, createdAt, updatedAt, isCompleted);
   }
 
   @Override
@@ -335,6 +381,7 @@ public class TaskInfoDto {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    index: ").append(toIndentedString(index)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
     sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");
@@ -342,6 +389,7 @@ public class TaskInfoDto {
     sb.append("    reporterUserId: ").append(toIndentedString(reporterUserId)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
+    sb.append("    isCompleted: ").append(toIndentedString(isCompleted)).append("\n");
     sb.append("}");
     return sb.toString();
   }
