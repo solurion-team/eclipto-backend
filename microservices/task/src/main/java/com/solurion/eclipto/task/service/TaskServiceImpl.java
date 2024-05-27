@@ -158,7 +158,7 @@ public class TaskServiceImpl implements TaskService {
                 TaskStatusEntity.builder()
                         .projectId(projectId)
                         .name("To do")
-                        .tint("#808080")
+                        .tint("#42526E")
                         .board(board)
                         .build()
         );
@@ -166,7 +166,7 @@ public class TaskServiceImpl implements TaskService {
                 TaskStatusEntity.builder()
                         .projectId(projectId)
                         .name("In progress")
-                        .tint("#0000ff")
+                        .tint("#0052CC")
                         .board(board)
                         .build()
         );
@@ -174,7 +174,7 @@ public class TaskServiceImpl implements TaskService {
                 TaskStatusEntity.builder()
                         .projectId(projectId)
                         .name("Completed")
-                        .tint("#008000")
+                        .tint("#3cc962")
                         .board(board)
                         .build()
         );
