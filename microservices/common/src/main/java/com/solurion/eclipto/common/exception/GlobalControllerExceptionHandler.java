@@ -31,7 +31,7 @@ public class GlobalControllerExceptionHandler extends ResponseEntityExceptionHan
         if (!exception.getMessage().isBlank()) {
             body.message(exception.getMessage());
         }
-
+        exception.printStackTrace();
         return ResponseEntity.status(httpStatus).body(body);
     }
 

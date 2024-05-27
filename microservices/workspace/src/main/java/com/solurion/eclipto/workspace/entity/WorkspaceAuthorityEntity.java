@@ -18,7 +18,7 @@ public class WorkspaceAuthorityEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "workspace_id")
+    @Column(name = "workspace_id", insertable = false, updatable = false)
     private Long workspaceId;
 
     @Column(name = "user_id")

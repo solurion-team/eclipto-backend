@@ -18,7 +18,7 @@ public class ProjectAuthorityEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "project_id")
+    @Column(name = "project_id", insertable = false, updatable = false)
     private Long projectId;
 
     @Column(name = "user_id")
@@ -32,7 +32,6 @@ public class ProjectAuthorityEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private ProjectEntity project;
 
-    @RequiredArgsConstructor
     public enum Privilege {
         READ,
         WRITE,
