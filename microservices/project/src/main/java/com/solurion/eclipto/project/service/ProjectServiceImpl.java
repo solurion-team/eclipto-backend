@@ -2,6 +2,7 @@ package com.solurion.eclipto.project.service;
 
 import com.solurion.eclipto.common.jwt.JwtClaimsManager;
 import com.solurion.eclipto.common.kafka.ProjectTopicConfig;
+import com.solurion.eclipto.common.utils.ColorHexGenerator;
 import com.solurion.eclipto.project.dto.CreateProjectRequest;
 import com.solurion.eclipto.project.dto.ProjectAuthorityDto;
 import com.solurion.eclipto.project.dto.ProjectInfoDto;
@@ -22,7 +23,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -36,6 +36,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectAuthorityRepository projectAuthorityRepository;
     private final UpdateProjectAuthorityMapper updateProjectAuthorityMapper;
     private final JwtClaimsManager jwtClaimsManager;
+    private final ColorHexGenerator colorHexGenerator;
 
     public ProjectInfoDto getProject(Long id) {
         return projectMapper.toDto(projectRepository.findById(id).orElseThrow(
@@ -63,6 +64,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @Transactional
     public ProjectInfoDto createProject(CreateProjectRequest createProjectRequest) {
+        if (createProjectRequest.getTint() == null) {
+            createProjectRequest.setTint(colorHexGenerator.generateBrightColorHex());
+        }
         ProjectEntity entity = projectRepository.save(projectMapper.toEntity(createProjectRequest));
         ProjectAuthorityDto projectAuthorityDto = new ProjectAuthorityDto()
                 .userId(jwtClaimsManager.extractUserId())

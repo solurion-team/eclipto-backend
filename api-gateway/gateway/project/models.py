@@ -36,7 +36,8 @@ class CreateProjectRequest(BaseModel):
         default=None, description="A project description that provides more detailed information about the project",
         example="Project about microservice based eclipto backend project, that implement api-gateway pattern and ..."
     )
-    tint: str = Field(
+    tint: str | None = Field(
+        default=None,
         pattern="^#(?:[0-9a-fA-F]{3}){1,2}$",
         description="A color that is convenient for the user to identify the project",
     )

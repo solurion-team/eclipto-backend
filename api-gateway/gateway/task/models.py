@@ -89,9 +89,9 @@ class TaskInfoDto(BaseModel):
     priority: Priority = Field(description="Priority of the task")
     due_date: str | None = Field(default=None, description="Due date", example="2024-03-28T00:07:19+03:00")
     assigned_user_id: int | None = Field(default=None, description="Id of the assigned user", example=123456)
-    reporter_user_id: int = Field(description="Id of the reporter", example=123456)
-    created_at: str = Field(description="created_at", example=datetime.now())
-    updated_at: str = Field(description="updated_at", example=datetime.now())
+    reporter_user_id: int | None = Field(default=None, description="Id of the reporter", example=123456)
+    created_at: str | None = Field(default=None, description="created_at", example=datetime.now())
+    updated_at: str | None = Field(default=None, description="updated_at", example=datetime.now())
     is_completed: bool = Field(description="Completed task", example=True)
 
 

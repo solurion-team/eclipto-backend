@@ -1,6 +1,7 @@
 package com.solurion.eclipto.user.service;
 
 import com.solurion.eclipto.common.kafka.UserTopicConfig;
+import com.solurion.eclipto.common.utils.ColorHexGenerator;
 import com.solurion.eclipto.user.dto.UpdateUserRequest;
 import com.solurion.eclipto.user.entity.UserEntity;
 import com.solurion.eclipto.user.mapper.UpdateUserMapper;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UpdateUserMapper updateUserMapper;
     private final PasswordEncoder passwordEncoder;
     private final KafkaTemplate<String, Long> kafkaTemplate;
+    private final ColorHexGenerator colorHexGenerator;
 
     @Override
     public UserInfoDto getUser(Long id) {
@@ -48,19 +49,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.save(
                 userMapper.toEntity(registerRequest)
                         .toBuilder()
-                        .iconTint(generateRandomHex())
+                        .iconTint(colorHexGenerator.generateDarkColorHex())
                         .password(passwordEncoder.encode(registerRequest.getPassword()))
                         .role(UserRole.ROLE_USER)
                         .build()
         );
-    }
-
-    private String generateRandomHex() {
-        String[] colors = {"#0B3954", "#024959", "#5F0F40", "#145C9E", "#1C2826",
-                "#412234", "#1B1B3A", "#3E0E2F", "#2C1320", "#18206F"};
-        Random random = new Random();
-        int index = random.nextInt(colors.length);
-        return colors[index];
     }
 
     @Transactional
