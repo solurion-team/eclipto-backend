@@ -207,6 +207,34 @@ paths:
                 $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+  /v1/projects/{projectId}/members:
+    get:
+      description: Get all users by project id
+      operationId: getUsersByIds
+      tags:
+        - project
+      security:
+        - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/ProjectId"
+      responses:
+        200:
+          description: "Users found"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserInfoDto"
+        403:
+          description: "Users not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+
 components:
   securitySchemes:
     bearerHttpAuthentication:
@@ -271,6 +299,35 @@ components:
             $ref: "#/components/schemas/ProjectAuthorityDto"
 
   schemas:
+    UserInfoDto:
+      description: User information
+      type: object
+      properties:
+        id:
+          description: "ID of the user"
+          type: integer
+          format: int64
+          example: 7438546582
+        first_name:
+          description: "User first name"
+          type: string
+          example: "John"
+        last_name:
+          description: "User last name"
+          type: string
+          example: "Lastname"
+        icon_tint:
+          description: "A color that is convenient for the user"
+          type: string
+          pattern: "^#(?:[0-9a-fA-F]{3}){1,2}$"
+        email:
+          description: "User email"
+          type: string
+          example: "myemail@mail.com"
+      required:
+        - id
+        - first_name
+        - email
     ProjectInfoDto:
       description: Project information
       type: object
@@ -367,4 +424,5 @@ components:
       required:
         - user_id
         - privilege
+
 

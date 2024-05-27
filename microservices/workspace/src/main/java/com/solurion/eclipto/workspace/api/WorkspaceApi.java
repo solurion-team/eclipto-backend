@@ -8,6 +8,7 @@ package com.solurion.eclipto.workspace.api;
 import com.solurion.eclipto.workspace.dto.CreateWorkspaceRequest;
 import com.solurion.eclipto.workspace.dto.ErrorDto;
 import com.solurion.eclipto.workspace.dto.UpdateWorkspaceRequest;
+import com.solurion.eclipto.workspace.dto.UserInfoDto;
 import com.solurion.eclipto.workspace.dto.WorkspaceAuthorityDto;
 import com.solurion.eclipto.workspace.dto.WorkspaceInfoDto;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
@@ -118,6 +119,45 @@ public interface WorkspaceApi {
     )
     
     ResponseEntity<WorkspaceInfoDto> deleteWorkspace(
+        @Parameter(name = "workspaceId", description = "ID of a workspace", required = true, in = ParameterIn.PATH) @PathVariable("workspaceId") Long workspaceId
+    );
+
+
+    /**
+     * GET /v1/workspaces/{workspaceId}/members
+     * Get all users by workspace id
+     *
+     * @param workspaceId ID of a workspace (required)
+     * @return Users found (status code 200)
+     *         or Users not found (status code 403)
+     *         or Unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "getUsersByIds",
+        description = "Get all users by workspace id",
+        tags = { "workspace" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Users found", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserInfoDto.class)))
+            }),
+            @ApiResponse(responseCode = "403", description = "Users not found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/v1/workspaces/{workspaceId}/members",
+        produces = { "application/json" }
+    )
+    
+    ResponseEntity<List<UserInfoDto>> getUsersByIds(
         @Parameter(name = "workspaceId", description = "ID of a workspace", required = true, in = ParameterIn.PATH) @PathVariable("workspaceId") Long workspaceId
     );
 

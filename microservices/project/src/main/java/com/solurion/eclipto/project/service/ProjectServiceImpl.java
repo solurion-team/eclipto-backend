@@ -3,10 +3,7 @@ package com.solurion.eclipto.project.service;
 import com.solurion.eclipto.common.jwt.JwtClaimsManager;
 import com.solurion.eclipto.common.kafka.ProjectTopicConfig;
 import com.solurion.eclipto.common.kafka.WorkspaceTopicConfig;
-import com.solurion.eclipto.project.dto.CreateProjectRequest;
-import com.solurion.eclipto.project.dto.ProjectAuthorityDto;
-import com.solurion.eclipto.project.dto.ProjectInfoDto;
-import com.solurion.eclipto.project.dto.UpdateProjectRequest;
+import com.solurion.eclipto.project.dto.*;
 import com.solurion.eclipto.project.entity.ProjectAuthorityEntity;
 import com.solurion.eclipto.project.entity.ProjectEntity;
 import com.solurion.eclipto.project.mapper.ProjectAuthorityMapper;
@@ -152,5 +149,16 @@ public class ProjectServiceImpl implements ProjectService {
             }
         });
         projectAuthorityRepository.deleteAllByUserId(userId);
+    }
+
+    @Override
+    public List<UserInfoDto> getUsersByIds(Long projectId) {
+        List<ProjectAuthorityEntity> entityList = projectAuthorityRepository.findAllByProjectId(projectId);
+        List<Long> userIdList = entityList.stream()
+                .map(ProjectAuthorityEntity::getUserId).toList();
+
+        //TODO
+
+        return null;
     }
 }

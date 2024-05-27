@@ -1,9 +1,6 @@
 package com.solurion.eclipto.workspace.api;
 
-import com.solurion.eclipto.workspace.dto.CreateWorkspaceRequest;
-import com.solurion.eclipto.workspace.dto.UpdateWorkspaceRequest;
-import com.solurion.eclipto.workspace.dto.WorkspaceAuthorityDto;
-import com.solurion.eclipto.workspace.dto.WorkspaceInfoDto;
+import com.solurion.eclipto.workspace.dto.*;
 import com.solurion.eclipto.workspace.service.WorkspaceService;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +24,11 @@ public class WorkspaceController implements WorkspaceApi {
     public ResponseEntity<WorkspaceInfoDto> deleteWorkspace(Long workspaceId) {
         workspaceService.deleteWorkspace(workspaceId);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<List<UserInfoDto>> getUsersByIds(Long workspaceId) {
+        return ResponseEntity.ok(workspaceService.getUsersByIds(workspaceId));
     }
 
     @Override

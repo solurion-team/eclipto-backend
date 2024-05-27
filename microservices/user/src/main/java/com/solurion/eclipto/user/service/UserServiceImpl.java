@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -78,6 +79,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         userRepository.deleteById(userId);
         kafkaTemplate.send(UserTopicConfig.TOPIC, UserTopicConfig.DELETE_USER_KEY, userId);
+    }
+
+    @Override
+    public List<UserInfoDto> getUsersByIds(List<Long> ids) {
+        List<Long> longIds = ids.stream().toList();
+        List<UserEntity> entityList = userRepository.findAllById(longIds);
+        return entityList.stream()
+                .map(userMapper::toDto)
+                .toList();
     }
 
     @Override

@@ -5,9 +5,13 @@ import com.solurion.eclipto.user.dto.UpdateUserRequest;
 import com.solurion.eclipto.user.dto.UserInfoDto;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.List;
+
 public interface UserService {
     UserInfoDto getUser(Long id);
     UserDetails createUser(RegisterRequest registerRequest);
     UserInfoDto updateUser(Long id, UpdateUserRequest updateUserRequest);
     void deleteUser(Long userId);
+
+    List<UserInfoDto> getUsersByIds(List<Long> ids);
 }

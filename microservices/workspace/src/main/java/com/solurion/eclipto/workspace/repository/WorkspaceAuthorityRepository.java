@@ -17,4 +17,6 @@ public interface WorkspaceAuthorityRepository extends JpaRepository<WorkspaceAut
     List<WorkspaceAuthorityEntity> getAllByUserId(Long userId);
 
     void deleteAllByUserId(Long userId);
+
+    List<WorkspaceAuthorityEntity> findAllByWorkspaceId(Long workspaceId);
 }

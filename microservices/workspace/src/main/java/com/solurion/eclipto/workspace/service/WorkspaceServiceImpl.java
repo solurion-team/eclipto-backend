@@ -2,10 +2,7 @@ package com.solurion.eclipto.workspace.service;
 
 import com.solurion.eclipto.common.jwt.JwtClaimsManager;
 import com.solurion.eclipto.common.kafka.WorkspaceTopicConfig;
-import com.solurion.eclipto.workspace.dto.CreateWorkspaceRequest;
-import com.solurion.eclipto.workspace.dto.UpdateWorkspaceRequest;
-import com.solurion.eclipto.workspace.dto.WorkspaceAuthorityDto;
-import com.solurion.eclipto.workspace.dto.WorkspaceInfoDto;
+import com.solurion.eclipto.workspace.dto.*;
 import com.solurion.eclipto.workspace.entity.WorkspaceAuthorityEntity;
 import com.solurion.eclipto.workspace.entity.WorkspaceEntity;
 import com.solurion.eclipto.workspace.mapper.UpdateWorkspaceAuthorityMapper;
@@ -116,6 +113,17 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         workspaceEntities.forEach(n -> {
             kafkaTemplate.send(WorkspaceTopicConfig.TOPIC, WorkspaceTopicConfig.DELETE_WORKSPACE_KEY, n.getId());
         });
+    }
+
+    @Override
+    public List<UserInfoDto> getUsersByIds(Long workspaceId) {
+        List<WorkspaceAuthorityEntity> entityList = workspaceAuthorityRepository.findAllByWorkspaceId(workspaceId);
+        List<Long> userIdList = entityList.stream()
+                .map(WorkspaceAuthorityEntity::getUserId).toList();
+
+        //TODO
+
+        return null;
     }
 
 

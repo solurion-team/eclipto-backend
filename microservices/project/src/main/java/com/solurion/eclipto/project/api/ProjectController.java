@@ -1,9 +1,6 @@
 package com.solurion.eclipto.project.api;
 
-import com.solurion.eclipto.project.dto.CreateProjectRequest;
-import com.solurion.eclipto.project.dto.ProjectAuthorityDto;
-import com.solurion.eclipto.project.dto.ProjectInfoDto;
-import com.solurion.eclipto.project.dto.UpdateProjectRequest;
+import com.solurion.eclipto.project.dto.*;
 import com.solurion.eclipto.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +39,11 @@ public class ProjectController implements ProjectApi {
     @Override
     public ResponseEntity<List<ProjectInfoDto>> getProjects(Long workspaceId) {
         return ResponseEntity.ok(projectService.getProjects(workspaceId));
+    }
+
+    @Override
+    public ResponseEntity<List<UserInfoDto>> getUsersByIds(Long projectId) {
+        return ResponseEntity.ok(projectService.getUsersByIds(projectId));
     }
 
     @Override

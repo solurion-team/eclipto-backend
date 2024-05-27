@@ -1,9 +1,6 @@
 package com.solurion.eclipto.workspace.service;
 
-import com.solurion.eclipto.workspace.dto.CreateWorkspaceRequest;
-import com.solurion.eclipto.workspace.dto.UpdateWorkspaceRequest;
-import com.solurion.eclipto.workspace.dto.WorkspaceAuthorityDto;
-import com.solurion.eclipto.workspace.dto.WorkspaceInfoDto;
+import com.solurion.eclipto.workspace.dto.*;
 
 import java.util.List;
 
@@ -27,4 +24,6 @@ public interface WorkspaceService {
     List<WorkspaceInfoDto> getWorkspaces();
 
     void onUserDeleted(Long userId);
+
+    List<UserInfoDto> getUsersByIds(Long workspaceId);
 }
