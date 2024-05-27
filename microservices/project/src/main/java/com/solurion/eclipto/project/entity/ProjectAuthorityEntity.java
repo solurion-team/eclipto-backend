@@ -28,7 +28,7 @@ public class ProjectAuthorityEntity {
     private Privilege privilege;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id")
+    @JoinColumn(name = "project")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private ProjectEntity project;
 

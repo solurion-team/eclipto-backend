@@ -102,6 +102,7 @@ public class TaskServiceImpl implements TaskService {
     public TaskStatusDto postTaskStatus(CreateTaskStatusRequest createTaskStatusRequest) {
         TaskStatusEntity taskStatusEntity = taskStatusMapper.toEntity(createTaskStatusRequest);
         taskStatusEntity.setBoard(boardRepository.findByProjectId(createTaskStatusRequest.getProjectId()));
+        taskStatusRepository.save(taskStatusEntity);
         return taskStatusMapper.toDto(taskStatusEntity);
     }
 
