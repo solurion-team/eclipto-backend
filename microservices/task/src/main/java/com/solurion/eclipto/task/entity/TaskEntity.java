@@ -22,7 +22,7 @@ public class TaskEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
     @Column(name = "description")
@@ -31,7 +31,7 @@ public class TaskEntity {
     @Column(name = "index")
     private Integer index;
   
-    @Column(name = "priority")
+    @Column(name = "priority", nullable = false)
     private PriorityEnum priority;
 
     @Column(name = "due_date")
@@ -45,9 +45,6 @@ public class TaskEntity {
 
     @Column(name = "reporter_user_id")
     private Long reporterUserId;
-
-    @Column(name = "project_id")
-    private Long projectId;
 
     @Column(name = "created_at")
     @CreationTimestamp

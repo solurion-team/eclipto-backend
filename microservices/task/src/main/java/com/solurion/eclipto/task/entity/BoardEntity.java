@@ -16,7 +16,10 @@ public class BoardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(name = "project_id", nullable = false, unique = true)
     private Long projectId;
+
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<TaskEntity> tasks;
 

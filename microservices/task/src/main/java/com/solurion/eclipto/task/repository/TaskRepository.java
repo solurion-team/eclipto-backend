@@ -12,6 +12,7 @@ import java.util.List;
 
 @Repository
 public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
+    @Query("SELECT t FROM TaskEntity t WHERE t.board.projectId = :projectId")
     List<TaskEntity> findAllByProjectId(Long projectId);
 
     @Query("SELECT t FROM TaskEntity t WHERE t.assignedUserId = :userId OR t.reporterUserId = :userId")
