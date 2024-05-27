@@ -116,18 +116,6 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     }
 
     @Override
-    public List<UserInfoDto> getUsersByIds(Long workspaceId) {
-        List<WorkspaceAuthorityEntity> entityList = workspaceAuthorityRepository.findAllByWorkspaceId(workspaceId);
-        List<Long> userIdList = entityList.stream()
-                .map(WorkspaceAuthorityEntity::getUserId).toList();
-
-        //TODO
-
-        return null;
-    }
-
-
-    @Override
     public List<WorkspaceAuthorityDto> getWorkspaceAuthorityEntity(Long workspaceId) {
         return workspaceAuthorityRepository.getAllByWorkspaceId(workspaceId).stream()
                 .map(workspaceAuthorityMapper::toDto)

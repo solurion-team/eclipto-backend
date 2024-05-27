@@ -25,6 +25,4 @@ public interface ProjectService {
     ProjectAuthorityDto updateProjectAuthority(Long projectId, ProjectAuthorityDto projectAuthorityDto);
 
     void onUserDeleted(Long userId);
-
-    List<UserInfoDto> getUsersByIds(Long projectId);
 }

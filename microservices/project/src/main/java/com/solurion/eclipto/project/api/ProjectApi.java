@@ -10,7 +10,6 @@ import com.solurion.eclipto.project.dto.ErrorDto;
 import com.solurion.eclipto.project.dto.ProjectAuthorityDto;
 import com.solurion.eclipto.project.dto.ProjectInfoDto;
 import com.solurion.eclipto.project.dto.UpdateProjectRequest;
-import com.solurion.eclipto.project.dto.UserInfoDto;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -237,45 +236,6 @@ public interface ProjectApi {
     
     ResponseEntity<List<ProjectInfoDto>> getProjects(
         @Parameter(name = "workspaceId", description = "ID of a workspace", in = ParameterIn.QUERY) @Valid @RequestParam(value = "workspaceId", required = false) Long workspaceId
-    );
-
-
-    /**
-     * GET /v1/projects/{projectId}/members
-     * Get all users by project id
-     *
-     * @param projectId ID of a project (required)
-     * @return Users found (status code 200)
-     *         or Users not found (status code 403)
-     *         or Unexpected error (status code 200)
-     */
-    @Operation(
-        operationId = "getUsersByIds",
-        description = "Get all users by project id",
-        tags = { "project" },
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Users found", content = {
-                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserInfoDto.class)))
-            }),
-            @ApiResponse(responseCode = "403", description = "Users not found", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
-            }),
-            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "bearerHttpAuthentication")
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/v1/projects/{projectId}/members",
-        produces = { "application/json" }
-    )
-    
-    ResponseEntity<List<UserInfoDto>> getUsersByIds(
-        @Parameter(name = "projectId", description = "ID of a project", required = true, in = ParameterIn.PATH) @PathVariable("projectId") Long projectId
     );
 
 

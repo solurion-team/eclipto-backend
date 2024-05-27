@@ -207,33 +207,6 @@ paths:
                 $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
-  /v1/projects/{projectId}/members:
-    get:
-      description: Get all users by project id
-      operationId: getUsersByIds
-      tags:
-        - project
-      security:
-        - bearerHttpAuthentication: [ ]
-      parameters:
-        - $ref: "#/components/parameters/ProjectId"
-      responses:
-        200:
-          description: "Users found"
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/UserInfoDto"
-        403:
-          description: "Users not found"
-          content:
-            application/json:
-              schema:
-                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
-        default:
-          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
 
 components:
   securitySchemes:

@@ -150,15 +150,4 @@ public class ProjectServiceImpl implements ProjectService {
         });
         projectAuthorityRepository.deleteAllByUserId(userId);
     }
-
-    @Override
-    public List<UserInfoDto> getUsersByIds(Long projectId) {
-        List<ProjectAuthorityEntity> entityList = projectAuthorityRepository.findAllByProjectId(projectId);
-        List<Long> userIdList = entityList.stream()
-                .map(ProjectAuthorityEntity::getUserId).toList();
-
-        //TODO
-
-        return null;
-    }
 }

@@ -42,11 +42,6 @@ public class ProjectController implements ProjectApi {
     }
 
     @Override
-    public ResponseEntity<List<UserInfoDto>> getUsersByIds(Long projectId) {
-        return ResponseEntity.ok(projectService.getUsersByIds(projectId));
-    }
-
-    @Override
     public ResponseEntity<ProjectInfoDto> postProject(CreateProjectRequest createProjectRequest) {
         return ResponseEntity.ok(projectService.createProject(createProjectRequest));
     }
