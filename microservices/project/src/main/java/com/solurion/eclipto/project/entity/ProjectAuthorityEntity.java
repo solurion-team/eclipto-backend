@@ -20,11 +20,14 @@ public class ProjectAuthorityEntity {
     @Column(name = "user_id")
     private Long userId;
     @Column(name = "privilege")
-    private PrivilegeEnum privilege;
+    private Privilege privilege;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project")
+    private ProjectEntity project;
 
     @RequiredArgsConstructor
     @Getter
-    public enum PrivilegeEnum {
+    public enum Privilege {
         READ("READ"),
         WRITE("WRITE"),
         ADMIN("ADMIN");

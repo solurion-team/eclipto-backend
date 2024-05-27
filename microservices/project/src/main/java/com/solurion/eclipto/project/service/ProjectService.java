@@ -4,7 +4,6 @@ import com.solurion.eclipto.project.dto.CreateProjectRequest;
 import com.solurion.eclipto.project.dto.ProjectAuthorityDto;
 import com.solurion.eclipto.project.dto.ProjectInfoDto;
 import com.solurion.eclipto.project.dto.UpdateProjectRequest;
-import com.solurion.eclipto.project.entity.ProjectAuthorityEntity;
 import jakarta.annotation.Nullable;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public interface ProjectService {
 
     void onWorkspaceDeleted(Long workspaceId);
 
-    List<ProjectAuthorityDto> getProjectAuthorityEntity(Long projectId);
+    List<ProjectAuthorityDto> getProjectAuthorities(Long projectId);
 
     ProjectAuthorityDto createProjectAuthority(Long projectId, ProjectAuthorityDto projectAuthorityDto);
 

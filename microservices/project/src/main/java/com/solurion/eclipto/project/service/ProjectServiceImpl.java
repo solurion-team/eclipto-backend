@@ -1,5 +1,6 @@
 package com.solurion.eclipto.project.service;
 
+import com.solurion.eclipto.common.jwt.JwtClaimsManager;
 import com.solurion.eclipto.common.kafka.ProjectTopicConfig;
 import com.solurion.eclipto.project.dto.CreateProjectRequest;
 import com.solurion.eclipto.project.dto.ProjectAuthorityDto;
@@ -21,6 +22,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +37,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectAuthorityMapper projectAuthorityMapper;
     private final ProjectAuthorityRepository projectAuthorityRepository;
     private final UpdateProjectAuthorityMapper updateProjectAuthorityMapper;
+    private final JwtClaimsManager jwtClaimsManager;
 
     public ProjectInfoDto getProject(Long id) {
         return projectMapper.toDto(projectRepository.findById(id).orElseThrow(
@@ -59,8 +63,18 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    @Transactional
     public ProjectInfoDto createProject(CreateProjectRequest createProjectRequest) {
         ProjectEntity entity = projectRepository.save(projectMapper.toEntity(createProjectRequest));
+        ProjectAuthorityEntity projectAuthorityEntity = ProjectAuthorityEntity
+                .builder()
+                .projectId(entity.getId())
+                .project(entity)
+                .privilege(ProjectAuthorityEntity.Privilege.ADMIN)
+                .userId(jwtClaimsManager.extractUserId())
+                .build();
+        entity.setAuthorities(Collections.singletonList(projectAuthorityEntity));
+        projectAuthorityRepository.save(projectAuthorityEntity);
         kafkaTemplate.send(ProjectTopicConfig.TOPIC, ProjectTopicConfig.CREATE_PROJECT_KEY, entity.getId());
         return projectMapper.toDto(entity);
     }
@@ -82,20 +96,28 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectAuthorityDto> getProjectAuthorityEntity(Long projectId) {
+    public List<ProjectAuthorityDto> getProjectAuthorities(Long projectId) {
         return projectAuthorityRepository.getAllByProjectId(projectId).stream()
                 .map(projectAuthorityMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public ProjectAuthorityDto createProjectAuthority(Long projectId,ProjectAuthorityDto projectAuthorityDto) {
-        if(projectAuthorityRepository.existsByUserId(projectAuthorityDto.getUserId())){
+    @Transactional
+    public ProjectAuthorityDto createProjectAuthority(Long projectId, ProjectAuthorityDto projectAuthorityDto) {
+        if (projectAuthorityRepository.existsByUserId(projectAuthorityDto.getUserId())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+        ProjectEntity projectEntity = projectRepository.findById(projectId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN));
         ProjectAuthorityEntity projectAuthorityEntity = projectAuthorityMapper.toEntity(projectAuthorityDto);
         projectAuthorityEntity.setProjectId(projectId);
+        projectAuthorityEntity.setProject(projectEntity);
         projectAuthorityRepository.save(projectAuthorityEntity);
+        List<ProjectAuthorityEntity> entities = projectEntity.getAuthorities();
+        entities.add(projectAuthorityEntity);
+        projectEntity.setAuthorities(entities);
+        projectRepository.save(projectEntity);
         return projectAuthorityDto;
     }
 
@@ -105,7 +127,7 @@ public class ProjectServiceImpl implements ProjectService {
         ProjectAuthorityEntity projectAuthorityEntity = projectAuthorityRepository.findByProjectIdAndUserId(
                 projectId, projectAuthorityDto.getUserId()
         );
-        updateProjectAuthorityMapper.updateEntity(projectAuthorityDto,projectAuthorityEntity);
+        updateProjectAuthorityMapper.updateEntity(projectAuthorityDto, projectAuthorityEntity);
         return projectAuthorityDto;
     }
 }
