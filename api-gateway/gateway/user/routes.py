@@ -1,7 +1,7 @@
 from http import HTTPMethod, HTTPStatus
-from typing import Annotated
+from typing import Annotated, List
 
-from fastapi import APIRouter, Body, Path, Depends
+from fastapi import APIRouter, Body, Path, Depends, Query, HTTPException
 from starlette.requests import Request
 from starlette.responses import Response
 
@@ -10,6 +10,7 @@ from gateway.common.models import ErrorDto
 from gateway.common.security import bearer_auth_scheme
 from gateway.core.gateway import gate_to
 from .models import LoginRequest, RegisterRequest, UpdateUserRequest, UserInfoDto, JwtAuthenticationResponse
+
 
 SERVICE_URL = settings.user_service_url
 
@@ -161,4 +162,47 @@ async def update_user(
         ],
         update_user_request_body: Annotated[UpdateUserRequest, Body()]
 ) -> UserInfoDto:
+    pass
+
+
+def parse_comma_separated_ints(ids: str = Query(...,
+                                                description="Comma-separated list of user IDs",
+                                                example="123,24,55,3")):
+    try:
+        return list(int(id_) for id_ in ids.split(','))
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid IDs, must be a comma-separated list of integers")
+
+
+# noinspection PyUnusedLocal
+@router.get(
+    "/v1/users",
+    response_model=List[UserInfoDto],
+    responses={
+        403: {
+            "description": "User not found",
+            "model": ErrorDto,
+        },
+        "default": {
+            "description": "Unexpected error",
+            "model": ErrorDto,
+        }
+    },
+    status_code=HTTPStatus.OK,
+    tags=["user"],
+    summary="Get users by ids",
+    description="Get all users by ids",
+    operation_id="getUsersByIds",
+)
+@gate_to(
+    method=HTTPMethod.GET,
+    service_url=SERVICE_URL,
+    gateway_path="/v1/users"
+)
+async def get_users_by_ids(
+        request: Request,
+        response: Response,
+        token: Annotated[str, Depends(bearer_auth_scheme)],
+        ids: Annotated[str, Query()]
+) -> List[UserInfoDto]:
     pass

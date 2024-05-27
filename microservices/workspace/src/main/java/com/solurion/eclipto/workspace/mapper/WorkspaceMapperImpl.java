@@ -5,6 +5,10 @@ import com.solurion.eclipto.workspace.dto.WorkspaceInfoDto;
 import com.solurion.eclipto.workspace.entity.WorkspaceEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class WorkspaceMapperImpl implements WorkspaceMapper {
 
@@ -27,11 +31,11 @@ public class WorkspaceMapperImpl implements WorkspaceMapper {
     }
 
     @Override
-    public WorkspaceEntity toEntity(CreateWorkspaceRequest request){
+    public WorkspaceEntity toEntity(CreateWorkspaceRequest request, Long ownerId){
         return WorkspaceEntity.builder()
                 .id(null)
                 .name(request.getName())
                 .description(request.getDescription())
-                .ownerId(null).build();
+                .ownerId(ownerId).build();
     }
 }

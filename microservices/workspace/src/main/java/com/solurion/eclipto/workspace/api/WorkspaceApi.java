@@ -8,6 +8,7 @@ package com.solurion.eclipto.workspace.api;
 import com.solurion.eclipto.workspace.dto.CreateWorkspaceRequest;
 import com.solurion.eclipto.workspace.dto.ErrorDto;
 import com.solurion.eclipto.workspace.dto.UpdateWorkspaceRequest;
+import com.solurion.eclipto.workspace.dto.WorkspaceAuthorityDto;
 import com.solurion.eclipto.workspace.dto.WorkspaceInfoDto;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,6 +42,48 @@ import jakarta.annotation.Generated;
 public interface WorkspaceApi {
 
     /**
+     * POST /v1/workspace/{workspaceId}/authorities
+     * Create workspace authorities
+     *
+     * @param workspaceId ID of a workspace (required)
+     * @param workspaceAuthorityDto Request to create a workspace authorities (optional)
+     * @return Workspace authorities (status code 200)
+     *         or Workspace authorities not found (status code 403)
+     *         or Unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "createWorkspaceAuthorities",
+        description = "Create workspace authorities",
+        tags = { "workspace" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Workspace authorities", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = WorkspaceAuthorityDto.class))
+            }),
+            @ApiResponse(responseCode = "403", description = "Workspace authorities not found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/v1/workspace/{workspaceId}/authorities",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    
+    ResponseEntity<WorkspaceAuthorityDto> createWorkspaceAuthorities(
+        @Parameter(name = "workspaceId", description = "ID of a workspace", required = true, in = ParameterIn.PATH) @PathVariable("workspaceId") Long workspaceId,
+        @Parameter(name = "WorkspaceAuthorityDto", description = "Request to create a workspace authorities") @Valid @RequestBody(required = false) WorkspaceAuthorityDto workspaceAuthorityDto
+    );
+
+
+    /**
      * DELETE /v1/workspaces/{workspaceId}
      * Permanently delete workspace
      *
@@ -63,6 +106,9 @@ public interface WorkspaceApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
@@ -72,6 +118,45 @@ public interface WorkspaceApi {
     )
     
     ResponseEntity<WorkspaceInfoDto> deleteWorkspace(
+        @Parameter(name = "workspaceId", description = "ID of a workspace", required = true, in = ParameterIn.PATH) @PathVariable("workspaceId") Long workspaceId
+    );
+
+
+    /**
+     * GET /v1/workspace/{workspaceId}/authorities
+     * Get information about users authorities
+     *
+     * @param workspaceId ID of a workspace (required)
+     * @return Workspace authorities (status code 200)
+     *         or Workspace authorities not found (status code 403)
+     *         or Unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "getWorkspaceAuthorities",
+        description = "Get information about users authorities",
+        tags = { "workspace" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Workspace authorities", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = WorkspaceAuthorityDto.class)))
+            }),
+            @ApiResponse(responseCode = "403", description = "Workspace authorities not found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/v1/workspace/{workspaceId}/authorities",
+        produces = { "application/json" }
+    )
+    
+    ResponseEntity<List<WorkspaceAuthorityDto>> getWorkspaceAuthorities(
         @Parameter(name = "workspaceId", description = "ID of a workspace", required = true, in = ParameterIn.PATH) @PathVariable("workspaceId") Long workspaceId
     );
 
@@ -99,6 +184,9 @@ public interface WorkspaceApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
@@ -109,6 +197,44 @@ public interface WorkspaceApi {
     
     ResponseEntity<WorkspaceInfoDto> getWorkspaceInfo(
         @Parameter(name = "workspaceId", description = "ID of a workspace", required = true, in = ParameterIn.PATH) @PathVariable("workspaceId") Long workspaceId
+    );
+
+
+    /**
+     * GET /v1/workspaces
+     * Get user workspaces
+     *
+     * @return The workspace has been found (status code 200)
+     *         or Workspace not found (status code 403)
+     *         or Unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "getWorkspaces",
+        description = "Get user workspaces",
+        tags = { "workspace" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "The workspace has been found", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = WorkspaceInfoDto.class)))
+            }),
+            @ApiResponse(responseCode = "403", description = "Workspace not found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/v1/workspaces",
+        produces = { "application/json" }
+    )
+    
+    ResponseEntity<List<WorkspaceInfoDto>> getWorkspaces(
+        
     );
 
 
@@ -131,6 +257,9 @@ public interface WorkspaceApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(
@@ -142,6 +271,48 @@ public interface WorkspaceApi {
     
     ResponseEntity<WorkspaceInfoDto> postWorkspace(
         @Parameter(name = "CreateWorkspaceRequest", description = "Request to create a workspace") @Valid @RequestBody(required = false) CreateWorkspaceRequest createWorkspaceRequest
+    );
+
+
+    /**
+     * PUT /v1/workspace/{workspaceId}/authorities
+     * Update information about users authorities
+     *
+     * @param workspaceId ID of a workspace (required)
+     * @param workspaceAuthorityDto Request to update a workspace authorities (optional)
+     * @return Workspace authorities (status code 200)
+     *         or Workspace authorities not found (status code 403)
+     *         or Unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "updateWorkspaceAuthorities",
+        description = "Update information about users authorities",
+        tags = { "workspace" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Workspace authorities", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = WorkspaceAuthorityDto.class))
+            }),
+            @ApiResponse(responseCode = "403", description = "Workspace authorities not found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.PUT,
+        value = "/v1/workspace/{workspaceId}/authorities",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    
+    ResponseEntity<WorkspaceAuthorityDto> updateWorkspaceAuthorities(
+        @Parameter(name = "workspaceId", description = "ID of a workspace", required = true, in = ParameterIn.PATH) @PathVariable("workspaceId") Long workspaceId,
+        @Parameter(name = "WorkspaceAuthorityDto", description = "Request to update a workspace authorities") @Valid @RequestBody(required = false) WorkspaceAuthorityDto workspaceAuthorityDto
     );
 
 
@@ -169,6 +340,9 @@ public interface WorkspaceApi {
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
         }
     )
     @RequestMapping(

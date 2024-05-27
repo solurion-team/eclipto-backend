@@ -3,6 +3,8 @@ package com.solurion.eclipto.workspace.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Table(name = "workspaces")
 @Getter
 @Setter
@@ -25,4 +27,7 @@ public class WorkspaceEntity {
 
     @Column(name = "ownerId", nullable = false)
     private Long ownerId;
+
+    @OneToMany(mappedBy = "workspace", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<WorkspaceAuthorityEntity> authorities;
 }

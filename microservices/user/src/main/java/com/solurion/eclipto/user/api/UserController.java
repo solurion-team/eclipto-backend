@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class UserController implements UserApi {
@@ -14,6 +16,11 @@ public class UserController implements UserApi {
     @Override
     public ResponseEntity<UserInfoDto> getUser(Long userId) {
         return ResponseEntity.ok(userService.getUser(userId));
+    }
+
+    @Override
+    public ResponseEntity<List<UserInfoDto>> getUsersByIds(List<Long> ids) {
+        return ResponseEntity.ok(userService.getUsersByIds(ids));
     }
 
     @Override

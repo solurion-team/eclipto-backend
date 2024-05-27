@@ -1,9 +1,6 @@
 package com.solurion.eclipto.project.service;
 
-import com.solurion.eclipto.project.dto.CreateProjectRequest;
-import com.solurion.eclipto.project.dto.ProjectAuthorityDto;
-import com.solurion.eclipto.project.dto.ProjectInfoDto;
-import com.solurion.eclipto.project.dto.UpdateProjectRequest;
+import com.solurion.eclipto.project.dto.*;
 import jakarta.annotation.Nullable;
 
 import java.util.List;
@@ -26,4 +23,6 @@ public interface ProjectService {
     ProjectAuthorityDto createProjectAuthority(Long projectId, ProjectAuthorityDto projectAuthorityDto);
 
     ProjectAuthorityDto updateProjectAuthority(Long projectId, ProjectAuthorityDto projectAuthorityDto);
+
+    void onUserDeleted(Long userId);
 }

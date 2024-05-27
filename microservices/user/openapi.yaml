@@ -157,6 +157,34 @@ paths:
                 $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+  /v1/users:
+    get:
+      description: Get all users by ids
+      operationId: getUsersByIds
+      tags:
+        - user
+      security:
+        - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/QueryUserIds"
+      responses:
+        200:
+          description: "The project has been found"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserInfoDto"
+        403:
+          description: "Project not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+
 
 components:
   securitySchemes:
@@ -176,6 +204,19 @@ components:
         type: integer
         format: int64
         example: "3746287468"
+    QueryUserIds:
+      name: ids
+      in: query
+      description: Comma-separated list of user IDs
+      required: true
+      schema:
+        type: array
+        items:
+          type: integer
+          format: int64
+          example: "123,24,55,3"
+      style: form
+      explode: false
 
   schemas:
     UserInfoDto:

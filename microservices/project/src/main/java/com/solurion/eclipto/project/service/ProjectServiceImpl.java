@@ -22,10 +22,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -55,8 +53,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     public void deleteProject(Long id) {
         if (projectRepository.existsById(id)) {
-            kafkaTemplate.send(ProjectTopicConfig.TOPIC, ProjectTopicConfig.DELETE_PROJECT_KEY, id);
             projectRepository.deleteById(id);
+            kafkaTemplate.send(ProjectTopicConfig.TOPIC, ProjectTopicConfig.DELETE_PROJECT_KEY, id);
         } else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Project not found");
         }
@@ -81,7 +79,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectInfoDto> getProjects(@Nullable Long workspaceId) {
-        return projectRepository.findAll().stream().map(projectMapper::toDto).toList();
+        Long userId = jwtClaimsManager.extractUserId();
+        List<ProjectEntity> projects;
+        if (workspaceId == null) {
+            projects = projectRepository.findAllByAuthoritiesUserId(userId);
+        } else {
+            projects = projectRepository.findAllByAuthoritiesUserIdAndWorkspaceId(userId, workspaceId);
+        }
+        return projects
+                .stream()
+                .map(projectMapper::toDto)
+                .toList();
     }
 
     @Override
@@ -99,7 +107,7 @@ public class ProjectServiceImpl implements ProjectService {
     public List<ProjectAuthorityDto> getProjectAuthorities(Long projectId) {
         return projectAuthorityRepository.getAllByProjectId(projectId).stream()
                 .map(projectAuthorityMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -129,5 +137,30 @@ public class ProjectServiceImpl implements ProjectService {
         );
         updateProjectAuthorityMapper.updateEntity(projectAuthorityDto, projectAuthorityEntity);
         return projectAuthorityDto;
+    }
+
+    @Override
+    @Transactional
+    public void onUserDeleted(Long userId) {
+        List<ProjectEntity> projectEntities = projectRepository.findAllByLeadId(userId);
+        projectEntities.forEach(n -> {
+            List<ProjectAuthorityEntity> entityList = projectAuthorityRepository.findAllByProjectId(n.getId());
+            for (ProjectAuthorityEntity entity : entityList) {
+                if (entity.getPrivilege() == ProjectAuthorityEntity.Privilege.WRITE) {
+                    entity.setPrivilege(ProjectAuthorityEntity.Privilege.ADMIN);
+                    n.setLeadId(entity.getUserId());
+                    projectAuthorityRepository.save(entity);
+                    projectRepository.save(n);
+                    break;
+                } else if (entity.getPrivilege() == ProjectAuthorityEntity.Privilege.READ) {
+                    entity.setPrivilege(ProjectAuthorityEntity.Privilege.ADMIN);
+                    n.setLeadId(entity.getUserId());
+                    projectAuthorityRepository.save(entity);
+                    projectRepository.save(n);
+                    break;
+                }
+            }
+        });
+        projectAuthorityRepository.deleteAllByUserId(userId);
     }
 }

@@ -116,6 +116,45 @@ public interface UserApi {
 
 
     /**
+     * GET /v1/users
+     * Get all users by ids
+     *
+     * @param ids Comma-separated list of user IDs (required)
+     * @return The project has been found (status code 200)
+     *         or Project not found (status code 403)
+     *         or Unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "getUsersByIds",
+        description = "Get all users by ids",
+        tags = { "user" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "The project has been found", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserInfoDto.class)))
+            }),
+            @ApiResponse(responseCode = "403", description = "Project not found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "bearerHttpAuthentication")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/v1/users",
+        produces = { "application/json" }
+    )
+    
+    ResponseEntity<List<UserInfoDto>> getUsersByIds(
+        @NotNull @Parameter(name = "ids", description = "Comma-separated list of user IDs", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "ids", required = true) List<Long> ids
+    );
+
+
+    /**
      * PUT /v1/users/{userId}
      * Update user info
      *
