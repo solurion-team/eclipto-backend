@@ -36,6 +36,6 @@ public class WorkspaceMapperImpl implements WorkspaceMapper {
                 .id(null)
                 .name(request.getName())
                 .description(request.getDescription())
-                .ownerId(null).build();
+                .ownerId(ownerId).build();
     }
 }

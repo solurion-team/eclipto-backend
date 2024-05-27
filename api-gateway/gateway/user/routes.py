@@ -11,6 +11,7 @@ from gateway.common.security import bearer_auth_scheme
 from gateway.core.gateway import gate_to
 from .models import LoginRequest, RegisterRequest, UpdateUserRequest, UserInfoDto, JwtAuthenticationResponse
 
+
 SERVICE_URL = settings.user_service_url
 
 router = APIRouter()
@@ -202,6 +203,6 @@ async def get_users_by_ids(
         request: Request,
         response: Response,
         token: Annotated[str, Depends(bearer_auth_scheme)],
-        ids: List[int] = Depends(parse_comma_separated_ints)
+        ids: Annotated[str, Query()]
 ) -> List[UserInfoDto]:
     pass

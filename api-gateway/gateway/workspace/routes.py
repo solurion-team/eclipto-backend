@@ -10,7 +10,8 @@ from config import settings
 from gateway.common.models import ErrorDto
 from gateway.common.security import bearer_auth_scheme
 from gateway.core.gateway import gate_to
-from .models import UpdateWorkspaceRequest, CreateWorkspaceRequest, WorkspaceInfoDto, WorkspaceAuthorityDto
+from .models import UpdateWorkspaceRequest, CreateWorkspaceRequest, WorkspaceInfoDto, WorkspaceAuthorityDto, UserInfoDto
+from gateway.user.routes import get_users_by_ids
 
 router = APIRouter()
 
@@ -300,3 +301,42 @@ async def update_workspace_authorities(
         update_workspace_authority_request_body: Annotated[WorkspaceAuthorityDto, Body()]
 ) -> WorkspaceAuthorityDto:
     pass
+
+
+# noinspection PyUnusedLocal
+@router.get(
+    "/v1/workspaces/{workspace_id}/members",
+    response_model=List[UserInfoDto],
+    responses={
+        403: {
+            "description": "Users not found",
+            "model": ErrorDto,
+        },
+        "default": {
+            "description": "Unexpected error",
+            "model": ErrorDto,
+        }
+    },
+    status_code=HTTPStatus.OK,
+    tags=["workspace"],
+    summary="Get users by id",
+    description="Get users by workspace id",
+    operation_id="getUsersByIds",
+)
+@gate_to(
+    method=HTTPMethod.GET,
+    service_url=SERVICE_URL,
+    gateway_path="/v1/workspaces/{workspace_id}/members"
+)
+async def get_users_by_workspace_id(
+        request: Request,
+        response: Response,
+        token: Annotated[str, Depends(bearer_auth_scheme)],
+        workspace_id: Annotated[
+            int, Path(description="ID of a workspace", gt=0, example=123)
+        ]
+):
+    authorities = get_workspace_authorities(workspace_id=workspace_id)
+    ids = get_users_by_ids(ids=authorities)
+    return ids
+

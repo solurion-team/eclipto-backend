@@ -1,6 +1,6 @@
 from enum import Enum
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr
 
 
 class WorkspaceInfoDto(BaseModel):
@@ -54,4 +54,19 @@ class WorkspaceAuthorityDto(BaseModel):
     )
     privilege: WorkspacePrivilege = Field(
         description="Privilege"
+    )
+
+
+class UserInfoDto(BaseModel):
+    id: int = Field(
+        description="ID of the user", example=7438546582
+    )
+    first_name: str = Field(
+        description="User first name", example="John"
+    )
+    last_name: str | None = Field(
+        default=None, description="User last name", example="Lastname"
+    )
+    email: EmailStr = Field(
+        description="User email", example="myemail@mail.com"
     )
