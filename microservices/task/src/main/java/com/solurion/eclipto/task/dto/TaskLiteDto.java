@@ -26,6 +26,8 @@ public class TaskLiteDto {
 
   private String title;
 
+  private Integer index;
+
   /**
    * Importance of the task
    */
@@ -67,6 +69,8 @@ public class TaskLiteDto {
 
   private Long assignedUserId;
 
+  private Boolean isCompleted;
+
   public TaskLiteDto() {
     super();
   }
@@ -74,9 +78,10 @@ public class TaskLiteDto {
   /**
    * Constructor with only required parameters
    */
-  public TaskLiteDto(Long id, String title, PriorityEnum priority, Long assignedUserId) {
+  public TaskLiteDto(Long id, String title, Integer index, PriorityEnum priority, Long assignedUserId) {
     this.id = id;
     this.title = title;
+    this.index = index;
     this.priority = priority;
     this.assignedUserId = assignedUserId;
   }
@@ -121,6 +126,26 @@ public class TaskLiteDto {
     this.title = title;
   }
 
+  public TaskLiteDto index(Integer index) {
+    this.index = index;
+    return this;
+  }
+
+  /**
+   * Id of the status
+   * @return index
+  */
+  @NotNull 
+  @Schema(name = "index", example = "457345348", description = "Id of the status", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("index")
+  public Integer getIndex() {
+    return index;
+  }
+
+  public void setIndex(Integer index) {
+    this.index = index;
+  }
+
   public TaskLiteDto priority(PriorityEnum priority) {
     this.priority = priority;
     return this;
@@ -161,6 +186,26 @@ public class TaskLiteDto {
     this.assignedUserId = assignedUserId;
   }
 
+  public TaskLiteDto isCompleted(Boolean isCompleted) {
+    this.isCompleted = isCompleted;
+    return this;
+  }
+
+  /**
+   * Information about status of task
+   * @return isCompleted
+  */
+  
+  @Schema(name = "is_completed", example = "true", description = "Information about status of task", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("is_completed")
+  public Boolean getIsCompleted() {
+    return isCompleted;
+  }
+
+  public void setIsCompleted(Boolean isCompleted) {
+    this.isCompleted = isCompleted;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -172,13 +217,15 @@ public class TaskLiteDto {
     TaskLiteDto taskLiteDto = (TaskLiteDto) o;
     return Objects.equals(this.id, taskLiteDto.id) &&
         Objects.equals(this.title, taskLiteDto.title) &&
+        Objects.equals(this.index, taskLiteDto.index) &&
         Objects.equals(this.priority, taskLiteDto.priority) &&
-        Objects.equals(this.assignedUserId, taskLiteDto.assignedUserId);
+        Objects.equals(this.assignedUserId, taskLiteDto.assignedUserId) &&
+        Objects.equals(this.isCompleted, taskLiteDto.isCompleted);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, priority, assignedUserId);
+    return Objects.hash(id, title, index, priority, assignedUserId, isCompleted);
   }
 
   @Override
@@ -187,8 +234,10 @@ public class TaskLiteDto {
     sb.append("class TaskLiteDto {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
+    sb.append("    index: ").append(toIndentedString(index)).append("\n");
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
     sb.append("    assignedUserId: ").append(toIndentedString(assignedUserId)).append("\n");
+    sb.append("    isCompleted: ").append(toIndentedString(isCompleted)).append("\n");
     sb.append("}");
     return sb.toString();
   }

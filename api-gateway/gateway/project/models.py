@@ -1,4 +1,11 @@
 from pydantic import BaseModel, Field
+from enum import Enum
+
+
+class ProjectPrivilege(str, Enum):
+    ADMIN = "ADMIN"
+    WRITE = "WRITE"
+    READ = "READ"
 
 
 class ProjectInfoDto(BaseModel):
@@ -56,3 +63,8 @@ class UpdateProjectRequest(BaseModel):
     lead_id: int | None = Field(
         default=None, description="Project lead user id", example=3757385734
     )
+
+
+class ProjectAuthorityDto(BaseModel):
+    user_id: int = Field(description="Project Authority", example="142313")
+    privilege: ProjectPrivilege = Field(description="Privilege level", example=ProjectPrivilege.ADMIN)

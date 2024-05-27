@@ -27,6 +27,8 @@ public class UpdateTaskRequest {
 
   private String description;
 
+  private Integer index;
+
   private Long statusId;
 
   /**
@@ -75,6 +77,8 @@ public class UpdateTaskRequest {
 
   private Long reporterUserId;
 
+  private Boolean isCompleted;
+
   public UpdateTaskRequest title(String title) {
     this.title = title;
     return this;
@@ -113,6 +117,26 @@ public class UpdateTaskRequest {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public UpdateTaskRequest index(Integer index) {
+    this.index = index;
+    return this;
+  }
+
+  /**
+   * Id of the status
+   * @return index
+  */
+  
+  @Schema(name = "index", example = "457345348", description = "Id of the status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("index")
+  public Integer getIndex() {
+    return index;
+  }
+
+  public void setIndex(Integer index) {
+    this.index = index;
   }
 
   public UpdateTaskRequest statusId(Long statusId) {
@@ -215,6 +239,26 @@ public class UpdateTaskRequest {
     this.reporterUserId = reporterUserId;
   }
 
+  public UpdateTaskRequest isCompleted(Boolean isCompleted) {
+    this.isCompleted = isCompleted;
+    return this;
+  }
+
+  /**
+   * Information about status of task
+   * @return isCompleted
+  */
+  
+  @Schema(name = "is_completed", example = "true", description = "Information about status of task", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("is_completed")
+  public Boolean getIsCompleted() {
+    return isCompleted;
+  }
+
+  public void setIsCompleted(Boolean isCompleted) {
+    this.isCompleted = isCompleted;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -226,16 +270,18 @@ public class UpdateTaskRequest {
     UpdateTaskRequest updateTaskRequest = (UpdateTaskRequest) o;
     return Objects.equals(this.title, updateTaskRequest.title) &&
         Objects.equals(this.description, updateTaskRequest.description) &&
+        Objects.equals(this.index, updateTaskRequest.index) &&
         Objects.equals(this.statusId, updateTaskRequest.statusId) &&
         Objects.equals(this.priority, updateTaskRequest.priority) &&
         Objects.equals(this.dueDate, updateTaskRequest.dueDate) &&
         Objects.equals(this.assignedUserId, updateTaskRequest.assignedUserId) &&
-        Objects.equals(this.reporterUserId, updateTaskRequest.reporterUserId);
+        Objects.equals(this.reporterUserId, updateTaskRequest.reporterUserId) &&
+        Objects.equals(this.isCompleted, updateTaskRequest.isCompleted);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(title, description, statusId, priority, dueDate, assignedUserId, reporterUserId);
+    return Objects.hash(title, description, index, statusId, priority, dueDate, assignedUserId, reporterUserId, isCompleted);
   }
 
   @Override
@@ -244,11 +290,13 @@ public class UpdateTaskRequest {
     sb.append("class UpdateTaskRequest {\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    index: ").append(toIndentedString(index)).append("\n");
     sb.append("    statusId: ").append(toIndentedString(statusId)).append("\n");
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
     sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");
     sb.append("    assignedUserId: ").append(toIndentedString(assignedUserId)).append("\n");
     sb.append("    reporterUserId: ").append(toIndentedString(reporterUserId)).append("\n");
+    sb.append("    isCompleted: ").append(toIndentedString(isCompleted)).append("\n");
     sb.append("}");
     return sb.toString();
   }

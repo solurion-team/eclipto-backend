@@ -115,6 +115,7 @@ paths:
         - bearerHttpAuthentication: [ ]
       parameters:
         - $ref: "#/components/parameters/QueryProjectId"
+        - $ref: "#/components/parameters/IsCompleted"
       responses:
         200:
           description: "Get user tasks list (or project if query exists)"
@@ -204,6 +205,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/PathProjectId"
         - $ref: "#/components/parameters/IncludeTasks"
+        - $ref: "#/components/parameters/IsCompleted"
       responses:
         200:
           description: "Tasks successfully fetched"
@@ -275,6 +277,14 @@ components:
       schema:
         type: boolean
         example: false
+    IsCompleted:
+      name: isCompleted
+      in: query
+      description: Should information
+      required: false
+      schema:
+        type: boolean
+        example: false
 
   requestBodies:
     CreateTaskRequestBody:
@@ -314,6 +324,10 @@ components:
           description: "A task description that provides more detailed information about the task"
           type: string
           example: "Go to metanit and learn all the chapters about Java. You can learn spring in the official tutorial"
+        index:
+          description: Position index of the task
+          type: integer
+          example: 457345348
         status_id:
           description: Id of the status
           type: integer
@@ -348,6 +362,7 @@ components:
           example: 23486357348
       required:
         - title
+        - index
         - status_id
         - reporter_user_id
         - project_id
@@ -393,6 +408,10 @@ components:
           description: "A task description that provides more detailed information about the task"
           type: string
           example: "Go to metanit and learn all the chapters about Java. You can learn spring in the official tutorial"
+        index:
+          description: Position index of the task
+          type: integer
+          example: 457345348
         status_id:
           description: Id of the status
           type: integer
@@ -420,6 +439,10 @@ components:
           type: integer
           format: int64
           example: 23486357348
+        is_completed:
+          description: "Information about status of task"
+          type: boolean
+          example: true
     TaskLiteDto:
       description: Minimum task information
       type: object
@@ -433,6 +456,10 @@ components:
           description: "Task title, which identifies the task to the user"
           type: string
           example: "Learn Java core and Spring Boot"
+        index:
+          description: Position index of the task
+          type: integer
+          example: 457345348
         priority:
           description: "Importance of the task"
           type: string
@@ -445,9 +472,14 @@ components:
           type: integer
           format: int64
           example: 23486357348
+        is_completed:
+          description: "Information about status of task"
+          type: boolean
+          example: true
       required:
         - id
         - title
+        - index
         - priority
         - assigned_user_id
 
@@ -468,6 +500,10 @@ components:
           description: "A task description that provides more detailed information about the task"
           type: string
           example: "Go to metanit and learn all the chapters about Java. You can learn spring in the official tutorial"
+        index:
+          description: Position index of the task
+          type: integer
+          example: 457345348
         status:
           $ref: "#/components/schemas/TaskStatusDto"
         priority:
@@ -502,6 +538,10 @@ components:
           type: string
           format: date-time
           example: '2024-03-28T00:07:19+03:00'
+        is_completed:
+          description: "Information about status of task"
+          type: boolean
+          example: true
       required:
         - id
         - title
