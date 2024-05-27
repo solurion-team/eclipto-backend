@@ -1,8 +1,10 @@
 import uvicorn
 
-from fastapi import FastAPI, Body
+from fastapi import FastAPI, Body, HTTPException
 from fastapi.security import HTTPBearer
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.requests import Request
+from starlette.responses import JSONResponse
 
 from user.routes import router as user_router
 from workspace.routes import router as workspace_router
@@ -23,6 +25,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=exc.detail,
+    )
+
 
 if __name__ == "__main__":
     uvicorn.run(

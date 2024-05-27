@@ -36,9 +36,8 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
     @Override
     public WorkspaceInfoDto getWorkspace(Long id) {
-        return workspaceMapper.toDto(workspaceRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.FORBIDDEN,
-                        "There is no workspace with same ID"))
+        return workspaceMapper.toDto(workspaceRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "There is no workspace with same ID"))
         );
     }
 
@@ -71,19 +70,19 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     public WorkspaceInfoDto createWorkspace(CreateWorkspaceRequest request) {
         WorkspaceEntity workspaceEntity = workspaceMapper.toEntity(request, jwtClaimsManager.extractUserId());
         workspaceEntity = workspaceRepository.save(workspaceEntity);
-        WorkspaceAuthorityDto workspaceAuthorityDto = new WorkspaceAuthorityDto(jwtClaimsManager.extractUserId(),
-                WorkspaceAuthorityDto.PrivilegeEnum.ADMIN);
+        WorkspaceAuthorityDto workspaceAuthorityDto = new WorkspaceAuthorityDto()
+                .userId(jwtClaimsManager.extractUserId())
+                .privilege(WorkspaceAuthorityDto.PrivilegeEnum.ADMIN);
         createWorkspaceAuthority(workspaceEntity.getId(), workspaceAuthorityDto);
         return workspaceMapper.toDto(workspaceEntity);
     }
 
     @Override
     public WorkspaceAuthorityDto createWorkspaceAuthority(Long workspaceId, WorkspaceAuthorityDto workspaceAuthorityDto) {
-        if (!workspaceRepository.existsById(workspaceId)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Workspace not found");
-        }
+        WorkspaceEntity workspaceEntity = workspaceRepository.findById(workspaceId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Workspace not found"));
         WorkspaceAuthorityEntity workspaceAuthorityEntity = workspaceAuthorityMapper.toEntity(workspaceAuthorityDto);
-        workspaceAuthorityEntity.setWorkspaceId(workspaceId);
+        workspaceAuthorityEntity.setWorkspace(workspaceEntity);
         workspaceAuthorityRepository.save(workspaceAuthorityEntity);
         return workspaceAuthorityDto;
     }

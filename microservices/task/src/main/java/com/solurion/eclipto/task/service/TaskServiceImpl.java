@@ -90,7 +90,8 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public TaskLiteDto postTask(CreateTaskRequest createTaskRequest) {
         TaskEntity entity = taskRepository.save(taskMapper.toEntity(createTaskRequest));
-        entity.setBoard(boardRepository.findByProjectId(createTaskRequest.getProjectId()));
+        entity.setBoard(boardRepository.findByProjectId(createTaskRequest.getProjectId())
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND)));
         entity.setStatus(taskStatusRepository.findById(createTaskRequest.getStatusId())
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND)));
         entity.setIsCompleted(false);
@@ -101,7 +102,8 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public TaskStatusDto postTaskStatus(CreateTaskStatusRequest createTaskStatusRequest) {
         TaskStatusEntity taskStatusEntity = taskStatusMapper.toEntity(createTaskStatusRequest);
-        taskStatusEntity.setBoard(boardRepository.findByProjectId(createTaskStatusRequest.getProjectId()));
+        taskStatusEntity.setBoard(boardRepository.findByProjectId(createTaskStatusRequest.getProjectId())
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND)));
         taskStatusRepository.save(taskStatusEntity);
         return taskStatusMapper.toDto(taskStatusEntity);
     }

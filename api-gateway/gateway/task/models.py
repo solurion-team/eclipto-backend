@@ -69,7 +69,7 @@ class TaskLiteDto(BaseModel):
     title: str = Field(description="Title of the task", example="Learn Java core and Spring Boot")
     index: int = Field(description="Position index of the task", example=1)
     priority: Priority = Field(description="Priority of the task")
-    assigned_user_id: int = Field(description="Id of the assigned", example=123456)
+    assigned_user_id: int | None = Field(default=None, description="Id of the assigned", example=123456)
     is_completed: bool = Field(description="Completed task", example=True)
 
 

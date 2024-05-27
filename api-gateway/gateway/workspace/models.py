@@ -2,6 +2,8 @@ from enum import Enum
 
 from pydantic import BaseModel, Field, EmailStr
 
+from gateway.user.models import UserInfoDto
+
 
 class WorkspaceInfoDto(BaseModel):
     id: int = Field(
@@ -16,6 +18,22 @@ class WorkspaceInfoDto(BaseModel):
     )
     owner_id: int = Field(
         description="Workspace owner user id", example=3757385734
+    )
+
+
+class WorkspaceExtendedDto(BaseModel):
+    id: int = Field(
+        description="ID of the workspace", example=7438546582
+    )
+    name: str = Field(
+        description="Workspace name, which identifies the workspace to the user", example="eclipto-backend"
+    )
+    description: str | None = Field(
+        default=None, description="A workspace description that provides more detailed information about the workspace",
+        example="Workspace of solurion company"
+    )
+    owner: UserInfoDto = Field(
+        description="Workspace owner user id"
     )
 
 
@@ -57,16 +75,10 @@ class WorkspaceAuthorityDto(BaseModel):
     )
 
 
-class UserInfoDto(BaseModel):
-    id: int = Field(
-        description="ID of the user", example=7438546582
-    )
-    first_name: str = Field(
-        description="User first name", example="John"
-    )
-    last_name: str | None = Field(
-        default=None, description="User last name", example="Lastname"
-    )
-    email: EmailStr = Field(
-        description="User email", example="myemail@mail.com"
+def map_dto_to_extended(workspace_dto: WorkspaceInfoDto, owner: UserInfoDto) -> WorkspaceExtendedDto:
+    return WorkspaceExtendedDto(
+        id=workspace_dto.id,
+        name=workspace_dto.name,
+        description=workspace_dto.description,
+        owner=owner
     )

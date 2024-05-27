@@ -64,15 +64,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional
     public ProjectInfoDto createProject(CreateProjectRequest createProjectRequest) {
         ProjectEntity entity = projectRepository.save(projectMapper.toEntity(createProjectRequest));
-        ProjectAuthorityEntity projectAuthorityEntity = ProjectAuthorityEntity
-                .builder()
-                .projectId(entity.getId())
-                .project(entity)
-                .privilege(ProjectAuthorityEntity.Privilege.ADMIN)
+        ProjectAuthorityDto projectAuthorityDto = new ProjectAuthorityDto()
                 .userId(jwtClaimsManager.extractUserId())
-                .build();
-        entity.setAuthorities(Collections.singletonList(projectAuthorityEntity));
-        projectAuthorityRepository.save(projectAuthorityEntity);
+                .privilege(ProjectAuthorityDto.PrivilegeEnum.ADMIN);
+        createProjectAuthority(entity.getId(), projectAuthorityDto);
         kafkaTemplate.send(ProjectTopicConfig.TOPIC, ProjectTopicConfig.CREATE_PROJECT_KEY, entity.getId());
         return projectMapper.toDto(entity);
     }
@@ -113,19 +108,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @Transactional
     public ProjectAuthorityDto createProjectAuthority(Long projectId, ProjectAuthorityDto projectAuthorityDto) {
-        if (projectAuthorityRepository.existsByUserId(projectAuthorityDto.getUserId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
         ProjectEntity projectEntity = projectRepository.findById(projectId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Project not found"));
         ProjectAuthorityEntity projectAuthorityEntity = projectAuthorityMapper.toEntity(projectAuthorityDto);
-        projectAuthorityEntity.setProjectId(projectId);
         projectAuthorityEntity.setProject(projectEntity);
         projectAuthorityRepository.save(projectAuthorityEntity);
-        List<ProjectAuthorityEntity> entities = projectEntity.getAuthorities();
-        entities.add(projectAuthorityEntity);
-        projectEntity.setAuthorities(entities);
-        projectRepository.save(projectEntity);
         return projectAuthorityDto;
     }
 

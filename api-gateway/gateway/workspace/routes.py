@@ -1,3 +1,4 @@
+import asyncio
 from http import HTTPMethod, HTTPStatus
 from typing import List
 from typing import Annotated
@@ -10,8 +11,9 @@ from config import settings
 from gateway.common.models import ErrorDto
 from gateway.common.security import bearer_auth_scheme
 from gateway.core.gateway import gate_to
-from .models import UpdateWorkspaceRequest, CreateWorkspaceRequest, WorkspaceInfoDto, WorkspaceAuthorityDto, UserInfoDto
-from gateway.user.routes import get_users_by_ids
+from .models import UpdateWorkspaceRequest, CreateWorkspaceRequest, WorkspaceInfoDto, WorkspaceAuthorityDto, \
+    UserInfoDto, WorkspaceExtendedDto, map_dto_to_extended
+from gateway.user.routes import get_users_by_ids, get_user
 
 router = APIRouter()
 
@@ -92,21 +94,6 @@ async def update_workspace(
 
 
 # noinspection PyUnusedLocal
-@router.post(
-    "/v1/workspaces",
-    response_model=WorkspaceInfoDto,
-    responses={
-        "default": {
-            "description": "Unexpected error",
-            "model": ErrorDto,
-        }
-    },
-    status_code=HTTPStatus.OK,
-    tags=["workspace"],
-    summary="Create workspace",
-    description="Create workspace",
-    operation_id="createWorkspace",
-)
 @gate_to(
     method=HTTPMethod.POST,
     service_url=SERVICE_URL,
@@ -119,6 +106,33 @@ async def create_workspace(
         create_workspace_request_body: Annotated[CreateWorkspaceRequest, Body()]
 ) -> WorkspaceInfoDto:
     pass
+
+
+@router.post(
+    "/v1/workspaces",
+    response_model=WorkspaceExtendedDto,
+    responses={
+        "default": {
+            "description": "Unexpected error",
+            "model": ErrorDto,
+        }
+    },
+    status_code=HTTPStatus.OK,
+    tags=["workspace"],
+    summary="Create workspace",
+    description="Create workspace",
+    operation_id="createWorkspace",
+)
+async def create_workspace_extended(
+        request: Request,
+        response: Response,
+        token: Annotated[str, Depends(bearer_auth_scheme)],
+        create_workspace_request_body: Annotated[CreateWorkspaceRequest, Body()]
+) -> WorkspaceExtendedDto:
+    workspace: WorkspaceInfoDto = await create_workspace(request, response, token=token,
+                                                         create_workspace_request_body=create_workspace_request_body)
+    user: UserInfoDto = await get_user(request, response, token=token, user_id=workspace.owner_id)
+    return map_dto_to_extended(workspace, user)
 
 
 # noinspection PyUnusedLocal
@@ -159,9 +173,23 @@ async def delete_workspace(
 
 
 # noinspection PyUnusedLocal
+@gate_to(
+    method=HTTPMethod.GET,
+    service_url=SERVICE_URL,
+    gateway_path="/v1/workspaces"
+)
+async def get_workspaces(
+        request: Request,
+        response: Response,
+        token: Annotated[str, Depends(bearer_auth_scheme)]
+) -> List[WorkspaceInfoDto]:
+    pass
+
+
+# noinspection PyUnusedLocal
 @router.get(
-    "/v1/workspaces",
-    response_model=List[WorkspaceInfoDto],
+    "/v1/workspaces/",
+    response_model=List[WorkspaceExtendedDto],
     responses={
         403: {
             "description": "Workspace not found",
@@ -178,20 +206,28 @@ async def delete_workspace(
     description="Get all user workspaces",
     operation_id="getWorkspaces",
 )
-@gate_to(
-    method=HTTPMethod.GET,
-    service_url=SERVICE_URL,
-    gateway_path="/v1/workspaces"
-)
-async def get_workspaces(
+async def get_extended_workspaces(
         request: Request,
         response: Response,
         token: Annotated[str, Depends(bearer_auth_scheme)]
-) -> List[WorkspaceInfoDto]:
-    pass
+) -> List[WorkspaceExtendedDto]:
+    workspaces: List[WorkspaceInfoDto] = await get_workspaces(request, response, token=token)
+    if not workspaces:
+        return list()
 
+    user_ids: List[str] = list(map(lambda workspace: workspace.owner_id, workspaces))
+    print(user_ids)
+    print(",".join(map(str, user_ids)))
+    users: List[UserInfoDto] = await get_users_by_ids(request, response, token=token,
+                                                      ids=",".join(map(str, user_ids)))
+    users_dict = {user.id: user for user in users}
 
-# ___________________________________________________________________________________
+    async def create_extended_workspace(workspace):
+        return map_dto_to_extended(workspace, users_dict[workspace.owner_id])
+
+    extended_workspaces = await asyncio.gather(*[create_extended_workspace(workspace) for workspace in workspaces])
+    return list(extended_workspaces)
+
 
 # noinspection PyUnusedLocal
 @router.get(
@@ -301,7 +337,3 @@ async def update_workspace_authorities(
         update_workspace_authority_request_body: Annotated[WorkspaceAuthorityDto, Body()]
 ) -> WorkspaceAuthorityDto:
     pass
-
-
-
-

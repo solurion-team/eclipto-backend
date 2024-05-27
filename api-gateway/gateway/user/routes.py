@@ -165,15 +165,6 @@ async def update_user(
     pass
 
 
-def parse_comma_separated_ints(ids: str = Query(...,
-                                                description="Comma-separated list of user IDs",
-                                                example="123,24,55,3")):
-    try:
-        return list(int(id_) for id_ in ids.split(','))
-    except ValueError:
-        raise HTTPException(status_code=400, detail="Invalid IDs, must be a comma-separated list of integers")
-
-
 # noinspection PyUnusedLocal
 @router.get(
     "/v1/users",

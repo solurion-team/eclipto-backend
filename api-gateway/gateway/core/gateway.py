@@ -1,9 +1,15 @@
 import functools
-import httpx
+from types import NoneType
 
+import httpx
+import ast
+
+from pydantic import TypeAdapter, BaseModel
 from http import HTTPMethod
 from typing import get_type_hints, get_args
-from fastapi import Request, Response, params
+from fastapi import Request, Response, params, HTTPException
+
+from gateway.common.models import ErrorDto
 
 http_client = httpx.AsyncClient()
 
@@ -23,6 +29,10 @@ def gate_to(
         header_keys = {k for k, v in hints.items() if is_header_meta(v)}
         default_header_keys = ["authorization", "cookie"]
         base_url = f"{service_url}{gateway_path}"
+
+        return_class = hints["return"]
+        class_adapter = TypeAdapter(return_class)
+        error_class_adapter = TypeAdapter(ErrorDto)
 
         @functools.wraps(f)
         async def inner(request: Request, response: Response, **kwargs):
@@ -53,7 +63,13 @@ def gate_to(
             response.body = resp.content
             response.headers.update(resp.headers)
 
-            return response
+            if response.status_code >= 400:
+                response_body = ast.literal_eval(response.body.decode("utf-8"))
+                raise HTTPException(status_code=response.status_code, detail=response_body)
+            if return_class == NoneType:
+                return None
+
+            return class_adapter.validate_json(response.body)
 
         return inner
 

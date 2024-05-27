@@ -185,14 +185,14 @@ async def get_projects(
         request: Request,
         response: Response,
         token: Annotated[str, Depends(bearer_auth_scheme)],
-        workspaceId: int = Query(
-            title="Workspace ID",
-            description="The ID of the workspace to filter projects by", example=123
-        ),
+        workspaceId: Annotated[
+            int, Query(title="Workspace ID", description="The ID of the workspace to filter projects by", example=123)
+        ],
 ) -> List[ProjectInfoDto]:
     pass
 
 
+# noinspection PyUnusedLocal
 @router.get(
     "/v1/projects/{project_id}/authorities",
     response_model=List[ProjectAuthorityDto],
@@ -228,6 +228,7 @@ async def get_project_authorities(
     pass
 
 
+# noinspection PyUnusedLocal
 @router.post(
     "/v1/projects/{project_id}/authorities",
     response_model=ProjectAuthorityDto,
@@ -260,6 +261,7 @@ async def create_project_authorities(
     pass
 
 
+# noinspection PyUnusedLocal
 @router.put(
     "/v1/projects/{project_id}/authorities",
     response_model=ProjectAuthorityDto,

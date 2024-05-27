@@ -28,7 +28,7 @@ public class WorkspaceAuthorityEntity {
     private Privilege privilege;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "workspace")
+    @JoinColumn(name = "workspace_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private WorkspaceEntity workspace;
 
