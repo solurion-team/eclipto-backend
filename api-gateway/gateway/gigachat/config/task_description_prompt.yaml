@@ -1,0 +1,5 @@
+input_variables: [title]
+output_parser: null
+template: "Напиши описание к задаче на тему {title}. Примерный объем описания - 2-3 предложения."
+template_format: f-string
+_type: prompt

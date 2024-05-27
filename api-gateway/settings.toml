@@ -8,3 +8,5 @@ user_service_url = "http://localhost:8080"
 task_service_url = "http://localhost:8081"
 project_service_url = "http://localhost:8082"
 workspace_service_url = "http://localhost:8083"
+
+GIGACHAT_API_KEY = "ZTc5Mjk3ZmQtOGE1OC00ODI3LWJhNTgtOTU5MTMzOWZkNThkOmM1ZjdhNjlhLWY5M2UtNGEzYi04YmEwLWNkY2RhZGUyYmYxMA=="
