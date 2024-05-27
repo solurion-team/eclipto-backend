@@ -131,7 +131,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     public List<WorkspaceAuthorityDto> getWorkspaceAuthorityEntity(Long workspaceId) {
         return workspaceAuthorityRepository.getAllByWorkspaceId(workspaceId).stream()
                 .map(workspaceAuthorityMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 
