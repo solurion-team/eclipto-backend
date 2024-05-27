@@ -127,7 +127,86 @@ paths:
                 $ref: "#/components/schemas/ProjectInfoDto"
         default:
           $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+  /v1/projects/{projectId}/authorities:
+    get:
+      description: Get information about users authorities
+      operationId: getProjectAuthorities
+      tags:
+        - project
+      security:
+        - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/ProjectId"
+      responses:
+        200:
+          description: "Project authorities"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProjectAuthorityDto"
+        403:
+          description: "Project authorities not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
 
+    post:
+      description: Create project authorities
+      operationId: createProjectAuthorities
+      tags:
+        - project
+      security:
+        - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/ProjectId"
+      requestBody:
+        $ref: "#/components/requestBodies/CreateProjectAuthoritiesRequestBody"
+      responses:
+        200:
+          description: "Project authorities"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectAuthorityDto"
+        403:
+          description: "Project authorities not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
+    put:
+      description: Update information about users authorities
+      operationId: updateProjectAuthorities
+      tags:
+        - project
+      security:
+        - bearerHttpAuthentication: [ ]
+      parameters:
+        - $ref: "#/components/parameters/ProjectId"
+      requestBody:
+        $ref: "#/components/requestBodies/UpdateProjectAuthoritiesRequestBody"
+      responses:
+        200:
+          description: "Project authorities"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectAuthorityDto"
+        403:
+          description: "Project authorities not found"
+          content:
+            application/json:
+              schema:
+                $ref: "../common/openapi.yaml#/components/schemas/ErrorDto"
+        default:
+          $ref: "../common/openapi.yaml#/components/responses/UnexpectedErrorResponse"
 components:
   securitySchemes:
     bearerHttpAuthentication:
@@ -178,6 +257,18 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/UpdateProjectRequest"
+    CreateProjectAuthoritiesRequestBody:
+      description: Request to create a project authorities
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ProjectAuthorityDto"
+    UpdateProjectAuthoritiesRequestBody:
+      description: Request to update a project authorities
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ProjectAuthorityDto"
 
   schemas:
     ProjectInfoDto:
@@ -258,4 +349,22 @@ components:
           type: integer
           format: int64
           example: "3757385734"
+    ProjectAuthorityDto:
+      description: Project Authority DTO
+      properties:
+        user_id:
+          description: "Id of user"
+          type: integer
+          format: int64
+          example: "3757385734"
+        privilege:
+          description: "Privilege"
+          type: string
+          enum:
+            - READ
+            - WRITE
+            - ADMIN
+      required:
+        - user_id
+        - privilege
 

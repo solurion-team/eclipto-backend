@@ -1,5 +1,6 @@
 package com.solurion.eclipto.workspace.api;
 
+import com.solurion.eclipto.common.kafka.WorkspaceTopicConfig;
 import com.solurion.eclipto.workspace.dto.CreateWorkspaceRequest;
 import com.solurion.eclipto.workspace.dto.UpdateWorkspaceRequest;
 import com.solurion.eclipto.workspace.dto.WorkspaceInfoDto;

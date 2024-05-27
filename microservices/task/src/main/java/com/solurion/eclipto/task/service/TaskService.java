@@ -24,4 +24,8 @@ public interface TaskService {
     TaskStatusDto updateTaskStatus(Long statusId, UpdateTaskStatusRequest taskStatusDto);
   
     void onUserDeleted(Long userId);
+
+    void onProjectCreated(Long projectId);
+
+    void onProjectDeleted(Long projectId);
 }

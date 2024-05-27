@@ -3,6 +3,8 @@ package com.solurion.eclipto.project.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "projects")
 @Getter
@@ -31,4 +33,7 @@ public class ProjectEntity {
 
     @Column(name = "workspace_id")
     private Long workspaceId;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<ProjectAuthorityEntity> authorities;
 }

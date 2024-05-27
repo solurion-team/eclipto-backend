@@ -3,6 +3,8 @@ package com.solurion.eclipto.task.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.OffsetDateTime;
@@ -28,7 +30,7 @@ public class TaskEntity {
 
     @Column(name = "index")
     private Integer index;
-
+  
     @Column(name = "priority")
     private PriorityEnum priority;
 
@@ -55,10 +57,14 @@ public class TaskEntity {
     @UpdateTimestamp
     private OffsetDateTime updatedAt;
 
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private BoardEntity board;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private TaskStatusEntity status;
-
 
     @Getter
     @RequiredArgsConstructor
