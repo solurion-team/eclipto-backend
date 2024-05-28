@@ -8,3 +8,7 @@ user_service_url = "http://localhost:8080"
 task_service_url = "http://localhost:8081"
 project_service_url = "http://localhost:8082"
 workspace_service_url = "http://localhost:8083"
+
+gigachat_competition_url = "https://gigachat.devices.sberbank.ru/api/v1/chat/completions"
+gigachat_oauth_url = "https://ngw.devices.sberbank.ru:9443/api/v2/oauth"
+gigachat_auth_token = "ZTc5Mjk3ZmQtOGE1OC00ODI3LWJhNTgtOTU5MTMzOWZkNThkOmMwNzFkODg3LWEzMTgtNGY0My1iZDhkLTA0NDNlZGZhYzU0NQ=="

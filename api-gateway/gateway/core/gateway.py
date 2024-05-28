@@ -11,7 +11,7 @@ from fastapi import Request, Response, params, HTTPException
 
 from gateway.common.models import ErrorDto
 
-http_client = httpx.AsyncClient()
+http_client = httpx.AsyncClient(verify=False)
 
 
 def gate_to(
