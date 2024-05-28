@@ -5,7 +5,7 @@ from http import HTTPMethod
 from typing import get_type_hints, get_args
 from fastapi import Request, Response, params
 
-http_client = httpx.AsyncClient()
+http_client = httpx.AsyncClient(verify=False)
 
 
 def gate_to(
