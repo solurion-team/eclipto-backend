@@ -11,7 +11,6 @@ from gateway.common.security import bearer_auth_scheme
 from gateway.core.gateway import gate_to
 from .models import LoginRequest, RegisterRequest, UpdateUserRequest, UserInfoDto, JwtAuthenticationResponse
 
-
 SERVICE_URL = settings.user_service_url
 
 router = APIRouter()

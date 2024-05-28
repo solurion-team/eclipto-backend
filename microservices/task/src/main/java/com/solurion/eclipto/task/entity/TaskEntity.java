@@ -26,6 +26,7 @@ public class TaskEntity {
     private String title;
 
     @Column(name = "description")
+    @Lob
     private String description;
 
     @Column(name = "index")

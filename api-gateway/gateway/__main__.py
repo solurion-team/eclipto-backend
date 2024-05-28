@@ -29,6 +29,7 @@ app.add_middleware(
 )
 
 
+# noinspection PyUnusedLocal
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
     return JSONResponse(

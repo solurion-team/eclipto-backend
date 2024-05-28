@@ -14,7 +14,7 @@ class Priority(str, Enum):
 class CreateTaskRequest(BaseModel):
     status_id: int = Field(description="Id of the status", example=12345432)
     reporter_user_id: int = Field(
-      description="Id of the reporter user", example=123456
+        description="Id of the reporter user", example=123456
     )
     project_id: int = Field(description="Id of the project", example=123456)
     title: str = Field(description="Title of the task", example="Fsdasdasdasdasdasd")
@@ -83,7 +83,8 @@ class TaskStatusDto(BaseModel):
 class TaskInfoDto(BaseModel):
     id: int = Field(description="Id of the task", example=1)
     title: str = Field(description="Title of the task", example="")
-    description: str | None = Field(default=None, description="Description of the task", example="Learn Java core and Spring")
+    description: str | None = Field(default=None, description="Description of the task",
+                                    example="Learn Java core and Spring")
     index: int = Field(description="Position index of the task", example=1)
     status: TaskStatusDto = Field(description="")
     priority: Priority = Field(description="Priority of the task")
