@@ -48,7 +48,7 @@ class EcliptoMicroservicePlugin : Plugin<Project> {
 
         (this as org.gradle.api.plugins.ExtensionAware).extensions.configure<org.gradle.api.plugins.JavaPluginExtension>("java") {
             toolchain {
-                languageVersion = JavaLanguageVersion.of(21)
+                languageVersion = JavaLanguageVersion.of(17)
             }
         }
     }

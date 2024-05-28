@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  postgres:
+    image: postgres:16.2-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: eclipto
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: bestproject
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+    volumes:
+      - pgdata:/var/lib/postgresql/data
   user:
     build:
       context: .
@@ -9,12 +22,18 @@ services:
         SERVICE_NAME: user
     ports:
       - "8080:8080"
+    depends_on:
+      - postgres
     networks:
       - backend
     environment:
       - JWK_KID
       - JWKS_URL
       - FRONTEND_ORIGIN
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL
+      - SPRING_DATASOURCE_USERNAME
+      - SPRING_DATASOURCE_PASSWORD
   task:
     build:
       context: .
@@ -25,10 +44,17 @@ services:
       - "8081:8081"
     networks:
       - backend
+    depends_on:
+      - postgres
+      - user
     environment:
       - JWK_KID
       - JWKS_URL
       - FRONTEND_ORIGIN
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL
+      - SPRING_DATASOURCE_USERNAME
+      - SPRING_DATASOURCE_PASSWORD
   project:
     build:
       context: .
@@ -39,10 +65,17 @@ services:
       - "8082:8082"
     networks:
       - backend
+    depends_on:
+      - postgres
+      - user
     environment:
       - JWK_KID
       - JWKS_URL
       - FRONTEND_ORIGIN
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL
+      - SPRING_DATASOURCE_USERNAME
+      - SPRING_DATASOURCE_PASSWORD
   workspace:
     build:
       context: .
@@ -53,23 +86,17 @@ services:
       - "8083:8083"
     networks:
       - backend
+    depends_on:
+      - postgres
+      - user
     environment:
       - JWK_KID
       - JWKS_URL
       - FRONTEND_ORIGIN
-
-#  postgres:
-#    image: postgres:16.2
-#    environment:
-#      POSTGRES_DB: mydatabase
-#      POSTGRES_USER: user
-#      POSTGRES_PASSWORD: password
-#    ports:
-#      - "5432:5432"
-#    networks:
-#      - backend
-#    volumes:
-#      - pgdata:/var/lib/postgresql/data
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL
+      - SPRING_DATASOURCE_USERNAME
+      - SPRING_DATASOURCE_PASSWORD
 
 networks:
   backend:
