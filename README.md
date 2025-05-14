@@ -77,18 +77,19 @@
 
 ## Технологический стек
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square\&logo=python\&logoColor=white) ![Java](https://img.shields.io/badge/Java-007396?style=flat-square\&logo=java\&logoColor=white) ![Kotlin](https://img.shields.io/badge/Kotlin-0095D5?style=flat-square\&logo=kotlin\&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square\&logo=fastapi\&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat-square\&logo=spring\&logoColor=white) ![Pydantic](https://img.shields.io/badge/Pydantic-4EA94B?style=flat-square\&logo=pydantic\&logoColor=white) ![Dynaconf](https://img.shields.io/badge/Dynaconf-1299DA?style=flat-square) ![Kafka](https://img.shields.io/badge/Kafka-231F20?style=flat-square\&logo=apachekafka\&logoColor=white) ![H2](https://img.shields.io/badge/H2-004B8D?style=flat-square\&logo=H2database\&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat-square\&logo=postgresql\&logoColor=white) ![OpenAPI](https://img.shields.io/badge/OpenAPI-6CA0DC?style=flat-square\&logo=openapi\&logoColor=white) ![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=flat-square\&logo=swagger\&logoColor=black) ![JWT](https://img.shields.io/badge/JWT-000000?style=flat-square\&logo=jsonwebtoken\&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square\&logo=docker\&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square\&logo=python\&logoColor=white) ![Java](https://img.shields.io/badge/Java-007396?style=flat-square\&logo=java\&logoColor=white) ![Kotlin](https://img.shields.io/badge/Kotlin-0095D5?style=flat-square\&logo=kotlin\&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square\&logo=fastapi\&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat-square\&logo=spring\&logoColor=white) ![Pydantic](https://img.shields.io/badge/Pydantic-4EA94B?style=flat-square\&logo=pydantic\&logoColor=white) ![Dynaconf](https://img.shields.io/badge/Dynaconf-1299DA?style=flat-square) ![Kafka](https://img.shields.io/badge/Kafka-231F20?style=flat-square\&logo=apachekafka\&logoColor=white) ![H2](https://img.shields.io/badge/H2-004B8D?style=flat-square\&logo=H2database\&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat-square\&logo=postgresql\&logoColor=white) ![OpenAPI](https://img.shields.io/badge/OpenAPI-6CA0DC?style=flat-square\&logo=openapi\&logoColor=white) ![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=flat-square\&logo=swagger\&logoColor=black) ![JWT](https://img.shields.io/badge/JWT-000000?style=flat-square\&logo=jsonwebtoken\&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square\&logo=docker\&logoColor=white) ![Gradle](https://img.shields.io/badge/Gradle-02303A?style=flat-square&logo=gradle&logoColor=white)
+
 
 ---
 
 ## 📥 Установка и запуск
 
-> **Требования:** Docker, Python 3.9+, Java 11+, Maven
+> **Требования:** Docker, Python 3.9+, Java 17+, Gradle
 
 1. Клонируйте репозиторий:
 
    ```bash
-   git clone https://github.com/your-org/eclipto-backend.git
+   git clone https://github.com/solurion-team/eclipto-backend.git
    cd eclipto-backend
    ```
 
@@ -104,10 +105,10 @@
 
    ```bash
    cd ../services/task-service
-   mvn clean package
+   ./gradlew clean build
    docker build -t eclipto-task .
    docker run -d eclipto-task
-   # Повторите для других сервисов
+   # Повторите для других сервисов: workspace-service, user-service
    ```
 
 4. Проверьте доступность API по адресу:
