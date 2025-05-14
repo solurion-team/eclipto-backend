@@ -86,35 +86,46 @@
 
 > **Требования:** Docker, Python 3.9+, Java 17+, Gradle
 
-1. Клонируйте репозиторий:
+1. **Клонируйте репозиторий:**
 
    ```bash
    git clone https://github.com/solurion-team/eclipto-backend.git
    cd eclipto-backend
    ```
 
-2. Соберите и запустите образ API Gateway:
+2. **Запустите API Gateway:**
 
    ```bash
-   cd gateway
-   docker build -t eclipto-gateway .
-   docker run -d -p 8000:8000 eclipto-gateway
+   cd api-gateway
+   pip install -r requirements.txt
+   uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
    ```
 
-3. Соберите и запустите микросервисы:
+3. **Соберите и запустите микросервисы:**
 
    ```bash
-   cd ../services/task-service
+   cd ../microservices/task
    ./gradlew clean build
    docker build -t eclipto-task .
    docker run -d eclipto-task
-   # Повторите для других сервисов: workspace-service, user-service
+
+   cd ../user
+   ./gradlew clean build
+   docker build -t eclipto-user .
+   docker run -d eclipto-user
+
+   cd ../workspace
+   ./gradlew clean build
+   docker build -t eclipto-workspace .
+   docker run -d eclipto-workspace
+
+   # и другие микросервисы аналогично
    ```
 
-4. Проверьте доступность API по адресу:
+4. **Проверьте доступность API:**
 
    ```
-   http://localhost:8000/docs
+   http://localhost:8000
    ```
 
 ---
